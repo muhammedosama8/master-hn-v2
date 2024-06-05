@@ -1,0 +1,73 @@
+.shop-by-category{
+  padding: 2rem;
+  margin-top: 9rem;
+}
+.shop-by-category .categories {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.shop-by-category h4{
+  color: var(--primary-color);
+  font-size: 25px;
+  font-weight: 200 !important;
+  text-transform: capitalize;
+  margin-bottom: 2rem;
+}
+.shop-by-category h4::after{
+    content: url("../../../assets/Star1.png");
+    position: absolute;
+    left: 14rem;
+    top: -18px;
+}
+.shop-by-category h4::before{
+    content: url("../../../assets/Star2.png");
+    position: absolute;
+    left: 15rem;
+    top: 5px;
+}
+.shop-by-category .cate{
+  cursor: pointer;
+  overflow: hidden;
+}
+.shop-by-category .cate .desc{
+  position: absolute;
+  background-color: #0e3a5d78;
+  top: 50%;
+  left: 50%;
+  color: #ffffff;
+  transform: translate(-50%, -50%);
+  padding: 2rem;
+  border-radius: 5px;
+  text-align: center;
+}
+.shop-by-category .cate:hover .desc{
+  background-color: var(--primary-color);
+  transition: .5s ease-in-out;
+}
+
+.shop-by-category .cate:hover img{
+  transform: scale(1.1);
+  transition: transform .5s ease-in-out;
+}
+.shop-by-category .desc p{
+  font-size: 26px;
+}
+.shop-by-category .desc a{
+  background: none;
+  font-size: 16px;
+  text-decoration: underline;
+}
+  /* .shop-by-category img {
+    max-width: 300px;
+    height: 300px;
+    border-radius: 10px;
+  } */
+  .shop-by-category a{
+    padding: 8px 20px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 12px;
+  }

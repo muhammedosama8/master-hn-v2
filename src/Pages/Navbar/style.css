@@ -1,0 +1,23 @@
+.navbar{
+    background-color: var(--primary-color);
+    position: fixed;
+    padding: 2.23rem 1rem;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}  
+.navbar a{
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 6px 20px;
+} 
+.navbar a:hover{
+    color: #b6b6b6;
+}
+.navbar a.active{
+    color: #b6b6b6 !important;
+} 
+.navbar-collapse {
+    justify-content: flex-end;
+}

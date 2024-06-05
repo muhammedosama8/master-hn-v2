@@ -1,0 +1,47 @@
+.footer{
+    background-color: var(--primary-color);
+    padding-top: 2rem;
+    color: #fff;
+}
+.footer .links a{
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+.apps .icons p{
+    margin-bottom: 8px;
+}
+.apps .icons i{
+    border: 1px solid;
+    border-radius: 8px;
+    padding: 4px;
+}
+.apps a{
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 12px;
+}
+.social .icons img{
+    height: 18px;
+}
+.social .icons{
+    margin-top: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+.social .icons a{ 
+    margin-left: 16px;
+    background: #111;
+    padding: 7px;
+    border-radius: 5px;
+}
+.footer .power{
+    font-size: 14px;
+    color: #fff;
+    font-weight: 700;
+    line-height: 19.2px;
+    margin-top: 18px;
+}

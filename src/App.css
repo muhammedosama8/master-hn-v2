@@ -1,0 +1,139 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #F9F3F2;
+}
+
+.custom-div {
+  background-color: var(--primary-color);
+  padding: 5rem 2rem;
+  color: #ffffff;
+}
+
+.custom-div h1 {
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+button {
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Header Styles */
+header {
+  background-color: white;
+  padding: 1rem 2rem;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+header nav ul li {
+  margin: 0 1rem;
+  color: black;
+  cursor: pointer;
+}
+
+/* Featured Products Styles */
+.featured-products {
+  background-color: #2E7A9D;
+  padding: 2rem;
+}
+
+.featured-products h2 {
+  margin-bottom: 1rem;
+}
+
+.featured-products .products {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.featured-products .products .product {
+  background-color: white;
+  color: black;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Best Selling Products Styles */
+.best-selling-products {
+  background-color: #3E9ABD;
+  padding: 2rem;
+}
+
+.best-selling-products h2 {
+  margin-bottom: 1rem;
+}
+
+.best-selling-products .products {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.best-selling-products .products .product {
+  background-color: white;
+  color: black;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Download Section Styles */
+.download-section {
+  background-color: #4EBADC;
+  padding: 2rem;
+}
+
+.download-section h2 {
+  margin-bottom: 1rem;
+}
+
+.download-section button {
+  margin-top: 10px;
+}
+
+/* Footer Styles */
+footer {
+  background-color: #0E3A5D;
+  padding: 2rem;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-content .quick-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-content .quick-links ul li {
+  margin: 0.5rem 0;
+}
+
+.footer-content .social-media,
+.footer-content .qr-code {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+footer p {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+}

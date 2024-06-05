@@ -1,0 +1,45 @@
+  .feature-products {
+    text-align: center;
+    margin-top: 5rem !important;
+    position: relative;
+  }
+.feature-products h1{
+  margin-bottom: 4rem;
+}
+.feature-products h1::after{
+    content: url("../../../assets/arrow.png");
+    position: absolute;
+    left: 77px;
+    top: 35px;
+}
+
+  .feature-products .products{
+    width: 80%;
+    margin: auto;
+  }
+  .feature-products .product{
+    position: relative;
+    height: 180px;
+    margin-top: 7rem;
+  }
+  .feature-products .product img {
+    width: 80%;
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  .feature-products .product h4{
+    position: absolute;
+    left: 50%;
+    bottom: 7%;
+    transform: translate(-50%, 6px);
+  }
+
+  .feature-products .viewAll{
+    padding: 8px 20px;
+    background-color: #000;
+    color: #ffffff;
+    border-radius: 5px;
+    text-decoration: none;
+  }

@@ -1,0 +1,79 @@
+  .feature-products {
+    text-align: center;
+    margin-top: 5rem !important;
+    position: relative;
+    padding: 2rem;
+  }
+.feature-products h1{
+  margin-bottom: 4rem;
+}
+.feature-products h1::after{
+    content: url("../../../assets/arrow.png");
+    position: absolute;
+    left: 77px;
+    top: 35px;
+}
+
+  .feature-products .products{
+    width: 80%;
+    margin: auto;
+  }
+  .feature-products .product{
+    position: relative;
+    height: 180px;
+    margin-top: 7rem;
+  }
+  .feature-products .product img {
+    width: 80%;
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  .feature-products .product h4{
+    position: absolute;
+    left: 50%;
+    bottom: 7%;
+    transform: translate(-50%, 6px);
+  }
+
+  .feature-products .viewAll{
+    padding: 8px 20px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+
+  .feature-products .cate{
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .feature-products .cate .desc{
+    position: absolute;
+    background-color: #0e3a5d78;
+    top: 50%;
+    left: 50%;
+    color: #ffffff;
+    transform: translate(-50%, -50%);
+    padding: 2rem;
+    border-radius: 5px;
+    text-align: center;
+  }
+  .feature-products .cate:hover .desc{
+    background-color: var(--primary-color);
+    transition: .5s ease-in-out;
+  }
+  
+  .feature-products .cate:hover img{
+    transform: scale(1.1);
+    transition: transform .5s ease-in-out;
+  }
+  .feature-products .desc p{
+    font-size: 26px;
+  }
+  .feature-products .desc a{
+    background: none;
+    font-size: 16px;
+    color: #ffffff;
+  }

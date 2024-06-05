@@ -1,0 +1,17 @@
+.pdf{
+    margin: 8rem 0;
+}
+.pdf h1{
+    position: relative;
+    color: #fff;
+    font-weight: 600;
+}
+.pdf h1::after{
+    content: url("../../../assets/arrow.png");
+    position: absolute;
+    left: -77px;
+    top: -50px;
+}
+.pdf img{
+    width: 30%;
+}
