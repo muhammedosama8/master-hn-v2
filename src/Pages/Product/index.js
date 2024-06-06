@@ -11,7 +11,7 @@ const Product = () => {
             setProduct({...location?.state?.product})
         }
     },[location])
-    console.log(product)
+
     return <div className="product">
         <div className="container">
             <div className="row">
