@@ -17,7 +17,7 @@ const FeatureProducts = () => {
     <h1>Feature Products</h1>
     <div className='row mt-3'>
       {products?.map((cat) => {
-        return <div className='col-md-4 mb-5'>
+        return <div className='col-md-4 mb-5' key={cat.id}>
           <div className='cate h-100 position-relative'>
             <img src={cat.img} alt={cat?.name} className='img w-100 h-100' />
             <div className='desc'>

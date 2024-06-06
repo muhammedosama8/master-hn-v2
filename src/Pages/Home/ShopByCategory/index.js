@@ -16,7 +16,7 @@ const ShopByCategory = () => {
     </div>
     <div className='row'>
       {data?.map((cat) => {
-        return <div className='col-md-4'>
+        return <div className='col-md-4' key={cat.id}>
           <div className='cate h-100 position-relative'>
             <img src={cat.img} alt={cat?.name} className='img w-100 h-100' />
             <div className='desc'>
