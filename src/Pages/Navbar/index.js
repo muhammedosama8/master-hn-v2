@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import shoppingBag from '../../assets/shopping-bag.png'
 import user from '../../assets/user.png'
 import logo from '../../assets/MasterHN-white.svg'
@@ -14,10 +14,10 @@ const Navbar = () =>{
           </button>
           <div className="collapse navbar-collapse" style={{width: 'fit-content'}} id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <Link to='/' className="nav-link pt-0 active" aria-current="page" >Home</Link>
-              <Link to='/' className="nav-link pt-0" >Products</Link>
-              <Link to='/' className="nav-link pt-0" >Categories</Link>
-              <Link to='/' className="nav-link pt-0" >About Us</Link>
+              <NavLink to='/' className={({ isActive }) => isActive ? "active nav-link pt-0" : "nav-link pt-0"} aria-current="page" >Home</NavLink>
+              <NavLink to='/products' className={({ isActive }) => isActive ? "active nav-link pt-0" : "nav-link pt-0"} aria-current="page">Products</NavLink>
+              <NavLink to='/categories' className={({ isActive }) => isActive ? "active nav-link pt-0" : "nav-link pt-0"} aria-current="page">Categories</NavLink>
+              <NavLink to='/about-us' className={({ isActive }) => isActive ? "active nav-link pt-0" : "nav-link pt-0"} aria-current="page">About Us</NavLink>
             </div>
           </div>
         </div>

@@ -1,37 +1,37 @@
 import React, { useState } from 'react';
-import categoryImg from '../../../assets/category.jpeg'
-import categoryImg2 from '../../../assets/2.webp'
+import categoryImg from '../../assets/category.jpeg'
+import categoryImg2 from '../../assets/2.webp'
 import './style.css'
 import { Link } from 'react-router-dom';
 
-const ShopByCategory = () => {
+const Categories = () => {
   const [data, setData] = useState([
     {id: 1, img: categoryImg2, name: 'Category 1'},
     {id: 2, img: categoryImg, name: 'Category 2'},
     {id: 3, img: categoryImg2, name: 'Category 3'},
+    {id: 4, img: categoryImg2, name: 'Category 4'},
+    {id: 5, img: categoryImg2, name: 'Category 5'},
+    {id: 6, img: categoryImg2, name: 'Category 6'},
   ])
-  return (<div className='shop-by-category'>
+  return (<div className='categories'>
     <div className='position-relative'>
-      <h4>Shop By Category</h4>
+      <h1>Categories</h1>
     </div>
     <div className='row'>
       {data?.map((cat) => {
-        return <div className='col-md-4'>
+        return <div className='col-md-3 mb-4'>
           <div className='cate h-100 position-relative'>
             <img src={cat.img} alt={cat?.name} className='img w-100 h-100' />
             <div className='desc'>
               <p>{cat.name}</p>
-              <Link to='/categories'>Explore All</Link>
+              <Link to='/'>Explore All</Link>
             </div>
           </div>
         </div>
       })}
     </div>
-    <div className='text-center mt-5'>
-        <Link to='/'>View All</Link>
-      </div>
     </div>
   );
 };
 
-export default ShopByCategory;
+export default Categories;

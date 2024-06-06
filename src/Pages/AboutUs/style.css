@@ -1,0 +1,19 @@
+.aboutUs{
+  padding: 2rem;
+  margin-top: 9rem;
+}
+.aboutUs h1{
+  color: var(--primary-color);
+  font-weight: 400 !important;
+  text-transform: capitalize;
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.aboutUs h1::before{
+  content: url("../../assets/arrow.png");
+  position: absolute;
+  left: 77px;
+  top: -5px;
+  rotate: 20deg;
+}

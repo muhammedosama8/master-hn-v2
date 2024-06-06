@@ -1,33 +1,31 @@
 .banner {
-    /* background-color: #0E3A5D; */
-    padding: 2rem;
-    /* margin-top: 10rem; */
-    margin-bottom: 4rem;
-    text-align: center;
-    position: relative;
-  }
-  .banner h1{
-    margin-bottom: 4rem;
-  }
-  .banner h1::after{
-      content: url("../../../assets/arrow.png");
-      position: absolute;
-      left: 77px;
-      top: 35px;
-  }
-  .banner img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 4rem;
-    width: 100%;
-  }
+  padding: 2rem;
+  margin-bottom: 4rem;
+  text-align: center;
+  position: relative;
+}
+.banner h1{
+  margin-bottom: 4rem;
+}
+.banner h1::after{
+  content: url("../../../assets/arrow.png");
+  position: absolute;
+  left: 77px;
+  top: 35px;
+}
+.banner img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 4rem;
+  width: 100%;
+}
   
-  .banner .viewAll {
-    background-color: black;
-    text-decoration: none;
-    color: #fff;
-    margin-top: 12px;
-    width: fit-content;
-    padding: 9px 22px;
-    border-radius: 8px;
-  }
+.banner .viewAll {
+  background-color: black;
+  text-decoration: none;
+  color: #fff;
+  margin-top: 12px;
+  width: fit-content;
+  padding: 9px 22px;
+  border-radius: 8px;
+}
