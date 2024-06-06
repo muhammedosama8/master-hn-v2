@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 
 const Banner = () => {
   return (
-    <div className='container'>
       <div className="banner">
-        <img src={banner} alt="Banner" />
+        <h1>Style Up Your Looks</h1>
+        <Link to='/'>
+          <img src={banner} alt="Banner" />
+        </Link>
         <div className='text-center'>
-          <Link to='/'>Shop Now</Link>
+          <Link to='/' className='viewAll'>View All</Link>
         </div>
-      </div>
     </div>
   );
 };

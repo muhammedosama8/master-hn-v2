@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import shoppingBag from '../../assets/shopping-bag.png'
-import logo from '../../assets/logo1.png'
+import user from '../../assets/user.png'
+import logo from '../../assets/MasterHN-white.svg'
 import './style.css'
 
 const Navbar = () =>{
@@ -13,21 +14,24 @@ const Navbar = () =>{
           </button>
           <div className="collapse navbar-collapse" style={{width: 'fit-content'}} id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <Link to='/' className="nav-link active" aria-current="page" >Home</Link>
-              <Link to='/' className="nav-link" >Products</Link>
-              <Link to='/' className="nav-link" >Categories</Link>
-              <Link to='/' className="nav-link" >About Us</Link>
+              <Link to='/' className="nav-link pt-0 active" aria-current="page" >Home</Link>
+              <Link to='/' className="nav-link pt-0" >Products</Link>
+              <Link to='/' className="nav-link pt-0" >Categories</Link>
+              <Link to='/' className="nav-link pt-0" >About Us</Link>
             </div>
           </div>
         </div>
         <div className='col-md-4' style={{textAlign: 'center'}}>
-          <Link to='/' className="navbar-brand logo" >
+          <Link to='/' className="navbar-brand logo m-0" >
           <img src={logo} alt='logo' width={150} />
         </Link>
         </div>
-        <div className='col-md-4' style={{textAlign: 'end'}}>
-          <Link to='/' className="nav-link" style={{marginLeft: '16px'}}>
-            <img src={shoppingBag} alt='shoppingBag' width={20} style={{marginTop: '-8px'}}/>
+        <div className='col-md-4 d-flex' style={{justifyContent: 'end'}}>
+          <Link to='/' className="nav-link p-0" style={{marginLeft: '16px'}}>
+            <img src={shoppingBag} alt='shoppingBag' width={30} style={{marginTop: '-8px'}}/>
+          </Link>
+          <Link to='/' className="nav-link p-0" style={{marginLeft: '16px'}}>
+            <img src={user} alt='shoppingBag' width={30} style={{marginTop: '-8px'}}/>
           </Link>
         </div>
       </div>
