@@ -1,0 +1,21 @@
+.product{
+    margin-top: 12rem;
+    margin-bottom: 7rem;
+}
+.product .category{
+    font-size: 22px;
+}
+.product .price{
+    font-size: 20px;
+}
+.product .description{
+    margin-bottom: 3rem;
+}
+.product a{
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    font-size: 20px;
+    padding: 12px 50px;
+}

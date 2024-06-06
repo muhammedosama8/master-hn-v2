@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import categoryImg from '../../../assets/category.jpeg'
 import categoryImg2 from '../../../assets/2.webp'
 import './style.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const  BestSellingProducts = () => {
   const [products, setProducts] = useState([
@@ -13,11 +13,13 @@ const  BestSellingProducts = () => {
     {id: 5, img: categoryImg, title: 'product'},
     {id: 6, img: categoryImg2, title: 'product'},
   ])
+  const navigate = useNavigate()
+
   return (<div className='feature-products'>
     <h1> Best Selling Products</h1>
     <div className='row mt-3'>
       {products?.map((cat) => {
-        return <div className='col-md-4 mb-5'>
+        return <div className='col-md-4 mb-5' onClick={()=> navigate(`/product/${cat?.id}`, { state:{ cat }})}>
           <div className='cate h-100 position-relative'>
             <img src={cat.img} alt={cat?.name} className='img w-100 h-100' />
             <div className='desc'>
@@ -29,7 +31,7 @@ const  BestSellingProducts = () => {
       })}
     </div>
     <div className='text-center mt-5'>
-        <Link to='/' className='viewAll'>View All</Link>
+        <Link to='/products' className='viewAll'>View All</Link>
       </div>
     </div>
   );

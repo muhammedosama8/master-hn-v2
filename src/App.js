@@ -7,6 +7,7 @@ import Categories from './Pages/Categories';
 import AboutUs from './Pages/AboutUs';
 import Products from './Pages/Products';
 import ScrollToTop from './common/ScrollToTop';
+import Product from './Pages/Product';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/categories' element={<Categories />} />
             <Route path='/products' element={<Products />} />
+            <Route path='/product/:id' element={<Product />} />
             <Route path='/about-us' element={<AboutUs />} />
           </Routes>
         <Footer />
