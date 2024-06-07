@@ -21,9 +21,9 @@ const Product = () => {
                 <div className="col-md-6">
                     <h1>{product?.name}</h1>
                     <h4 className="category">{product?.category}</h4>
-                    <p className="price">{product?.price}</p>
+                    <p className="price">{product?.price} KWD</p>
                     <p className="description">{product?.description}</p>
-                    <Link to='/'>Buy</Link>
+                    <Link to='/' className="buy">Buy</Link>
                 </div>
             </div>
         </div>
