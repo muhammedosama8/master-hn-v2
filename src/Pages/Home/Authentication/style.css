@@ -1,0 +1,39 @@
+.auth .modal-content{
+    padding: 2rem;
+    margin-top: 3rem;
+}
+.modal.show .modal-dialog{
+    margin-top: 2rem;
+}
+.login-form,
+.signup-form {
+    padding: 2rem 0;
+}
+.login-form .login-btn,
+.signup-form .signup-btn{
+    background-color: var(--primary-color);
+    margin-top: 1rem;
+    width: 100%;
+    padding: 12px;
+}
+.login-form .login-btn:hover,
+.signup-form .signup-btn:hover{
+    background-color: var(--primary-color);
+    opacity: .8;
+}
+.signup,
+.login{
+    background: none;
+    margin-top: 1rem;
+    width: 100%;
+    padding: 12px;
+    color: #000;
+    border: none;
+}
+.signup-btn span {
+    margin-left: 1rem;
+}
+.signup-btn:hover{
+    background-color: #dedede!important;
+    color: #000;
+}
