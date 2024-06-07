@@ -1,13 +1,22 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import shoppingBag from '../../assets/shopping-bag.png'
 import user from '../../assets/user.png'
 import logo from '../../assets/MasterHN-white.svg'
 import './style.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Authentication from '../Home/Authentication'
+import { useDispatch, useSelector } from 'react-redux'
+import Dropdown from 'react-bootstrap/Dropdown';
+import { Logout } from '../../services/AuthService'
 
 const Navbar = () =>{
   const [modal, setModal] = useState(false)
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const auth = useSelector(state => state)
+
+  useEffect(()=>{ console.log(auth.user)},[location, auth])
 
   return <div>
     <nav className="navbar navbar-expand-lg">
@@ -31,16 +40,27 @@ const Navbar = () =>{
         </Link>
         </div>
         <div className='col-4 d-flex' style={{justifyContent: 'end'}}>
-          <Link to='/' className="nav-link p-0" style={{marginLeft: '16px'}}>
+          <Link to='/' className="nav-link p-0 d-flex" style={{marginLeft: '16px', alignItems: 'center'}}>
             <img src={shoppingBag} alt='shoppingBag' width={30} style={{marginTop: '-8px'}}/>
           </Link>
-          <button type='button' onClick={()=> setModal(true)} className="nav-link p-0" style={{marginLeft: '16px'}}>
+          {!!auth.user?.user ?  <Dropdown>
+          <Dropdown.Toggle id="dropdown-basic" className='py-0' style={{background: 'none', border: 'none', paddingRight: '0'}}>
             <img src={user} alt='user' width={30} style={{marginTop: '-8px'}}/>
-          </button>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item style={{color: '#000'}} onClick={()=> dispatch(Logout(navigate))}>
+              Logout
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown> : <button type='button' onClick={()=> setModal(true)} className="nav-link p-0" style={{marginLeft: '16px'}}>
+            <img src={user} alt='user' width={30} style={{marginTop: '-8px'}}/>
+          </button>}
           {modal && 
             <Authentication 
               modal={modal} 
               setModal={setModal} 
+              path={location?.pathname}
             />
           }
         </div>

@@ -1,15 +1,24 @@
 import { AvField, AvForm } from "availity-reactstrap-validation"
 import { useState } from "react"
 import { Button, Col, Row } from "react-bootstrap"
+import { useNavigate } from "react-router-dom"
+import { loadingToggleAction, loginAction } from "../../../../store/actions/AuthActions"
+import { useDispatch } from "react-redux"
 
-const Login = ({setType}) => {
+const Login = ({setType, path, setModal}) => {
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     })
     const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const submit = () =>{}
+    const submit = () =>{
+        dispatch(loadingToggleAction(true));
+        dispatch(loginAction(formData.email, formData.password, navigate, path));
+        setModal(false)
+    }
 
     return <AvForm
     className='form-horizontal login-form'
