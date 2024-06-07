@@ -25,7 +25,7 @@ const Products = () => {
     </div>
     <div className='row'>
       {data?.map((product) => {
-        return <div className='col-md-3 mb-4'  key={product.id} onClick={()=> navigate(`/products/product/${product?.id}`, { state:{ product }})}>
+        return <div className='col-md-3 mb-4 col-6'  key={product.id} onClick={()=> navigate(`/products/product/${product?.id}`, { state:{ product }})}>
           <div className='cate h-100 position-relative'>
             <img src={product.img} alt={product?.name} className='img w-100 h-100' />
             <div className='desc'>

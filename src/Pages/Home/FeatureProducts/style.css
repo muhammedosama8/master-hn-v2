@@ -59,6 +59,7 @@
     padding: 2rem;
     border-radius: 5px;
     text-align: center;
+    text-wrap: nowrap;
   }
   .feature-products .cate:hover .desc{
     background-color: var(--primary-color);

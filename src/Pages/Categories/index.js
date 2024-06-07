@@ -21,7 +21,7 @@ const Categories = () => {
     </div>
     <div className='row'>
       {data?.map((cat) => {
-        return <div className='col-md-3 mb-4' key={cat.id} onClick={()=> navigate('/products', { state:{ cat }})}>
+        return <div className='col-md-3 mb-4 col-6' key={cat.id} onClick={()=> navigate('/products', { state:{ cat }})}>
           <div className='cate h-100 position-relative'>
             <img src={cat.img} alt={cat?.name} className='img w-100 h-100' />
             <div className='desc'>

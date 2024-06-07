@@ -19,11 +19,11 @@ const  BestSellingProducts = () => {
     <h1> Best Selling Products</h1>
     <div className='row mt-3'>
       {products?.map((product) => {
-        return <div className='col-md-4 mb-5' key={product.id} onClick={()=> navigate(`/products/product/${product?.id}`, { state:{ product }})}>
+        return <div className='col-md-4 mb-4 col-6' key={product.id} onClick={()=> navigate(`/products/product/${product?.id}`, { state:{ product }})}>
           <div className='cate h-100 position-relative'>
             <img src={product.img} alt={product?.name} className='img w-100 h-100' />
             <div className='desc'>
-              <p>{product.title}</p>
+              <p>{product.name}</p>
               <Link to='/'>Explore</Link>
             </div>
           </div>
