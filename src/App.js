@@ -11,6 +11,7 @@ import Product from './Pages/Product';
 import { useEffect } from 'react';
 import { checkAutoLogin } from './services/AuthService';
 import { useDispatch } from 'react-redux';
+import Error404 from './common/Error404';
 
 function App() {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ function App() {
             <Route path='/products' element={<Products />} />
             <Route path='/products/product/:id' element={<Product />} />
             <Route path='/about-us' element={<AboutUs />} />
+            <Route path='*' element={<Error404 />} />
           </Routes>
         <Footer />
     </div>
