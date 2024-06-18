@@ -6,6 +6,7 @@ import {
     SIGNUP_CONFIRMED_ACTION,
     SIGNUP_FAILED_ACTION,
     LOGIN,
+    CART,
 } from '../actions/AuthActions';
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
     errorMessage: '',
     successMessage: '',
     showLoading: false,
+    cart: []
 };
 
 export function AuthReducer(state = initialState, action) {
@@ -24,6 +26,29 @@ export function AuthReducer(state = initialState, action) {
             successMessage: 'Signup Successfully Completed',
             showLoading: false,
         };
+    }
+    if (action.type === CART) {
+        if(state?.cart?.findIndex(res=> res.id === action.payload?.id) === 0){
+            let update = state?.cart?.map(res=>{
+                if(res.id === action.payload?.id){
+                    return{
+                        ...res,
+                        amount: Number(action.payload?.amount) + Number(res?.amount)
+                    }
+                } else {
+                    return res
+                }
+            })
+            return {
+                ...state,
+                cart: [...update]
+            };
+        } else {
+            return {
+                ...state,
+                cart: [...state.cart, action.payload]
+            };
+        }
     }
     if (action.type === LOGIN) {
         return {

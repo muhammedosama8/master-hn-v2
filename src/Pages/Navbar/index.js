@@ -2,21 +2,33 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import shoppingBag from '../../assets/shopping-bag.png'
 import user from '../../assets/user.png'
 import logo from '../../assets/MasterHN-white.svg'
+import translate from '../../assets/translate.svg'
 import './style.css'
 import { useEffect, useState } from 'react'
 import Authentication from '../Home/Authentication'
 import { useDispatch, useSelector } from 'react-redux'
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Logout } from '../../services/AuthService'
+import { useTranslation } from 'react-i18next'
+import { changeLang } from '../../store/actions/LangActions'
 
 const Navbar = () =>{
   const [modal, setModal] = useState(false)
+  const [cart, setCart] = useState(0)
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const auth = useSelector(state => state)
+  const { t, i18n } = useTranslation();
 
-  useEffect(()=>{ console.log(auth.user)},[location, auth])
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    dispatch(changeLang(lng))
+  };
+
+  useEffect(()=>{ 
+    setCart(auth.user.cart?.length)
+  },[location, auth])
 
   return <div>
     <nav className="navbar navbar-expand-lg">
@@ -27,11 +39,12 @@ const Navbar = () =>{
           </button>
           <div className="collapse navbar-collapse" style={{width: 'fit-content'}} id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <NavLink to='/' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page" >Home</NavLink>
-              <NavLink to='/products' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">Products</NavLink>
-              <NavLink to='/categories' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">Categories</NavLink>
-              <NavLink to='/about-us' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">About Us</NavLink>
+              <NavLink to='/' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page" >{t('home')}</NavLink>
+              <NavLink to='/products' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('products')}</NavLink>
+              <NavLink to='/categories' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('categories')}</NavLink>
+              <NavLink to='/about-us' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('about-us')}</NavLink>
             </div>
+            {/* <h2>{t('welcome')}</h2> */}
           </div>
         </div>
         <div className='col-4' style={{textAlign: 'center'}}>
@@ -40,12 +53,26 @@ const Navbar = () =>{
         </Link>
         </div>
         <div className='col-4 d-flex' style={{justifyContent: 'end'}}>
-          <Link to='/' className="nav-link p-0 d-flex" style={{marginLeft: '16px', alignItems: 'center'}}>
-            <img src={shoppingBag} alt='shoppingBag' width={30} style={{marginTop: '-8px'}}/>
+        <Dropdown>
+          <Dropdown.Toggle id="dropdown-basic" className='py-0' style={{background: 'none', border: 'none', paddingRight: '0'}}>
+          <img src={translate} alt='translate' width={28} className='mx-1' style={{marginTop: '3px'}} />
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item style={{color: '#000'}} onClick={()=> changeLanguage('en')}>
+              English
+            </Dropdown.Item>
+            <Dropdown.Item style={{color: '#000'}} onClick={()=> changeLanguage('ar')}>
+              اللغه العربيه
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+          <Link to='/cart' className="nav-link p-0 d-flex position-relative" style={{marginLeft: '16px', alignItems: 'center'}}>
+            <img src={shoppingBag} alt='shoppingBag' width={28}/>
+            {cart > 0 && <p className='cart-num'>{cart}</p>}
           </Link>
           {!!auth.user?.user ?  <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className='py-0' style={{background: 'none', border: 'none', paddingRight: '0'}}>
-            <img src={user} alt='user' width={30} style={{marginTop: '-8px'}}/>
+            <img src={user} alt='user' width={28} style={{marginTop: '-8px'}}/>
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
@@ -54,7 +81,7 @@ const Navbar = () =>{
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown> : <button type='button' onClick={()=> setModal(true)} className="nav-link p-0" style={{marginLeft: '16px'}}>
-            <img src={user} alt='user' width={30} style={{marginTop: '-8px'}}/>
+            <img src={user} alt='user' width={28}/>
           </button>}
           {modal && 
             <Authentication 

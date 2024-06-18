@@ -1,10 +1,16 @@
 /* General Styles */
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
   background-color: #F9F3F2;
 }
-
+.en{
+  font-family: 'Arial', sans-serif;
+}
+.ar{
+  direction: rtl;
+  font-family: "Cairo", sans-serif;
+  font-optical-sizing: auto;
+}
 .custom-div {
   background-color: var(--primary-color);
   padding: 5rem 2rem;

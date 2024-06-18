@@ -21,3 +21,13 @@
 .navbar-collapse {
     justify-content: flex-end;
 }
+.navbar .cart-num{
+    background-color: #b96464;
+    color: #fff;
+    position: absolute;
+    border-radius: 50%;
+    right: -12px;
+    top: -12px;
+    padding: 0 6px;
+    font-size: 14px;
+}

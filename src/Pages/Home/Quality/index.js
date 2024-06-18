@@ -1,4 +1,4 @@
-import img from '../../../assets/logo1.png'
+import img from '../../../assets/MasterHN-white.svg'
 import './style.css'
 
 const Quality = () => {
@@ -6,10 +6,10 @@ const Quality = () => {
         <div className='custom-div'>
             <div className='row' style={{alignItems: 'center'}}>
                 <div className='col-md-6'>
-                    <h1>QUALITY BROUGHT TO YOU BY MASTER HN</h1>
+                    <img src={img} alt='logo' />
                 </div>
                 <div className='col-md-6' style={{textAlign: "end"}}>
-                    <img src={img} alt='logo' />
+                    <h1>QUALITY BROUGHT TO YOU BY MASTER HN</h1>
                 </div>
             </div>
         </div>

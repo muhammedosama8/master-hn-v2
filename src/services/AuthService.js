@@ -2,6 +2,7 @@ import axios from 'axios';
 import swal from "sweetalert";
 import { API_BASE_URL_ENV } from '../common/common';
 import { LOGOUT_ACTION, loginConfirmedAction } from '../store/actions/AuthActions';
+import { changeLang } from '../store/actions/LangActions';
 
 const tokenKey = "token";
 
@@ -62,9 +63,11 @@ export function Logout() {
 
 export function checkAutoLogin(dispatch, navigate) {
     const tokenDetailsString = localStorage.getItem('masterHN');
+    const lang = localStorage.getItem('masterHN_Lang')
     if (!tokenDetailsString) {
         dispatch(Logout(navigate));
 		return;
     }
     dispatch(loginConfirmedAction(JSON.parse(tokenDetailsString)));
+    dispatch(changeLang(lang));
 }

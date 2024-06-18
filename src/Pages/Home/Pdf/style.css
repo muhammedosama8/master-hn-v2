@@ -9,7 +9,7 @@
 .pdf h1::after{
     content: url("../../../assets/arrow.png");
     position: absolute;
-    left: -77px;
+    right: -77px;
     top: -50px;
 }
 .pdf img{
