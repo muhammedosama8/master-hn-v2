@@ -11,9 +11,9 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Logout } from '../../services/AuthService'
 import { useTranslation } from 'react-i18next'
 import { changeLang } from '../../store/actions/LangActions'
+import { ShowLogin } from '../../store/actions/AuthActions'
 
 const Navbar = () =>{
-  const [modal, setModal] = useState(false)
   const [cart, setCart] = useState(0)
   const location = useLocation()
   const dispatch = useDispatch()
@@ -80,13 +80,13 @@ const Navbar = () =>{
               Logout
             </Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown> : <button type='button' onClick={()=> setModal(true)} className="nav-link p-0" style={{marginLeft: '16px'}}>
+        </Dropdown> : <button type='button' onClick={()=> dispatch(ShowLogin(true))} className="nav-link p-0" style={{marginLeft: '16px'}}>
             <img src={user} alt='user' width={28}/>
           </button>}
-          {modal && 
+          {auth?.user?.showLogin && 
             <Authentication 
-              modal={modal} 
-              setModal={setModal} 
+              modal={auth?.user?.showLogin} 
+              setModal={()=> dispatch(ShowLogin(false))} 
               path={location?.pathname}
             />
           }

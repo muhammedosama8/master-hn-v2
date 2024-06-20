@@ -17,7 +17,7 @@ const Login = ({setType, path, setModal}) => {
     const submit = () =>{
         dispatch(loadingToggleAction(true));
         dispatch(loginAction(formData.email, formData.password, navigate, path));
-        setModal(false)
+        setModal()
     }
 
     return <AvForm

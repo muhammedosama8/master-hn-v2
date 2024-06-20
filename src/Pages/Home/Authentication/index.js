@@ -7,7 +7,7 @@ import Signup from "./Signup";
 const Authentication = ({modal, setModal, path}) => {
     const [type, setType] = useState("login")
 
-    return <Modal className="fade " show={modal} onHide={()=> setModal(false)}>
+    return <Modal className="fade " show={modal} onHide={setModal}>
             <Modal.Body>
                 {type === 'login' ? <Login setType={setType} path={path} setModal={setModal} /> : <Signup setType={setType} path={path} />}
             </Modal.Body>

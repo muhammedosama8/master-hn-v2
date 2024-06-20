@@ -64,10 +64,11 @@ export function Logout() {
 export function checkAutoLogin(dispatch, navigate) {
     const tokenDetailsString = localStorage.getItem('masterHN');
     const lang = localStorage.getItem('masterHN_Lang')
+    dispatch(changeLang(lang));
+
     if (!tokenDetailsString) {
         dispatch(Logout(navigate));
 		return;
     }
     dispatch(loginConfirmedAction(JSON.parse(tokenDetailsString)));
-    dispatch(changeLang(lang));
 }

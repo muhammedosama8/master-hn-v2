@@ -4,13 +4,14 @@ import trash from '../../assets/trash.svg'
 import cartImg from '../../assets/cart.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Badge, Card, CardBody } from 'react-bootstrap'
-import { decreaseProduct, increaseProduct, removeProduct } from '../../store/actions/AuthActions'
+import { ShowLogin, decreaseProduct, increaseProduct, removeProduct } from '../../store/actions/AuthActions'
 
 const Cart = () =>{
     const [cartProducts, setCartProducts] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
     const [coupon, setCoupon] = useState("")
     const dispatch = useDispatch()
+    const user = useSelector(state => state?.user)
     const cart = useSelector(state => state?.user?.cart)
 
     useEffect(()=>{
@@ -83,7 +84,14 @@ const Cart = () =>{
                                 <h5 style={{fontWeight: "600"}}>{totalPrice} KWD</h5>
                             </div>
                             <div>
-                                <button className='continue w-100'>Continue</button>
+                                <button 
+                                    className='continue w-100'
+                                    onClick={()=> {
+                                        if(!user?.user){
+                                            dispatch(ShowLogin(true))
+                                        }
+                                    }}
+                                >Continue</button>
                             </div>
                         </CardBody>
                     </Card>

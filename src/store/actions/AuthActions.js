@@ -9,6 +9,7 @@ export const SIGNUP_CONFIRMED_ACTION = '[signup action] confirmed signup';
 export const SIGNUP_FAILED_ACTION = '[signup action] failed signup';
 export const LOGIN_CONFIRMED_ACTION = '[login action] confirmed login';
 export const LOGIN = 'login';
+export const SHOWLOGIN = 'show login';
 export const CART = 'cart';
 export const REMOVE = 'remove';
 export const INCREASE = 'increase';
@@ -123,6 +124,12 @@ export function removeProduct(data) {
 export function loginFn(data) {
     return {
         type: LOGIN,
+        payload: data,
+    };
+}
+export function ShowLogin(data) {
+    return {
+        type: SHOWLOGIN,
         payload: data,
     };
 }

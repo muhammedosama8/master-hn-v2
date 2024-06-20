@@ -10,6 +10,7 @@ import {
     INCREASE,
     DECREASE,
     REMOVE,
+    SHOWLOGIN,
 } from '../actions/AuthActions';
 
 const initialState = {
@@ -17,7 +18,8 @@ const initialState = {
     errorMessage: '',
     successMessage: '',
     showLoading: false,
-    cart: []
+    cart: [],
+    showLogin: false
 };
 
 export function AuthReducer(state = initialState, action) {
@@ -105,8 +107,15 @@ export function AuthReducer(state = initialState, action) {
             showLoading: false,
         };
     }
+    if (action.type === SHOWLOGIN) {
+        return {
+            ...state,
+            showLogin: action.payload,
+        };
+    }
     if (action.type === LOGIN_CONFIRMED_ACTION) {
         return {
+            ...state,
             user: action.payload,
             errorMessage: '',
             successMessage: 'Login Successfully Completed',
@@ -115,7 +124,12 @@ export function AuthReducer(state = initialState, action) {
     }
     if (action.type === LOGOUT_ACTION) {
         return {
-            ...initialState
+            user: '',
+            errorMessage: '',
+            successMessage: '',
+            showLoading: false,
+            showLogin: false,
+            cart: state?.cart,
         };
     }
 
