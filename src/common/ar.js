@@ -13,4 +13,11 @@ export const ar = {
     "Best Selling Products": "أفضل المنتجات مبيعا",
     "DOWNLOAD MASTER HN": "تحميل Master HN",
     "Style Up Your Looks": "ارتقي بمظهرك",
+    "All Rights": "كل الحقوق محفوظة",
+    "Hasan Al Naser": "حسن الناصر",
+    "Powered By": "مدعوم من",
+    "Total Price": "السعر الإجمالي",
+    "Continue": "متابعة",
+    "Your Cart is Empty": "عربة التسوق فارغة",
+    "KWD": "دينار كويتي",
 }

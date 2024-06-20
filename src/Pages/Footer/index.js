@@ -62,9 +62,9 @@ const Footer = () => {
                                 </div>
                             </div>
                             <div>
-                                <p className="text-center mb-0 power">All Rights reserved &copy; Hasan Al Naser
+                                <p className="text-center mb-0 power">{t("All Rights")} &copy; {t("Hasan Al Naser")}
                                 <span className="mx-1">{new Date().getFullYear()}</span></p>
-                                <p className="text-center mb-0 power mt-1">Powered By 
+                                <p className="text-center mb-0 power mt-1">{t("Powered By")}
                                 <a rel="noreferrer" 
                                     href='https://www.cloudliftsolution.com/' 
                                     target='_blank'
@@ -82,7 +82,7 @@ const Footer = () => {
                     <img src={Qr} alt='Qr' width={150}/>
                     <div className="mt-3 d-flex justify-content-end">
                         <img src={phone} alt='phone' />
-                        <span className="mx-2">Hasan Al Naser</span>
+                        <span className="mx-2">{t("Hasan Al Naser")}</span>
                     </div>
                 </div>
             </div>

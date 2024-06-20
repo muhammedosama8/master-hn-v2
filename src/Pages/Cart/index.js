@@ -5,12 +5,14 @@ import cartImg from '../../assets/cart.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Badge, Card, CardBody } from 'react-bootstrap'
 import { ShowLogin, decreaseProduct, increaseProduct, removeProduct } from '../../store/actions/AuthActions'
+import { useTranslation } from 'react-i18next'
 
 const Cart = () =>{
     const [cartProducts, setCartProducts] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
     const [coupon, setCoupon] = useState("")
     const dispatch = useDispatch()
+    const {t} = useTranslation()
     const user = useSelector(state => state?.user)
     const cart = useSelector(state => state?.user?.cart)
 
@@ -80,8 +82,8 @@ const Cart = () =>{
                                 />
                             </div> */}
                             <div className='d-flex justify-content-between'>
-                                <h5>Total Price:</h5>
-                                <h5 style={{fontWeight: "600"}}>{totalPrice} KWD</h5>
+                                <h5>{t("Total Price")}:</h5>
+                                <h5 style={{fontWeight: "600"}}>{totalPrice} {t("KWD")}</h5>
                             </div>
                             <div>
                                 <button 
@@ -91,14 +93,14 @@ const Cart = () =>{
                                             dispatch(ShowLogin(true))
                                         }
                                     }}
-                                >Continue</button>
+                                >{t("Continue")}</button>
                             </div>
                         </CardBody>
                     </Card>
                 </div>
             </div> : <div className='text-center' style={{marginTop: '13rem', marginBottom: '7rem'}}>
                 <img src={cartImg} alt='cart' width={250} />
-                <h2 className='mt-4'>Your Cart is Empty</h2>
+                <h2 className='mt-4'>{t("Your Cart is Empty")}</h2>
             </div>}
         </div>
     </div>

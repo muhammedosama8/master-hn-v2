@@ -13,4 +13,11 @@ export const en = {
     "Best Selling Products": "Best Selling Products",
     "DOWNLOAD MASTER HN": "DOWNLOAD MASTER HN",
     "Style Up Your Looks": "Style Up Your Looks",
+    "All Rights": "All Rights reserved",
+    "Hasan Al Naser": "Hasan Al Naser",
+    "Powered By": "Powered By",
+    "Total Price": "Total Price",
+    "Continue": "Continue",
+    "Your Cart is Empty": "Your Cart is Empty",
+    "KWD": "KWD",
 }

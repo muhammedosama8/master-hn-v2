@@ -40,16 +40,17 @@ const Product = () => {
                             <button 
                                 onClick={()=> setAmount(prev => ++prev)}
                                 className="btn btn-outline-secondary" 
-                                style={{marginRight: '12px'}}
                             >+</button>
-                            <span>{amount}</span>
+                            <span style={{
+                                marginRight: '12px',
+                                marginLeft: '12px'
+                            }}>{amount}</span>
                             <button
                                 onClick={()=> {
                                     setAmount(prev=> --prev)
                                 }}
                                 className="btn btn-outline-secondary" 
                                 disabled={amount === 1}
-                                style={{marginLeft: '12px'}}
                             >-</button>
                         </div>
                     </div>
