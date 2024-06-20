@@ -7,6 +7,9 @@ import {
     SIGNUP_FAILED_ACTION,
     LOGIN,
     CART,
+    INCREASE,
+    DECREASE,
+    REMOVE,
 } from '../actions/AuthActions';
 
 const initialState = {
@@ -46,12 +49,56 @@ export function AuthReducer(state = initialState, action) {
         } else {
             return {
                 ...state,
-                cart: [...state.cart, action.payload]
+                cart: [
+                    ...state.cart, 
+                    action.payload
+                ]
             };
         }
     }
+    if (action.type === INCREASE) {
+        let update = state?.cart?.map(res=>{
+            if(res.id === action.payload?.id){
+                return{
+                    ...res,
+                    amount: Number(res?.amount)+1
+                }
+            } else {
+                return res
+            }
+        })
+        return {
+            ...state,
+            cart: [...update]
+        };
+    }
+    if (action.type === DECREASE) {
+        let update = state?.cart?.map(res=>{
+            if(res.id === action.payload?.id){
+                return{
+                    ...res,
+                    amount: Number(res?.amount)-1
+                }
+            } else {
+                return res
+            }
+        })
+        return {
+            ...state,
+            cart: [...update]
+        };
+    }
+    if (action.type === REMOVE) {
+        let update = state?.cart?.filter(res=> res.id !== action.payload?.id)
+
+        return {
+            ...state,
+            cart: [...update]
+        };
+    }
     if (action.type === LOGIN) {
         return {
+            ...state,
             user: action.payload,
             errorMessage: '',
             successMessage: 'Login Successfully Completed',

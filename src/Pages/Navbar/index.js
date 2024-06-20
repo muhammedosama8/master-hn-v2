@@ -72,7 +72,7 @@ const Navbar = () =>{
           </Link>
           {!!auth.user?.user ?  <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className='py-0' style={{background: 'none', border: 'none', paddingRight: '0'}}>
-            <img src={user} alt='user' width={28} style={{marginTop: '-8px'}}/>
+            <img src={user} alt='user' width={28}/>
           </Dropdown.Toggle>
 
           <Dropdown.Menu>

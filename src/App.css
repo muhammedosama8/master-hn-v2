@@ -5,6 +5,7 @@ body {
 }
 .en{
   font-family: 'Arial', sans-serif;
+  direction: ltr;
 }
 .ar{
   direction: rtl;

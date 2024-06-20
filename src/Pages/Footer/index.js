@@ -9,6 +9,7 @@ import tiktok from '../../assets/tiktok.svg'
 import logo from '../../assets/MasterHN-white.svg'
 import phone from '../../assets/phone.svg'
 import './style.css'
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
     const data = {
@@ -19,21 +20,23 @@ const Footer = () => {
         snap: '',
 
     }
+    const {t} = useTranslation()
+
     return <div className="mt-5 footer">
         <div className="custom-div pb-4" style={{
             borderRadius: '16px 16px 0 0'
         }}>
             <div className="row">
-                <div className="col-md-4">
-                    <h2>Quick Links</h2>
+                <div className="col-md-3">
+                    <h2>{t("quick_links")}</h2>
                     <div className="links">
-                        <Link to='/'>Home</Link>
-                        <Link to='/products'>Products</Link>
-                        <Link to='/categories'>Categories</Link>
-                        <Link to='about-us'>About Us</Link>
+                        <Link to='/'>{t("home")}</Link>
+                        <Link to='/products'>{t("products")}</Link>
+                        <Link to='/categories'>{t("categories")}</Link>
+                        <Link to='about-us'>{t("about-us")}</Link>
                     </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-6">
                     <div className="social h-100 d-flex flex-column  justify-content-between">
                             <div className="text-center">
                                 <img src={logo} alt='logo' width={150} />
@@ -75,7 +78,7 @@ const Footer = () => {
                             </div>
                     </div>
                 </div>
-                <div className="col-md-4" style={{textAlign: 'right'}}>
+                <div className="col-md-3 qr">
                     <img src={Qr} alt='Qr' width={150}/>
                     <div className="mt-3 d-flex justify-content-end">
                         <img src={phone} alt='phone' />

@@ -17,14 +17,24 @@
 .shop-by-category h4::after{
     content: url("../../../assets/Star1.png");
     position: absolute;
-    left: 14rem;
     top: -18px;
 }
 .shop-by-category h4::before{
     content: url("../../../assets/Star2.png");
     position: absolute;
-    left: 15rem;
     top: 5px;
+}
+.en .shop-by-category h4::after{
+    left: 14rem;
+}
+.en .shop-by-category h4::before{
+    left: 15rem;
+}
+.ar .shop-by-category h4::after{
+    right: 14rem;
+}
+.ar .shop-by-category h4::before{
+    right: 15rem;
 }
 .shop-by-category .cate{
   cursor: pointer;

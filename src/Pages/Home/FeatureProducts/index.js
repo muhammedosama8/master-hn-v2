@@ -3,6 +3,7 @@ import categoryImg from '../../../assets/category.jpeg'
 import categoryImg2 from '../../../assets/2.webp'
 import './style.css'
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const FeatureProducts = () => {
   const [products, setProducts] = useState([
@@ -14,9 +15,10 @@ const FeatureProducts = () => {
     {id: 6, img: categoryImg2, name: 'Products 6', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
   ])
   const navigate = useNavigate()
+  const {t} = useTranslation()
 
   return (<div className='feature-products'>
-    <h1>Feature Products</h1>
+    <h1>{t("Feature Products")}</h1>
     <div className='row mt-3'>
       {products?.map((product) => {
         return <div className='col-md-4 mb-4 col-6' key={product.id} onClick={()=> navigate(`/products/product/${product.id}`, { state:{ product }})}>
@@ -24,14 +26,14 @@ const FeatureProducts = () => {
             <img src={product.img} alt={product?.name} className='img w-100 h-100' />
             <div className='desc'>
               <p>{product.name}</p>
-              <Link to='/'>Explore</Link>
+              <Link to='/'>{t("Explore")}</Link>
             </div>
           </div>
         </div>
       })}
     </div>
     <div className='text-center mt-5'>
-        <Link to='/' className='viewAll'>View All</Link>
+        <Link to='/' className='viewAll'>{t("View All")}</Link>
       </div>
     </div>
   );

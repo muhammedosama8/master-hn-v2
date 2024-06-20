@@ -3,6 +3,7 @@ import categoryImg from '../../../assets/category.jpeg'
 import categoryImg2 from '../../../assets/2.webp'
 import './style.css'
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const ShopByCategory = () => {
   const [data, setData] = useState([
@@ -11,10 +12,11 @@ const ShopByCategory = () => {
     {id: 3, img: categoryImg2, name: 'Category 3'},
   ])
   const navigate = useNavigate()
+  const {t} = useTranslation()
 
   return (<div className='shop-by-category'>
     <div className='position-relative'>
-      <h4>Shop By Category</h4>
+      <h4>{t("Shop By Category")}</h4>
     </div>
     <div className='row'>
       {data?.map((cat) => {
@@ -23,14 +25,14 @@ const ShopByCategory = () => {
             <img src={cat.img} alt={cat?.name} className='img w-100 h-100' />
             <div className='desc'>
               <p>{cat.name}</p>
-              <Link to='/categories'>Explore All</Link>
+              <Link to='/categories'>{t("Explore All")}</Link>
             </div>
           </div>
         </div>
       })}
     </div>
     <div className='text-center mt-5'>
-        <Link to='/categories'>View All</Link>
+        <Link to='/categories'>{t("View All")}</Link>
       </div>
     </div>
   );

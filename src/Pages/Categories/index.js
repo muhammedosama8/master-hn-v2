@@ -3,6 +3,7 @@ import categoryImg from '../../assets/category.jpeg'
 import categoryImg2 from '../../assets/2.webp'
 import './style.css'
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Categories = () => {
   const [data, setData] = useState([
@@ -14,10 +15,11 @@ const Categories = () => {
     {id: 6, img: categoryImg2, name: 'Category 6'},
   ])
   const navigate = useNavigate()
+  const {t} = useTranslation()
 
   return (<div className='categories'>
     <div className='position-relative'>
-      <h1>Categories</h1>
+      <h1>{t("categories")}</h1>
     </div>
     <div className='row'>
       {data?.map((cat) => {

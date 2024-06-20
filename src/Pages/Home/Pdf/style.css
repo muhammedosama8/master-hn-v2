@@ -9,8 +9,13 @@
 .pdf h1::after{
     content: url("../../../assets/arrow.png");
     position: absolute;
-    right: -77px;
     top: -50px;
+}
+.en .pdf h1::after{
+    right: -77px;
+}
+.ar .pdf h1::after{
+    left: -77px;
 }
 .pdf img{
     width: 30%;

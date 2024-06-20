@@ -1,3 +1,32 @@
 .cart{
     margin-top: 9rem;
 }
+
+.cart .prod-btn{
+    background: none;
+    border: 1px solid #dedede;
+    color: #000;
+    padding: 3px 9px;
+}
+.cart .trash{
+    background: none;
+    padding: 0;
+}
+.cart .minus{
+    padding: 3px 11px;
+}
+.cart .product-cart{
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    border-bottom: 1px solid #dedede;
+    padding-bottom: 1.5rem;
+}
+.cart .continue{
+    background-color: var(--primary-color);
+    margin-top: 2rem;
+}
+.cart .product-cart:last-child{
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 1rem;
+}

@@ -3,6 +3,7 @@ import categoryImg from '../../assets/category.jpeg'
 import categoryImg2 from '../../assets/2.webp'
 import './style.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Products = () => {
   const [data, setData] = useState([
@@ -15,13 +16,14 @@ const Products = () => {
   ])
   const navigate = useNavigate()
   const location = useLocation()
+  const {t} = useTranslation()
   
   useEffect(()=> {
   }, [])
 
   return (<div className='products'>
     <div className='position-relative'>
-      <h1>Products</h1>
+      <h1>{t("products")}</h1>
     </div>
     <div className='row'>
       {data?.map((product) => {
