@@ -33,7 +33,7 @@ const Navbar = () =>{
   return <div>
     <nav className="navbar navbar-expand-lg">
       <div className='row w-100 m-auto' style={{alignItems: 'center'}}>
-        <div className='col-4'>
+        <div className='col-5'>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -48,7 +48,7 @@ const Navbar = () =>{
             {/* <h2>{t('welcome')}</h2> */}
           </div>
         </div>
-        <div className='col-4' style={{textAlign: 'center'}}>
+        <div className='col-3' style={{textAlign: 'center'}}>
           <Link to='/' className="navbar-brand logo m-0 p-0" >
           <img src={logo} alt='logo' width={150} />
         </Link>

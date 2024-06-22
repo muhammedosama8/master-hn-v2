@@ -1,0 +1,23 @@
+.categories-home{
+  padding: 20px;
+}
+.categories-home .mySwiper{
+  direction: ltr;
+}
+.categories-home .mySwiper .swiper-slide{
+  text-align: center;
+}
+.categories-home .mySwiper .swiper-slide a{
+  border-radius: 8px;
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 16px;
+    line-height: 3;
+}
+.categories-home .mySwiper .swiper-slide:nth-child(odd) a{
+  background-color: var(--primary-color);
+}
+.categories-home .mySwiper .swiper-slide:nth-child(even) a{
+  background-color: #2e5e84db;
+}

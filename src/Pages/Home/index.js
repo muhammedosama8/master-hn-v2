@@ -1,5 +1,6 @@
 import BestSellingProducts from "./ BestSellingProducts"
 import Banner from "./Banner"
+import Categories from "./Categories"
 import FeatureProducts from "./FeatureProducts"
 import Header from "./Header"
 import Pdf from "./Pdf"
@@ -9,6 +10,7 @@ import ShopByCategory from "./ShopByCategory"
 const Home = () => {
     return <>
         <Header />
+        <Categories />
         <ShopByCategory />
         <FeatureProducts />
         {/* <Quality /> */}

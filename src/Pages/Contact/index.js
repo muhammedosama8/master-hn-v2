@@ -32,6 +32,7 @@ const Contact = () => {
         <Row>
           <Col md={2}></Col>
           <Col md={4}>
+            <h4 className='getInTouch'>{t("GET IN TOUCH")}</h4>
             <div>
               <AvField
                 label={t("Name")}
@@ -88,16 +89,18 @@ const Contact = () => {
               <textarea
                 rows={8}
                 className='w-100'
+                placeholder={t("Message")}
                 style={{
                   border: '1px solid #dedede',
-                  borderRadius: '8px'
+                  borderRadius: '8px',
+                  padding: '8px'
                 }}
                 onChange={e=> setFormData({...formData, message: e.target.value})}
               />
             </div>
             <button 
               type='submit'
-              className='mt-3'
+              className='mt-3 send'
             >{t("Send")}</button>
           </Col>
           <Col md={4}>
@@ -109,7 +112,7 @@ const Contact = () => {
             }}>
               <img src={whats} alt='whats' />
               <p className='mt-3' style={{color: '#fff'}}>{t("CONTACT US ON WHATSAPP")}</p>
-              <button>{t("contact")}</button>
+              <button className='contact-whats'>{t("contact")}</button>
             </div>
           </Col>
           <Col md={2}></Col>

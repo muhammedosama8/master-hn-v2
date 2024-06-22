@@ -20,7 +20,7 @@ function Header() {
     // },[])
 
   return (
-    <div style={{marginTop: '6.3rem'}}>
+    <div className='header-home' style={{marginTop: '6.3rem'}}>
       <Carousel data-bs-theme="dark" controls='false' touch={'true'}>
           {data?.map((item, index)=>{
               return <Carousel.Item key={index}>

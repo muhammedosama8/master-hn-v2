@@ -28,4 +28,7 @@
 }
 .pdf .pdf-img button{
     width: fit-content;
+    color: var(--primary-color);
+    background-color: #fff;
+    border-radius: 8px;
 }

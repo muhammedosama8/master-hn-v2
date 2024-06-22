@@ -2,6 +2,19 @@
   padding: 2rem;
   margin-top: 9rem;
 }
+.contact .send{
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 8px;
+}
+.contact .contact-whats{
+  color: var(--primary-color);
+  background-color: #fff;
+  border-radius: 8px;
+}
+.getInTouch{
+  color: var(--primary-color)
+}
 /* .aboutUs h1{
   color: var(--primary-color);
   font-weight: 400 !important;

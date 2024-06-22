@@ -8,6 +8,9 @@ import snap from '../../assets/snapchat.svg'
 import tiktok from '../../assets/tiktok.svg'    
 import logo from '../../assets/MasterHN-white.svg'
 import phone from '../../assets/phone.svg'
+import knet from '../../assets/knet.svg'
+import mastercard from '../../assets/mastercard.svg'
+import visa from '../../assets/visa.svg'
 import './style.css'
 import { useTranslation } from "react-i18next";
 
@@ -34,12 +37,18 @@ const Footer = () => {
                         <NavLink to='/' className={({ isActive }) => isActive ? "active" : ""} aria-current="page" >{t("home")}</NavLink>
                         <NavLink to='/categories' className={({ isActive }) => isActive ? "active" : ""} aria-current="page">{t("categories")}</NavLink>
                         <NavLink to='/products' className={({ isActive }) => isActive ? "active" : ""} aria-current="page">{t("products")}</NavLink>
-                        <NavLink to='about-us' className={({ isActive }) => isActive ? "active" : ""} aria-current="page">{t("about-us")}</NavLink>
+                        <NavLink to='/about-us' className={({ isActive }) => isActive ? "active" : ""} aria-current="page">{t("about-us")}</NavLink>
+                        <NavLink to='/contact' className={({ isActive }) => isActive ? "active" : ""} aria-current="page">{t("contact")}</NavLink>
                     </div>
                 </div>
                 <div className="col-md-6">
                     <div className="social h-100 d-flex flex-column  justify-content-between">
                             <div className="text-center">
+                                <div className="visa">
+                                    <img src={visa} alt='visa' />
+                                    <img src={mastercard} alt='mastercard' className="mx-2" />
+                                    <img src={knet} alt='knet' />
+                                </div>
                                 <div className="icons">
                                     <a rel="noreferrer" href={data.facebook} target='_blank'>
                                         <img src={facebook} alt='facebook' />
@@ -62,9 +71,9 @@ const Footer = () => {
                                 </div>
                             </div>
                             <div>
-                                <p className="text-center mb-1 power">{t("All Rights")} &copy; {t("Hasan Al Naser")}
+                                <p className="text-center mb-4 power">{t("All Rights")} &copy; {t("Hasan Al Naser")}
                                 <span className="mx-1">{new Date().getFullYear()}</span></p>
-                                <p className="text-center mb-3 power mt-1">{t("Powered By")}
+                                <p className="text-center mb-2 power mt-1">{t("Powered By")}
                                 <a rel="noreferrer" 
                                     href='https://www.cloudliftsolution.com/' 
                                     target='_blank'

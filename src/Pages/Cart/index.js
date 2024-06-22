@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Badge, Card, CardBody } from 'react-bootstrap'
 import { ShowLogin, decreaseProduct, increaseProduct, removeProduct } from '../../store/actions/AuthActions'
 import { useTranslation } from 'react-i18next'
+import CheckLogin from './CheckLogin'
 
 const Cart = () =>{
     const [cartProducts, setCartProducts] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
     const [coupon, setCoupon] = useState("")
+    const [modal, setModal] = useState(false)
     const dispatch = useDispatch()
     const {t} = useTranslation()
     const user = useSelector(state => state?.user)
@@ -74,6 +76,7 @@ const Cart = () =>{
                 <div className='col-md-4'>
                     <Card style={{border: 'none'}}>
                         <CardBody>
+                            <h5 className='mb-4'>{t("Payment Details")}</h5>
                             {/* <div>
                                 <p>Coupon:</p>
                                 <input 
@@ -82,15 +85,15 @@ const Cart = () =>{
                                 />
                             </div> */}
                             <div className='d-flex justify-content-between'>
-                                <h5>{t("Total Price")}:</h5>
-                                <h5 style={{fontWeight: "600"}}>{totalPrice} {t("KWD")}</h5>
+                                <h5 style={{fontSize: '18px'}}>{t("Total Price")}:</h5>
+                                <h5 style={{fontSize: '18px', fontWeight: "600"}}>{totalPrice} {t("KWD")}</h5>
                             </div>
                             <div>
                                 <button 
                                     className='continue w-100'
                                     onClick={()=> {
                                         if(!user?.user){
-                                            dispatch(ShowLogin(true))
+                                            setModal(true)
                                         }
                                     }}
                                 >{t("Continue")}</button>
@@ -103,6 +106,7 @@ const Cart = () =>{
                 <h2 className='mt-4'>{t("Your Cart is Empty")}</h2>
             </div>}
         </div>
+        {modal && <CheckLogin modal={modal} setModal={()=> setModal(false)} />}
     </div>
 }
 export default Cart

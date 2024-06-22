@@ -21,7 +21,7 @@
 }
   
 .banner .viewAll {
-  background-color: black;
+  background-color: var(--primary-color);
   text-decoration: none;
   color: #fff;
   margin-top: 12px;

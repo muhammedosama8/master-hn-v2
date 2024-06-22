@@ -180,3 +180,12 @@ footer p {
 .paths h1{
   font-size: 24px;
 }
+.header-home .carousel-indicators button{
+  width: 12px;
+  height: 12px;
+  background-color: #fff !important;
+  border-radius: 50%;
+}
+.header-home .carousel-indicators button.active{
+  background-color: #888;
+}

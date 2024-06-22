@@ -7,12 +7,12 @@ const Path = ({title, paths}) => {
     return <div className="paths">
         {!!title && <h1>{t(title)}</h1>}
         <div>
-            <Link to='/' className="home">{t('home')} <span className="gt">&gt;</span></Link> 
+            <Link to='/' className="home">{t('home')}<span className="gt">/</span></Link> 
             {paths?.map((path, index) => {
                 return <>
                     {paths?.length-1 === index ? 
                         <span>{path?.name}</span> : 
-                        <Link to={`/${path.href}`} state={path.state}>{path?.name} <span className="gt">&gt;</span></Link>}
+                        <Link to={`/${path.href}`} state={path.state}>{path?.name} <span className="gt">/</span></Link>}
                 </>
             })}
         </div>

@@ -15,6 +15,8 @@ import Error404 from './common/Error404';
 import Cart from './Pages/Cart';
 import './i18n';
 import Contact from './Pages/Contact';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 function App() {
   const navigate = useNavigate();
