@@ -39,4 +39,10 @@ export const ar = {
     "Proceed": "هل ترغب في المتابعة لإتمام الطلب كـ",
     "Login": "تسجيل الدخول",
     "Continue as a Guest": "المتابعة كزائر",
+    "Login Into Your Account": "تسجيل الدخول إلى حسابك",
+    "Create New Account": "إنشاء حساب جديد",
+    "Password": "الرقم السري",
+    "Don't Have Account": "ليس لديك حساب",
+    "Sign Up": "التسجيل",
+    "Have Account": "لديك حساب",
 }

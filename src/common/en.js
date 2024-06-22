@@ -39,4 +39,10 @@ export const en = {
     "Proceed": "Do You Want To Proceed To Checkout As",
     "Login": "Login",
     "Continue as a Guest": "Continue as a Guest",
+    "Login Into Your Account": "Login Into Your Account",
+    "Create New Account": "Create New Account",
+    "Password": "Password",
+    "Don't Have Account": "Don't Have Account",
+    "Sign Up": "Sign Up",
+    "Have Account": "Have Account",
 }

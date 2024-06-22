@@ -3,7 +3,8 @@ import { useState } from "react"
 import { Button, Col, Row } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { loadingToggleAction, loginAction } from "../../../../store/actions/AuthActions"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { useTranslation } from "react-i18next"
 
 const Login = ({setType, path, setModal}) => {
     const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const Login = ({setType, path, setModal}) => {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const lang = useSelector(state=> state?.lang?.lang)
+    const {t} = useTranslation()
 
     const submit = () =>{
         dispatch(loadingToggleAction(true));
@@ -22,13 +25,17 @@ const Login = ({setType, path, setModal}) => {
 
     return <AvForm
     className='form-horizontal login-form'
+    style={{direction: lang === 'ar' ? 'rtl' : 'ltr'}}
     onValidSubmit={submit}>
         <Row>
             <Col md={12}>
+                <h4>{t("Login Into Your Account")}</h4>
+            </Col>
+            <Col md={12}>
                 <AvField
-                    label="Email"
+                    label={t("Email")}
                     type='email'
-                    placeholder="Email"
+                    placeholder={t("Email")}
                     bsSize="lg"
                     name='email'
                     validate={{
@@ -43,9 +50,9 @@ const Login = ({setType, path, setModal}) => {
             </Col>
             <Col md={12}>
                 <AvField
-                    label="Password"
+                    label={t("Password")}
                     type='password'
-                    placeholder="Password"
+                    placeholder={t("Password")}
                     bsSize="lg"
                     name='departure_day'
                     validate={{
@@ -60,10 +67,10 @@ const Login = ({setType, path, setModal}) => {
             </Col>
         </Row>
         <Button variant="primary" className="login-btn" type='submit' disabled={loading}>
-            Login
+            {t("Login")}
         </Button>
         <Button variant="secondary" className="signup" type='button' onClick={()=>setType("Sign Up")}>
-            Don't Have Account? <span style={{color: 'var(--primary-color)', textDecoration: 'underline'}}>Sign Up</span>
+            {t("Don't Have Account")} ? <span style={{color: 'var(--primary-color)', textDecoration: 'underline'}}>{t("Sign Up")}</span>
         </Button>
            
     </AvForm>

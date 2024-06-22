@@ -2,6 +2,8 @@
 import { AvField, AvForm } from "availity-reactstrap-validation"
 import { useState } from "react"
 import { Button, Col, Row } from "react-bootstrap"
+import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
 
 const Signup = ({setType}) => {
     const [formData, setFormData] = useState({
@@ -11,18 +13,24 @@ const Signup = ({setType}) => {
         phone: ""
     })
     const [loading, setLoading] = useState(false)
+    const lang = useSelector(state=> state?.lang?.lang)
+    const {t} = useTranslation()
 
     const submit = () => {}
 
     return <AvForm
     className='form-horizontal signup-form'
+    style={{direction: lang === 'ar' ? 'rtl' : 'ltr'}}
     onValidSubmit={submit}>
         <Row>
             <Col md={12}>
+                <h4>{t("Create New Account")}</h4>
+            </Col>
+            <Col md={12}>
                 <AvField
-                    label="Name"
+                    label={t("Name")}
                     type='text'
-                    placeholder="Name"
+                    placeholder={t("Name")}
                     bsSize="lg"
                     name='name'
                     validate={{
@@ -37,9 +45,9 @@ const Signup = ({setType}) => {
             </Col>
             <Col md={12}>
                 <AvField
-                    label="Email"
+                    label={t("Email")}
                     type='email'
-                    placeholder="Email"
+                    placeholder={t("Email")}
                     bsSize="lg"
                     name='email'
                     validate={{
@@ -54,9 +62,9 @@ const Signup = ({setType}) => {
             </Col>
             <Col md={12}>
                 <AvField
-                    label="Password"
+                    label={t("Password")}
                     type='password'
-                    placeholder="Password"
+                    placeholder={t("Password")}
                     bsSize="lg"
                     name='password'
                     validate={{
@@ -71,9 +79,9 @@ const Signup = ({setType}) => {
             </Col>
             <Col md={12}>
                 <AvField
-                    label="Phone"
+                    label={t("Phone")}
                     type='number'
-                    placeholder="Phone"
+                    placeholder={t("Phone")}
                     bsSize="lg"
                     name='phone'
                     validate={{
@@ -89,10 +97,10 @@ const Signup = ({setType}) => {
         </Row>
 
         <Button variant="primary" className="signup-btn" type='submit' disabled={loading}>
-            Sign Up
+            {t("Sign Up")}
         </Button>
         <Button variant="secondary" className="login" type='button' onClick={() => setType("login")}>
-            Have Account? <span style={{color: 'var(--primary-color)', textDecoration: 'underline'}}>Login</span>
+            {t("Have Account")} ? <span style={{color: 'var(--primary-color)', textDecoration: 'underline'}}>{t("Login")}</span>
         </Button>
     </AvForm>
 }
