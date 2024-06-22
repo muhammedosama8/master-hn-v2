@@ -11,7 +11,7 @@
 .product .description{
     margin-bottom: 3rem;
 }
-.product a{
+.product .addToCart{
     background-color: var(--primary-color);
     color: #fff;
     text-decoration: none;
@@ -20,7 +20,7 @@
     padding: 12px 50px;
     border: 1px solid var(--primary-color);
 }
-.product a:hover{
+.product .addToCart:hover{
     background: none;
     color: var(--primary-color);
 }

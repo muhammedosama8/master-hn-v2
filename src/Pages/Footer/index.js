@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Qr from '../../assets/qr_code.jpeg'
 import facebook from '../../assets/facebook.svg'
 import instagram from '../../assets/instagram.svg'
@@ -23,23 +23,23 @@ const Footer = () => {
     const {t} = useTranslation()
 
     return <div className="mt-5 footer">
-        <div className="custom-div pb-4" style={{
+        <div className="custom-div pb-4 pt-5" style={{
             borderRadius: '16px 16px 0 0'
         }}>
             <div className="row">
                 <div className="col-md-3">
-                    <h2>{t("quick_links")}</h2>
+                    <img src={logo} alt='logo' width={150} />
+                    <h4 className="mt-4">{t("quick_links")}</h4>
                     <div className="links">
-                        <Link to='/'>{t("home")}</Link>
-                        <Link to='/products'>{t("products")}</Link>
-                        <Link to='/categories'>{t("categories")}</Link>
-                        <Link to='about-us'>{t("about-us")}</Link>
+                        <NavLink to='/' className={({ isActive }) => isActive ? "active" : ""} aria-current="page" >{t("home")}</NavLink>
+                        <NavLink to='/categories' className={({ isActive }) => isActive ? "active" : ""} aria-current="page">{t("categories")}</NavLink>
+                        <NavLink to='/products' className={({ isActive }) => isActive ? "active" : ""} aria-current="page">{t("products")}</NavLink>
+                        <NavLink to='about-us' className={({ isActive }) => isActive ? "active" : ""} aria-current="page">{t("about-us")}</NavLink>
                     </div>
                 </div>
                 <div className="col-md-6">
                     <div className="social h-100 d-flex flex-column  justify-content-between">
                             <div className="text-center">
-                                <img src={logo} alt='logo' width={150} />
                                 <div className="icons">
                                     <a rel="noreferrer" href={data.facebook} target='_blank'>
                                         <img src={facebook} alt='facebook' />
@@ -62,9 +62,9 @@ const Footer = () => {
                                 </div>
                             </div>
                             <div>
-                                <p className="text-center mb-0 power">{t("All Rights")} &copy; {t("Hasan Al Naser")}
+                                <p className="text-center mb-1 power">{t("All Rights")} &copy; {t("Hasan Al Naser")}
                                 <span className="mx-1">{new Date().getFullYear()}</span></p>
-                                <p className="text-center mb-0 power mt-1">{t("Powered By")}
+                                <p className="text-center mb-3 power mt-1">{t("Powered By")}
                                 <a rel="noreferrer" 
                                     href='https://www.cloudliftsolution.com/' 
                                     target='_blank'

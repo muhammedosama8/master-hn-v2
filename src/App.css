@@ -3,13 +3,25 @@ body {
   margin: 0;
   background-color: #F9F3F2;
 }
+@font-face {
+  font-family: 'Dubai-Bold';
+  src: url('../src/common/Fonts/Dubai-Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Almarai-Bold';
+  src: url('../src/common/Fonts/Almarai-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 .en{
-  font-family: 'Arial', sans-serif;
+  font-family: 'Dubai-Bold', sans-serif;;
   direction: ltr;
 }
 .ar{
   direction: rtl;
-  font-family: "Cairo", sans-serif;
+  font-family: 'Almarai-Bold';
   font-optical-sizing: auto;
 }
 .custom-div {
@@ -151,4 +163,20 @@ footer p {
 .btn-primary:hover{
   opacity: .8;
   background-color: var(--primary-color);
+}
+.paths{
+  padding: 20px 0;
+  margin-bottom: 30px;
+}
+.paths a{
+  background: none !important;
+  color: #333 !important;
+  padding: 0 !important;
+  text-decoration: none
+}
+.paths .gt{
+  margin: 0 6px;
+}
+.paths h1{
+  font-size: 24px;
 }

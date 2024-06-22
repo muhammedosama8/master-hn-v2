@@ -40,9 +40,10 @@ const Navbar = () =>{
           <div className="collapse navbar-collapse" style={{width: 'fit-content'}} id="navbarNavAltMarkup">
             <div className="navbar-nav">
               <NavLink to='/' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page" >{t('home')}</NavLink>
-              <NavLink to='/products' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('products')}</NavLink>
               <NavLink to='/categories' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('categories')}</NavLink>
+              <NavLink to='/products' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('products')}</NavLink>
               <NavLink to='/about-us' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('about-us')}</NavLink>
+              <NavLink to='/contact' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('contact')}</NavLink>
             </div>
             {/* <h2>{t('welcome')}</h2> */}
           </div>

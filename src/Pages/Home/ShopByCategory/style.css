@@ -1,6 +1,6 @@
 .shop-by-category{
   padding: 2rem;
-  margin-top: 9rem;
+  margin-top: 2rem;
 }
 .shop-by-category .categories {
   display: flex;
@@ -10,7 +10,7 @@
 .shop-by-category h4{
   color: var(--primary-color);
   font-size: 25px;
-  font-weight: 200 !important;
+  font-weight: 500 !important;
   text-transform: capitalize;
   margin-bottom: 2rem;
 }

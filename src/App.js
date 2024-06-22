@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Error404 from './common/Error404';
 import Cart from './Pages/Cart';
 import './i18n';
+import Contact from './Pages/Contact';
 
 function App() {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ function App() {
             <Route path='/products/product/:id' element={<Product />} />
             <Route path='/cart' element={<Cart />} />
             <Route path='/about-us' element={<AboutUs />} />
+            <Route path='/contact' element={<Contact />} />
             <Route path='*' element={<Error404 />} />
           </Routes>
         <Footer />

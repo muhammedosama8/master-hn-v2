@@ -2,7 +2,7 @@
   padding: 2rem;
   margin-top: 9rem;
 }
-.products h1{
+/* .products h1{
   color: var(--primary-color);
   font-weight: 400 !important;
   text-transform: capitalize;
@@ -16,7 +16,7 @@
   left: 77px;
   top: -5px;
   rotate: 20deg;
-}
+} */
 
 .products .cate{
   cursor: pointer;

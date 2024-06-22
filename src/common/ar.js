@@ -20,4 +20,13 @@ export const ar = {
     "Continue": "متابعة",
     "Your Cart is Empty": "عربة التسوق فارغة",
     "KWD": "دينار كويتي",
+    "Download Pdf": "تحميل الملف",
+    "Style Up": "ارتقي",
+    "Add To Cart": "أضف إلى السلة",
+    "contact": "اتصل بنا",
+    "Name": "الإسم",
+    "Email": "البريد الإلكتروني",
+    "Phone": "رقم الموبايل",
+    "Message": "الرسالة",
+    "CONTACT US ON WHATSAPP": "تواصل معنا عبر واتساب"
 }

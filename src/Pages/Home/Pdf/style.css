@@ -12,11 +12,20 @@
     top: -50px;
 }
 .en .pdf h1::after{
-    right: -77px;
+    right: 0;
 }
 .ar .pdf h1::after{
-    left: -77px;
+    left: 0;
+    transform: rotateY(180deg);
 }
 .pdf img{
-    width: 30%;
+    width: 130px;
+}
+.pdf .pdf-img{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.pdf .pdf-img button{
+    width: fit-content;
 }

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import categoryImg from '../../assets/category.jpeg'
 import categoryImg2 from '../../assets/2.webp'
 import './style.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Path from '../../common/Path';
 
 const Categories = () => {
   const [data, setData] = useState([
@@ -18,16 +19,22 @@ const Categories = () => {
   const {t} = useTranslation()
 
   return (<div className='categories'>
-    <div className='position-relative'>
+    <Path 
+      title='categories' 
+      paths={[
+        {href: 'categories' , state: '', name: t('categories')},
+      ]} 
+    />
+    {/* <div className='position-relative'>
       <h1>{t("categories")}</h1>
-    </div>
+    </div> */}
     <div className='row'>
-      {data?.map((cat) => {
-        return <div className='col-md-3 mb-4 col-6' key={cat.id} onClick={()=> navigate('/products', { state:{ cat }})}>
+      {data?.map((category) => {
+        return <div className='col-md-3 mb-4 col-6' key={category.id} onClick={()=> navigate('/products', { state:{ category }})}>
           <div className='cate h-100 position-relative'>
-            <img src={cat.img} alt={cat?.name} className='img w-100 h-100' />
+            <img src={category.img} alt={category?.name} className='img w-100 h-100' />
             <div className='desc'>
-              <p>{cat.name}</p>
+              <p>{category.name}</p>
               <Link to='/'>Explore All</Link>
             </div>
           </div>

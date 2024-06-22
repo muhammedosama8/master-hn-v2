@@ -13,7 +13,7 @@ const Banner = () => {
           <img src={banner} alt="Banner" />
         </Link>
         <div className='text-center'>
-          <Link to='/' className='viewAll'>{t("View All")}</Link>
+          <Link to='/' className='viewAll'>{t("Style Up")}</Link>
         </div>
     </div>
   );

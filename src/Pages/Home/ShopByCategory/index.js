@@ -19,12 +19,12 @@ const ShopByCategory = () => {
       <h4>{t("Shop By Category")}</h4>
     </div>
     <div className='row'>
-      {data?.map((cat) => {
-        return <div className='col-md-4 mb-4 col-6' key={cat.id} onClick={()=> navigate('/products', { state:{ cat }})}>
+      {data?.map((category) => {
+        return <div className='col-md-4 mb-4 col-6' key={category.id} onClick={()=> navigate('/products', { state:{ category }})}>
           <div className='cate h-100 position-relative'>
-            <img src={cat.img} alt={cat?.name} className='img w-100 h-100' />
+            <img src={category.img} alt={category?.name} className='img w-100 h-100' />
             <div className='desc'>
-              <p>{cat.name}</p>
+              <p>{category.name}</p>
               <Link to='/categories'>{t("Explore All")}</Link>
             </div>
           </div>

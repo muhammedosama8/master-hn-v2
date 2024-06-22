@@ -20,4 +20,13 @@ export const en = {
     "Continue": "Continue",
     "Your Cart is Empty": "Your Cart is Empty",
     "KWD": "KWD",
+    "Download Pdf": "Download Pdf",
+    "Style Up": "Style Up",
+    "Add To Cart": "Add To Cart",
+    "contact": "Contact",
+    "Name": "Name",
+    "Email": "Email",
+    "Phone": "Phone",
+    "Message": "Message",
+    "CONTACT US ON WHATSAPP": "CONTACT US ON WHATSAPP",
 }

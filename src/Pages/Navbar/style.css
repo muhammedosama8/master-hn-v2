@@ -11,6 +11,7 @@
     font-size: 18px;
     font-weight: 600;
     padding: 6px 20px;
+    line-height: normal
 } 
 .navbar a:hover{
     color: #b6b6b6;
