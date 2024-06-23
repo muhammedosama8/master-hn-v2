@@ -1,0 +1,104 @@
+.checkout_page{
+    margin-top: 12rem;
+}
+.checkout_page input{
+    border: none;
+    margin-top: 6px;
+}
+.checkout_page select{
+    border: none;
+    margin-top: 6px;
+}
+.sec_head {
+    position: relative;
+}
+.sec_head:before {
+    content: "";
+    background: var(--primary-color);
+    width: 100px;
+    height: 1px;
+    position: absolute;
+    bottom: -20px;
+    transform: translateX(0);
+}
+.en .sec_head:before{
+    left: 0;
+}
+.ar .sec_head:before{
+    right: 0;
+}
+.checkout_page .payment-method, 
+.checkout_page .coupon-code {
+    background: #26847d;
+    padding: 20px 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.payment-method h5, 
+.cont-pay-dts h5, 
+.coupon-code h5 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+.form-coupon .form-group {
+    position: relative;
+}
+.form-coupon .form-control {
+    background: #fff;
+    border: 0;
+    border-radius: 35px;
+    height: 50px;
+    color: #505153;
+}
+.form-coupon .btn-site {
+    height: 40px;
+    position: absolute;
+    top: 5px;
+    border-radius: 35px;
+    background-color: #26847d;
+}
+.ar .form-coupon .btn-site {
+    left: 4px;
+}
+.en .form-coupon .btn-site {
+    right: 4px;
+}
+.payment-method .list-pay div{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    margin-bottom: 12px;
+}
+.ar .payment-method .list-pay div img{
+    margin-left: 12px;
+}
+.en .payment-method .list-pay div img{
+    margin-right: 12px;
+}
+.payment-method .list-pay div label{
+    color: #fff;
+}
+.cont-pay-dts{
+    background: var(--primary-color);
+    padding: 20px 15px;
+    border-radius: 10px;
+}
+.cont-pay-dts .send_form{
+    background-color: #fff;
+    width: 100%;
+    display: block;
+    margin-top: 18px;
+    height: 40px;
+    font-size: 15px;
+    padding: 12px 25px;
+    text-align: center;
+    text-decoration: none;
+    line-height: 1;
+    color: var(--primary-color);
+    border-radius: 30px;
+}
+.cont-pay-dts div{
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+}

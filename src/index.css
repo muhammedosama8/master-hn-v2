@@ -7,3 +7,6 @@ body {
 :root{
   --primary-color: #0E3A5D
 }
+.text-primary{
+  color: var(--primary-color) !important;
+}

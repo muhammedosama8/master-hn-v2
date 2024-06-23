@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './style.css'
 import trash from '../../assets/trash.svg'
-import cartImg from '../../assets/cart.svg'
+import cartImg from '../../assets/cartIllustartion.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Badge, Card, CardBody } from 'react-bootstrap'
 import { ShowLogin, decreaseProduct, increaseProduct, removeProduct } from '../../store/actions/AuthActions'

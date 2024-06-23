@@ -17,6 +17,7 @@ import './i18n';
 import Contact from './Pages/Contact';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import Checkout from './Pages/Checkout';
 
 function App() {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ function App() {
             <Route path='/cart' element={<Cart />} />
             <Route path='/about-us' element={<AboutUs />} />
             <Route path='/contact' element={<Contact />} />
+            <Route path='/checkout' element={<Checkout />} />
             <Route path='*' element={<Error404 />} />
           </Routes>
         <Footer />
