@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Area from '../../Enums/Area';
+import knet from '../../assets/knet.svg'
+import visa from '../../assets/visa.svg'
 import './style.css'
 
 const Checkout = () =>{
@@ -108,7 +110,8 @@ const Checkout = () =>{
             <div class="col-lg-4">
                 <div class="coupon-code wow fadeInUp">
                     <h5>{t("Coupon Code")}</h5>
-                    <form class="form-coupon" id="checkoutForm" method="POST" action="https://ocs-omniya.com/ar/checkout">
+                    <form class="form-coupon" id="checkoutForm" method="POST">
+                        {/* action="https://ocs-omniya.com/ar/checkout" */}
                         <div class="form-group">
                             <input type="text" class="form-control" name="code_name" id="code_name"
                                 placeholder={t("Please Enter")} />
@@ -126,15 +129,17 @@ const Checkout = () =>{
                             <input class="form-check-input" type="radio" name="payment_type" id="ch-knet"
                                 value="1" />
                             <label class="form-check-label" for="ch-knet">
-                                <img src="https://ocs-omniya.com/shopWebsite/images/knet.svg" alt="" />
-                                {t("KNET")}                                </label>
+                                <img src={knet} alt="" />
+                                {t("KNET")}                                
+                            </label>
                         </div>
                         <div>
                             <input class="form-check-input" type="radio" name="payment_type" id="ch-visa"
                                 value="2" />
                             <label class="form-check-label" for="ch-visa">
-                                <img src="https://ocs-omniya.com/shopWebsite/images/visa-mstrcard.svg" alt="" />
-                                {t("Visa/MasterCard")}                                </label>
+                                <img src={"https://ocs-omniya.com/shopWebsite/images/visa-mstrcard.svg"} alt="visa" />
+                                {t("Visa/MasterCard")}                                
+                            </label>
                         </div>
                     </div>
                 </div>

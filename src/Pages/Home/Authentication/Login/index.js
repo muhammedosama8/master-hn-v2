@@ -29,7 +29,7 @@ const Login = ({setType, path, setModal}) => {
     onValidSubmit={submit}>
         <Row>
             <Col md={12}>
-                <h4>{t("Login Into Your Account")}</h4>
+                <h4 className="title">{t("Login Into Your Account")}</h4>
             </Col>
             <Col md={12}>
                 <AvField

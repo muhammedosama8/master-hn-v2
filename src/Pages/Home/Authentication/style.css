@@ -5,6 +5,27 @@
 .modal.show .modal-dialog{
     margin-top: 2rem;
 }
+.login-form .title,
+.signup-form .title{
+   margin-bottom: 1rem;
+   text-align: center;
+   font-size: 1.8rem;
+   position: relative;
+}
+.login-form .title::after,
+.signup-form .title::after{
+   content: '';
+   width: 13rem;
+   height: 2px;
+   background-color: #000;
+   position: absolute;
+   bottom: 0;
+   left: 50%;
+   transform: translate(-50%, 8px);
+}
+.signup-form .title::after{
+    width: 9rem;
+}
 .login-form,
 .signup-form {
     padding: 2rem 0;
@@ -30,10 +51,11 @@
     color: #000;
     border: none;
 }
+.signup:hover,
+.login:hover{
+    background-color: #dedede;
+    color: #000;
+}
 .signup-btn span {
     margin-left: 1rem;
-}
-.signup-btn:hover{
-    background-color: #dedede!important;
-    color: #000;
 }

@@ -24,7 +24,7 @@ const Signup = ({setType}) => {
     onValidSubmit={submit}>
         <Row>
             <Col md={12}>
-                <h4>{t("Create New Account")}</h4>
+                <h4 className="title">{t("Create New Account")}</h4>
             </Col>
             <Col md={12}>
                 <AvField
