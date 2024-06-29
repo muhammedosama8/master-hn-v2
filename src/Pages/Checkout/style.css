@@ -1,12 +1,8 @@
 .checkout_page{
     margin-top: 12rem;
 }
-.checkout_page input{
-    border: none;
-    margin-top: 6px;
-}
+.checkout_page input,
 .checkout_page select{
-    border: none;
     margin-top: 6px;
 }
 .sec_head {
