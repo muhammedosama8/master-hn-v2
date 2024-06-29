@@ -75,4 +75,6 @@ export const en = {
     "Discount": "Discount",
     "Delivery Charges": "Delivery Charges",
     "Submit Order": "Submit Order",
+    "show some love to your bag": "Show Some Love to your Bag",
+    "Fill your bag with things that make you happy": "Fill your bag with things that make you happy",
 }

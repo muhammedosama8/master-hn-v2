@@ -1,6 +1,8 @@
-import './App.css';
-import Navbar from './Pages/Navbar';
+import { useEffect } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { checkAutoLogin } from './services/AuthService';
+import Navbar from './Pages/Navbar';
 import Home from './Pages/Home'
 import Footer from './Pages/Footer'
 import Categories from './Pages/Categories';
@@ -8,16 +10,14 @@ import AboutUs from './Pages/AboutUs';
 import Products from './Pages/Products';
 import ScrollToTop from './common/ScrollToTop';
 import Product from './Pages/Product';
-import { useEffect } from 'react';
-import { checkAutoLogin } from './services/AuthService';
-import { useDispatch, useSelector } from 'react-redux';
 import Error404 from './common/Error404';
 import Cart from './Pages/Cart';
-import './i18n';
+import Checkout from './Pages/Checkout';
 import Contact from './Pages/Contact';
+import './i18n';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import Checkout from './Pages/Checkout';
+import './App.css';
 
 function App() {
   const navigate = useNavigate();

@@ -75,4 +75,7 @@ export const ar = {
     "Discount": "الخصم",
     "Delivery Charges": "رسوم التوصيل",
     "Submit Order": "ارسال الطلب",
+
+    "show some love to your bag": "أظهر بعض الحب لحقيبتك",
+    "Fill your bag with things that make you happy": "املأ حقيبتك بالأشياء التي تسعدك",
 }
