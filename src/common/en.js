@@ -87,4 +87,6 @@ export const en = {
     "New Password": "New Password",
     "Confirm New Password": "Confirm New Password",
     "This Field is required": "This Field is required",
+    "Amount": "Amount",
+    "Buy it again": "Buy it again",
 }

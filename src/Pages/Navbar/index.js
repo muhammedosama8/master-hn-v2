@@ -55,7 +55,7 @@ const Navbar = () =>{
         </div>
         <div className='col-4 d-flex align-items-center' style={{justifyContent: 'end'}}>
         <Dropdown>
-          <Dropdown.Toggle id="dropdown-basic" className='py-0' style={{background: 'none', border: 'none', paddingRight: '0'}}>
+          <Dropdown.Toggle id="dropdown-basic" className='p-0' style={{background: 'none', border: 'none'}}>
           <img src={translate} alt='translate' width={27} className='mx-1' />
           </Dropdown.Toggle>
           <Dropdown.Menu>

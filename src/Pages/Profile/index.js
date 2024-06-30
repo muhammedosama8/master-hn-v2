@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import UpdateAccount from "./UpdateAccount";
 import ChangePassword from "./ChangePassword";
+import MyOrders from "./MyOrders";
 
 const Profile = () => {
     const {t} = useTranslation()
@@ -44,7 +45,10 @@ const Profile = () => {
                         <span className="mx-4">{auth?.email}</span>
                     </div>
                     <div className="text-center">
-                        <button className="logout" onClick={()=> dispatch(Logout(navigate))}>
+                        <button className="logout" onClick={()=> {
+                            dispatch(Logout(navigate))
+                            navigate('/')
+                        }}>
                             {t("Logout")}
                         </button>
                     </div>
@@ -60,6 +64,7 @@ const Profile = () => {
                         >{t(tab)}</p>
                     })}
                 </div>
+                {selectedTab === "My Orders" && <MyOrders />}
                 {selectedTab === "Update Account" && <UpdateAccount />}
                 {selectedTab === "Change Password" && <ChangePassword />}
             </Col>

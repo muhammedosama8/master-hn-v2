@@ -86,5 +86,7 @@ export const ar = {
     "Change Password": "تغيير كلمة المرور",
     "New Password": "كلمة المرور الجديدة",
     "Confirm New Password": "تأكيد كلمة المرور الجديدة",
-    "This Field is required": "هذه الخانة مطلوبه"
+    "This Field is required": "هذه الخانة مطلوبه",
+    "Amount": "كميه",
+    "Buy it again": "اشتري مره أخري",
 }
