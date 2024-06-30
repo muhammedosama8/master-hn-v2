@@ -14,8 +14,8 @@ const Profile = () => {
     const auth = useSelector(state => state?.user?.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const tabs = ["My Bookings", "Wishlist", "Update Account", "Change Password"]
-    const [selectedTab, setSelectedTab] = useState("My Bookings")
+    const tabs = ["My Orders", "Update Account", "Change Password"]
+    const [selectedTab, setSelectedTab] = useState("My Orders")
 
     return <div className='profile'>
         <Path
