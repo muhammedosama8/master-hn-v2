@@ -43,7 +43,7 @@ const Contact = () => {
                 validate={{
                     required: {
                         value: true,
-                        errorMessage: "This Field is required"
+                        errorMessage: `${t("This Field is required")}`
                     }
                 }}
                 value={formData.name}
@@ -60,7 +60,7 @@ const Contact = () => {
                 validate={{
                     required: {
                         value: true,
-                        errorMessage: "This Field is required"
+                        errorMessage: `${t("This Field is required")}`
                     }
                 }}
                 value={formData.email}
@@ -77,7 +77,7 @@ const Contact = () => {
                 validate={{
                     required: {
                         value: true,
-                        errorMessage: "This Field is required"
+                        errorMessage: `${t("This Field is required")}`
                     }
                 }}
                 value={formData.email}

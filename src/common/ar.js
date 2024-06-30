@@ -75,7 +75,17 @@ export const ar = {
     "Discount": "الخصم",
     "Delivery Charges": "رسوم التوصيل",
     "Submit Order": "ارسال الطلب",
-
     "show some love to your bag": "أظهر بعض الحب لحقيبتك",
     "Fill your bag with things that make you happy": "املأ حقيبتك بالأشياء التي تسعدك",
+    "Profile": "الصفحه الشخصيه",
+    "Logout": "تسجيل الخروج",
+    "My Account": "حسابي",
+    "My Bookings": "حجوزاتي",
+    "Wishlist": "قائمة الرغبات",
+    "Update Account": "تحديث الحساب",
+    "Update": "تحديث",
+    "Change Password": "تغيير كلمة المرور",
+    "New Password": "كلمة المرور الجديدة",
+    "Confirm New Password": "تأكيد كلمة المرور الجديدة",
+    "This Field is required": "هذه الخانة مطلوبه"
 }

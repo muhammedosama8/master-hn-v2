@@ -77,8 +77,11 @@ const Navbar = () =>{
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
+            <Dropdown.Item style={{color: '#000'}} onClick={()=> navigate('/profile')}>
+              {t("Profile")}
+            </Dropdown.Item>
             <Dropdown.Item style={{color: '#000'}} onClick={()=> dispatch(Logout(navigate))}>
-              Logout
+              {t("Logout")}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown> : <button type='button' onClick={()=> dispatch(ShowLogin(true))} className="nav-link p-0">

@@ -41,7 +41,7 @@ const Login = ({setType, path, setModal}) => {
                     validate={{
                         required: {
                             value: true,
-                            errorMessage: "This Field is required"
+                            errorMessage: `${t("This Field is required")}`
                         }
                     }}
                     value={formData.email}
@@ -54,11 +54,11 @@ const Login = ({setType, path, setModal}) => {
                     type='password'
                     placeholder={t("Password")}
                     bsSize="lg"
-                    name='departure_day'
+                    name='password'
                     validate={{
                         required: {
                             value: true,
-                            errorMessage: "This Field is required"
+                            errorMessage: `${t("This Field is required")}`
                         }
                     }}
                     value={formData.password}

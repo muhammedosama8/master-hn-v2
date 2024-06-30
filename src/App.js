@@ -18,6 +18,7 @@ import './i18n';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import './App.css';
+import Profile from './Pages/Profile';
 
 function App() {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ function App() {
             <Route path='/about-us' element={<AboutUs />} />
             <Route path='/contact' element={<Contact />} />
             <Route path='/checkout' element={<Checkout />} />
+            <Route path='/profile' element={<Profile />} />
             <Route path='*' element={<Error404 />} />
           </Routes>
         <Footer />

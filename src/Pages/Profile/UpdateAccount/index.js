@@ -1,32 +1,25 @@
+import { AvField, AvForm } from "availity-reactstrap-validation";
+import { useState } from "react";
+import { Button, Col, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
-import { AvField, AvForm } from "availity-reactstrap-validation"
-import { useState } from "react"
-import { Button, Col, Row } from "react-bootstrap"
-import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
-
-const Signup = ({setType}) => {
+const UpdateAccount = () => {
+    const {t} = useTranslation()
     const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-        name: "",
-        phone: ""
+        name: '',
+        email: '',
+        phone: ''
     })
     const [loading, setLoading] = useState(false)
-    const lang = useSelector(state=> state?.lang?.lang)
-    const {t} = useTranslation()
+    const submit = () => {
 
-    const submit = () => {}
+    }
 
     return <AvForm
-    className='form-horizontal signup-form'
-    style={{direction: lang === 'ar' ? 'rtl' : 'ltr'}}
+    className='form-horizontal'
     onValidSubmit={submit}>
         <Row>
-            <Col md={12}>
-                <h4 className="title">{t("Create New Account")}</h4>
-            </Col>
-            <Col md={12}>
+            <Col md={6}>
                 <AvField
                     label={t("Name")}
                     type='text'
@@ -43,7 +36,7 @@ const Signup = ({setType}) => {
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                 />
             </Col>
-            <Col md={12}>
+            <Col md={6}>
                 <AvField
                     label={t("Email")}
                     type='email'
@@ -60,24 +53,7 @@ const Signup = ({setType}) => {
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                 />
             </Col>
-            <Col md={12}>
-                <AvField
-                    label={t("Password")}
-                    type='password'
-                    placeholder={t("Password")}
-                    bsSize="lg"
-                    name='password'
-                    validate={{
-                        required: {
-                            value: true,
-                            errorMessage: `${t("This Field is required")}`
-                        }
-                    }}
-                    value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
-                />
-            </Col>
-            <Col md={12}>
+            <Col md={6}>
                 <AvField
                     label={t("Phone")}
                     type='number'
@@ -95,13 +71,10 @@ const Signup = ({setType}) => {
                 />
             </Col>
         </Row>
-
-        <Button variant="primary" className="signup-btn" type='submit' disabled={loading}>
-            {t("Sign Up")}
+        <Button variant="primary" className="mt-3" type='submit' disabled={loading}>
+            {t("Update")}
         </Button>
-        <Button variant="secondary" className="login" type='button' onClick={() => setType("login")}>
-            {t("Have Account")} ? <span style={{color: 'var(--primary-color)', textDecoration: 'underline'}}>{t("Login")}</span>
-        </Button>
+           
     </AvForm>
 }
-export default Signup;
+export default UpdateAccount;
