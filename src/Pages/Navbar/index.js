@@ -19,7 +19,6 @@ const Navbar = () =>{
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const auth = useSelector(state => state)
-  const lang = useSelector(state => state.lang?.lang)
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
@@ -55,25 +54,7 @@ const Navbar = () =>{
         </Link>
         </div>
         <div className='col-4 d-flex align-items-center' style={{justifyContent: 'end'}}>
-          <button style={{
-              background: '#fff', 
-              border: '0', 
-              padding: '4px 8px', 
-              borderRadius: '22px',
-              color: '#000'
-            }}
-            onClick={()=> {
-              if(lang === 'en'){
-                changeLanguage('ar')
-              } else {
-                changeLanguage('en')
-              }
-            }}
-          >
-            <img src={translate} alt='translate' width={28} />
-            <span className='mx-2'>{lang === 'en' ? "English" : "اللغه العربيه"}</span>
-          </button>
-        {/* <Dropdown>
+        <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className='py-0' style={{background: 'none', border: 'none', paddingRight: '0'}}>
           <img src={translate} alt='translate' width={28} className='mx-1' style={{marginTop: '3px'}} />
           </Dropdown.Toggle>
@@ -85,7 +66,7 @@ const Navbar = () =>{
               اللغه العربيه
             </Dropdown.Item>
           </Dropdown.Menu>
-        </Dropdown> */}
+        </Dropdown>
           <Link to='/cart' className="nav-link p-0 d-flex position-relative" style={{margin: '0 16px', alignItems: 'center'}}>
             <img src={shoppingBag} alt='shoppingBag' width={28}/>
             {cart > 0 && <p className='cart-num'>{cart}</p>}
