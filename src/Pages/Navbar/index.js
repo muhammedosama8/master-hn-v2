@@ -56,7 +56,7 @@ const Navbar = () =>{
         <div className='col-4 d-flex align-items-center' style={{justifyContent: 'end'}}>
         <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className='py-0' style={{background: 'none', border: 'none', paddingRight: '0'}}>
-          <img src={translate} alt='translate' width={28} className='mx-1' style={{marginTop: '3px'}} />
+          <img src={translate} alt='translate' width={27} className='mx-1' />
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item style={{color: '#000'}} onClick={()=> changeLanguage('en')}>
