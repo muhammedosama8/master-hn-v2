@@ -102,8 +102,8 @@ const Cart = () =>{
                     </Card>
                 </div>
             </div> : <div className='text-center' style={{marginTop: '13rem', marginBottom: '7rem'}}>
-                <div className='m-auto' style={{background: '#dedede', width: '120px', height:'120px', padding: '8px', borderRadius: '50%'}}>
-                    <img src={cartImg} alt='cart' width={100} />
+                <div className='m-auto' style={{background: '#0e3a5d', width: '120px', height:'120px', padding: '8px', borderRadius: '50%'}}>
+                    <img src={cartImg} alt='cart' width={90} />
                 </div>
                 <h3 className='mt-4'>{t("show some love to your bag")}</h3>
                 <h4 className='mt-2'>{t("Fill your bag with things that make you happy")}</h4>
