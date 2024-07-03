@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import banner1 from '../../../assets/banner1.jpeg';
-import banner2 from '../../../assets/banner2.jpeg';
-// import BannerService from '../../services/BannerService';
+import MHBannerService from '../../../services/MHBannerService';
 
 function Header() {
-    const [data, setData] = useState([
-        {image: banner1},
-        {image: banner2},
-    ])
-    // const bannerService = new BannerService()
+    const [data, setData] = useState([])
+    const bannerService = new MHBannerService()
 
-    // useEffect(()=>{
-    //   bannerService?.getList().then(res=>{
-    //     if(res?.status === 200){
-    //       setData(res?.data?.data)
-    //     }
-    //   })
-    // },[])
+    useEffect(()=>{
+      bannerService?.getList().then(res=>{
+        if(res?.status === 200){
+          let data = res?.data?.data?.map(img=> {
+            return {
+              image: img?.image
+            }
+          })
+          setData(data)
+        }
+      })
+    },[])
 
   return (
     <div className='header-home' style={{marginTop: '6.3rem'}}>
@@ -27,7 +27,7 @@ function Header() {
               <img
                 className="d-block w-100"
                 src={item?.image}
-                alt="First slide"
+                alt="slide"
               />
             </Carousel.Item>
           })}

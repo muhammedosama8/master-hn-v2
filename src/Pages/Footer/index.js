@@ -89,7 +89,7 @@ const Footer = () => {
                 </div>
                 <div className="col-md-3 qr">
                     <img src={Qr} alt='Qr' width={150}/>
-                    <div className="mt-3 d-flex justify-content-end">
+                    <div className="mt-3 d-flex">
                         <img src={phone} alt='phone' />
                         <span className="mx-2">{t("Hasan Al Naser")}</span>
                     </div>

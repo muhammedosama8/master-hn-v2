@@ -19,6 +19,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import './App.css';
 import Profile from './Pages/Profile';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const navigate = useNavigate();
@@ -31,6 +33,7 @@ function App() {
 
   return (
     <div className={`App ${lang}`}>
+        <ToastContainer />
         <ScrollToTop />
         <Navbar />
           <Routes>

@@ -56,3 +56,6 @@
 .en .footer .qr{
     text-align: right;
 }
+.footer .qr div{
+    justify-content: end;
+}
