@@ -21,6 +21,9 @@ const  BestSellingProducts = () => {
     })
   },[])
 
+  if(products?.length === 0){
+    return
+  }
   return (<div className='feature-products'>
     <h1> {t("Best Selling Products")}</h1>
     <div className='row mt-3'>
