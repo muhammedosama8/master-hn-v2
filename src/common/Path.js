@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 const Path = ({title, paths}) => {
     const {t} = useTranslation()
-    // console.log('paths: ', paths)
     return <div className="paths">
         {!!title && <h1>{t(title)}</h1>}
         <div>

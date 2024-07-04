@@ -21,6 +21,7 @@ import './App.css';
 import Profile from './Pages/Profile';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import StyleUp from './Pages/StyleUp';
 
 function App() {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ function App() {
             <Route path='/contact' element={<Contact />} />
             <Route path='/checkout' element={<Checkout />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/style-up' element={<StyleUp />} />
             <Route path='*' element={<Error404 />} />
           </Routes>
         <Footer />

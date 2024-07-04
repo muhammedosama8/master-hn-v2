@@ -21,7 +21,6 @@ const Products = () => {
   const {t} = useTranslation()
   
   useEffect(()=> {
-    // console.log(location.state)
     if(location.state?.category){
       setCustomPaths([
         {href: 'categories' , state: location.state.category, name: location.state.category?.name},
