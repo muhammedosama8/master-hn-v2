@@ -5,25 +5,33 @@ import './style.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Path from '../../common/Path';
+import ProductsService from '../../services/ProductsService';
+import { useSelector } from 'react-redux';
 
 const Products = () => {
   const [customPaths, setCustomPaths] = useState([])
-  const [data, setData] = useState([
-    {id: 1, img: categoryImg2, name: 'Products 1', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-    {id: 2, img: categoryImg, name: 'Products 2', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-    {id: 3, img: categoryImg2, name: 'Products 3', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-    {id: 4, img: categoryImg2, name: 'Products 4', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-    {id: 5, img: categoryImg2, name: 'Products 5', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-    {id: 6, img: categoryImg2, name: 'Products 6', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-  ])
+  const [data, setData] = useState([])
   const navigate = useNavigate()
   const location = useLocation()
   const {t} = useTranslation()
-  
+  const lang = useSelector(state => state?.lang?.lang)
+  const productsService = new ProductsService()
+
+  useEffect(()=>{
+    let params = {}
+    if(location.state?.category) params['category_id'] = location.state?.category?.id
+    productsService?.getList(params).then(res=>{
+      if(res?.status === 200){
+        let info = res?.data?.data?.data
+        setData(info)
+      }
+    })
+  },[])
+
   useEffect(()=> {
     if(location.state?.category){
       setCustomPaths([
-        {href: 'categories' , state: location.state.category, name: location.state.category?.name},
+        {href: 'categories' , state: location.state.category, name: lang === 'en' ? location.state.category?.name_en : location.state.category?.name_ar},
         {href: 'products' , state: '', name: t('products')},
       ])
     } else {
@@ -38,22 +46,20 @@ const Products = () => {
       title='products' 
       paths={customPaths} 
     />
-    {/* <div className='position-relative'>
-      <h1>{t("products")}</h1>
-    </div> */}
+
     <div className='row'>
-      {data?.map((product) => {
-        return <div className='col-md-3 mb-4 col-6'  key={product.id} onClick={()=> navigate(`/products/product/${product?.id}`, { state:{ product }})}>
+      {data?.length > 0 ? data?.map((product) => {
+        return <div className='col-md-3 mb-4 col-6'  key={product?.id} onClick={()=> navigate(`/products/product/${product?.id}`, { state:{ product }})}>
           <div className='cate h-100 position-relative'>
-            <img src={product.img} alt={product?.name} className='img w-100 h-100' />
+            <img src={product?.product_images[0]?.url} alt={product?.name_en} className='img w-100 h-100' />
             <div className='desc'>
-              <h4>{product.name}</h4>
-              <p>{product.category}</p>
+              <h4>{lang === 'en' ? product.name_en : product?.name_ar}</h4>
+              <p>{lang === 'en' ? product.category?.name_en : product.category?.name_ar}</p>
               <p>{product.price} KWD</p>
             </div>
           </div>
         </div>
-      })}
+      }) : <h3 className='text-center'>{t("There are No Products")}</h3>}
     </div>
     </div>
   );

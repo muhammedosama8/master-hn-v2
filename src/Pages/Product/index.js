@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import "./style.css"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { addToCart } from "../../store/actions/AuthActions"
 import { useTranslation } from "react-i18next"
 import Path from "../../common/Path"
@@ -13,6 +13,7 @@ const Product = () => {
     const location = useLocation()
     const dispatch = useDispatch()
     const {t} = useTranslation()
+    const lang = useSelector(state => state?.lang?.lang)
     
     useEffect(()=> {
       if(location.state){
@@ -22,10 +23,11 @@ const Product = () => {
         ])
       } else {
         setCustomPaths([
-          {href: 'products' , state: '', name: location?.state?.product?.name},
+          {href: 'products' , state: '', name: lang === 'en' ? location?.state?.product?.name_en : location?.state?.product?.name_ar},
         ])
       }
     }, [])
+
     useEffect(()=>{
         if(location?.state){
             setProduct({...location?.state?.product})
@@ -42,20 +44,20 @@ const Product = () => {
     return <div className="product">
         <div style={{padding: '0 2rem'}}>
             <Path
-                title={product?.name}
+                title={lang==='en' ? product?.name_en : product?.name_ar}
                 paths={customPaths} 
             />
         </div>
         <div className="container">
             <div className="row">
                 <div className="col-md-6 text-center">
-                    <img src={product?.img} alt='product' />
+                    <img src={product?.product_images?.length > 0 ? product?.product_images[0]?.url : ''} alt='product' />
                 </div>
                 <div className="col-md-6">
-                    <h1>{product?.name}</h1>
-                    <h4 className="category">{product?.category}</h4>
+                    <h1>{lang==='en' ? product?.name_en : product?.name_ar}</h1>
+                    <h4 className="category">{lang==='en' ? product?.category?.name_en : product?.category?.name_ar}</h4>
                     <p className="price">{product?.price} KWD</p>
-                    <p className="description">{product?.description}</p>
+                    <p className="description">{lang==='en' ? product?.description_en : product?.description_ar}</p>
                     <div className="d-flex" style={{gap: '22px'}}>
                         <button onClick={()=> addCart()} className="buy">{t("Add To Cart")}</button>
                         <div className="amounts d-flex" style={{alignItems: 'center'}}>
