@@ -29,10 +29,10 @@
   left: 50%;
   color: #ffffff;
   transform: translate(-50%, -50%);
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   border-radius: 5px;
   text-align: center;
-  text-wrap: nowrap;
+  /* text-wrap: nowrap; */
 }
 .categories .cate:hover .desc{
   background-color: var(--primary-color);
@@ -44,12 +44,14 @@
   transition: transform .5s ease-in-out;
 }
 .categories .desc p{
-  font-size: 26px;
+  font-size: 22px;
+  line-height: 1.4;
 }
 .categories .desc a{
   background: none;
   font-size: 16px;
   text-decoration: underline;
+  text-wrap: nowrap;
 }
   /* .categories img {
     max-width: 300px;

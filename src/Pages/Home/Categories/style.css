@@ -1,6 +1,9 @@
 .categories-home{
   padding: 20px;
 }
+.categories-home .swiper-slide{
+  width: auto!important;
+}
 .categories-home .mySwiper{
   direction: ltr;
 }
@@ -14,6 +17,7 @@
     text-decoration: none;
     padding: 16px;
     line-height: 3;
+    text-wrap: nowrap;
 }
 .categories-home .mySwiper .swiper-slide:nth-child(odd) a{
   background-color: var(--primary-color);

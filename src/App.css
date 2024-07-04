@@ -189,3 +189,7 @@ footer p {
 .header-home .carousel-indicators button.active{
   background-color: #888;
 }
+.header-home .carousel-control-next, 
+.header-home .carousel-control-prev{
+  display: none;
+}

@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import categoryImg from '../../../assets/category.jpeg'
 import categoryImg2 from '../../../assets/2.webp'
 import './style.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import CategoriesService from '../../../services/CategoriesService';
+import { useSelector } from 'react-redux';
 
 const ShopByCategory = () => {
-  const [data, setData] = useState([
-    {id: 1, img: categoryImg2, name: 'Category 1'},
-    {id: 2, img: categoryImg, name: 'Category 2'},
-    {id: 3, img: categoryImg2, name: 'Category 3'},
-  ])
+  const [data, setData] = useState([])
   const navigate = useNavigate()
   const {t} = useTranslation()
+  const lang = useSelector(state => state?.lang?.lang)
+  const categoriesService = new CategoriesService()
+
+  useEffect(()=>{
+    categoriesService?.getList().then(res=>{
+      if(res?.status === 200){
+        let info = res?.data?.data?.data?.slice(0,6)
+        setData(info)
+      }
+    })
+  },[])
 
   return (<div className='shop-by-category'>
     <div className='position-relative'>
@@ -20,11 +29,11 @@ const ShopByCategory = () => {
     </div>
     <div className='row'>
       {data?.map((category) => {
-        return <div className='col-md-4 mb-4 col-6' key={category.id} onClick={()=> navigate('/products', { state:{ category }})}>
+        return <div className='col-md-4 mb-4 col-6' key={category?.id} onClick={()=> navigate('/products', { state:{ category }})}>
           <div className='cate h-100 position-relative'>
-            <img src={category.img} alt={category?.name} className='img w-100 h-100' />
+            <img src={category?.image} alt={category?.name} className='img w-100 h-100' />
             <div className='desc'>
-              <p>{category.name}</p>
+              <p>{lang === 'en' ? category?.name_en : category?.name_ar}</p>
               <Link to='/categories'>{t("Explore All")}</Link>
             </div>
           </div>

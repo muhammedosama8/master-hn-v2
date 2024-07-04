@@ -1,34 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import categoryImg from '../../../assets/category.jpeg'
 import categoryImg2 from '../../../assets/2.webp'
 import './style.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import CategoriesService from '../../../services/CategoriesService';
+import { useSelector } from 'react-redux';
 
 const Categories = () => {
-  const [data, setData] = useState([
-    {id: 1, img: categoryImg2, name: 'Category 1'},
-    {id: 2, img: categoryImg, name: 'Category 2'},
-    {id: 3, img: categoryImg2, name: 'Category 3'},
-    {id: 4, img: categoryImg2, name: 'Category 4'},
-    {id: 5, img: categoryImg, name: 'Category 5'},
-    {id: 6, img: categoryImg2, name: 'Category 6'},
-    {id: 7, img: categoryImg2, name: 'Category 7'},
-    {id: 8, img: categoryImg, name: 'Category 8'},
-    {id: 9, img: categoryImg2, name: 'Category 9'},
-    {id: 5, img: categoryImg, name: 'Category 10'},
-    {id: 6, img: categoryImg2, name: 'Category 11'},
-    {id: 7, img: categoryImg2, name: 'Category 12'},
-    {id: 8, img: categoryImg, name: 'Category 13'},
-    {id: 9, img: categoryImg2, name: 'Category 14'},
-  ])
+  const [data, setData] = useState([])
   const navigate = useNavigate()
   const {t} = useTranslation()
+  const lang = useSelector(state => state?.lang?.lang)
+  const categoriesService = new CategoriesService()
+
+  useEffect(()=>{
+    categoriesService?.getList().then(res=>{
+      if(res?.status === 200){
+        let info = res?.data?.data?.data?.map(cat=>{
+          return{
+            ...cat
+          }
+        })
+        setData(info)
+      }
+    })
+  },[])
 
   return (<div className='categories-home'>
     <Swiper
-        slidesPerView={3}
+        slidesPerView={8}
         spaceBetween={10}
         pagination={{
           clickable: true,
@@ -52,7 +54,7 @@ const Categories = () => {
         {data?.map((category,index)=>{
           return <SwiperSlide>
             <Link to='/products' state={category}>
-              {category.name}
+              {lang==='en' ? category.name_en : category?.name_ar}
             </Link>
             </SwiperSlide>
         })}

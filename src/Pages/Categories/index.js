@@ -5,18 +5,24 @@ import './style.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Path from '../../common/Path';
+import CategoriesService from '../../services/CategoriesService';
+import { useSelector } from 'react-redux';
 
 const Categories = () => {
-  const [data, setData] = useState([
-    {id: 1, img: categoryImg2, name: 'Category 1'},
-    {id: 2, img: categoryImg, name: 'Category 2'},
-    {id: 3, img: categoryImg2, name: 'Category 3'},
-    {id: 4, img: categoryImg2, name: 'Category 4'},
-    {id: 5, img: categoryImg2, name: 'Category 5'},
-    {id: 6, img: categoryImg2, name: 'Category 6'},
-  ])
+  const [data, setData] = useState([])
   const navigate = useNavigate()
   const {t} = useTranslation()
+  const lang = useSelector(state => state?.lang?.lang)
+  const categoriesService = new CategoriesService()
+
+  useEffect(()=>{
+    categoriesService?.getList().then(res=>{
+      if(res?.status === 200){
+        let info = res?.data?.data?.data
+        setData(info)
+      }
+    })
+  },[])
 
   return (<div className='categories'>
     <Path 
@@ -25,16 +31,14 @@ const Categories = () => {
         {href: 'categories' , state: '', name: t('categories')},
       ]} 
     />
-    {/* <div className='position-relative'>
-      <h1>{t("categories")}</h1>
-    </div> */}
+
     <div className='row'>
       {data?.map((category) => {
-        return <div className='col-md-3 mb-4 col-6' key={category.id} onClick={()=> navigate('/products', { state:{ category }})}>
+        return <div className='col-md-3 mb-4 col-6' key={category?.id} onClick={()=> navigate('/products', { state:{ category }})}>
           <div className='cate h-100 position-relative'>
-            <img src={category.img} alt={category?.name} className='img w-100 h-100' />
+            <img src={category?.image} alt={category?.name_en} className='img w-100 h-100' />
             <div className='desc'>
-              <p>{category.name}</p>
+              <p>{lang === 'en' ? category.name_en : category?.name_ar}</p>
               <Link to='/'>Explore All</Link>
             </div>
           </div>
