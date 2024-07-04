@@ -20,6 +20,7 @@ const Products = () => {
   useEffect(()=>{
     let params = {}
     if(location.state?.category) params['category_id'] = location.state?.category?.id
+    if(location.state?.bestSeller) params['bestSeller'] = location.state?.bestSeller
     productsService?.getList(params).then(res=>{
       if(res?.status === 200){
         let info = res?.data?.data?.data
@@ -29,6 +30,7 @@ const Products = () => {
   },[])
 
   useEffect(()=> {
+    console.log(location.state)
     if(location.state?.category){
       setCustomPaths([
         {href: 'categories' , state: location.state.category, name: lang === 'en' ? location.state.category?.name_en : location.state.category?.name_ar},

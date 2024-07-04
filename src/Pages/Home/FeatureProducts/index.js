@@ -1,31 +1,36 @@
-import React, { useState } from 'react';
-import categoryImg from '../../../assets/category.jpeg'
-import categoryImg2 from '../../../assets/2.webp'
+import React, { useEffect, useState } from 'react';
 import './style.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import ProductsService from '../../../services/ProductsService';
 
 const FeatureProducts = () => {
-  const [products, setProducts] = useState([
-    {id: 1, img: categoryImg2, name: 'Products 1', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-    {id: 2, img: categoryImg, name: 'Products 2', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-    {id: 3, img: categoryImg2, name: 'Products 3', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-    {id: 4, img: categoryImg2, name: 'Products 4', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-    {id: 5, img: categoryImg2, name: 'Products 5', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-    {id: 6, img: categoryImg2, name: 'Products 6', category: "Category", price: 50, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
-  ])
+  const [products, setProducts] = useState([])
   const navigate = useNavigate()
   const {t} = useTranslation()
+
+  const lang = useSelector(state => state?.lang?.lang)
+  const productsService = new ProductsService()
+
+  useEffect(()=>{
+    productsService?.getList().then(res=>{
+      if(res?.status === 200){
+        let info = res?.data?.data?.data?.slice(0,6)
+        setProducts(info)
+      }
+    })
+  },[])
 
   return (<div className='feature-products'>
     <h1>{t("Feature Products")}</h1>
     <div className='row mt-3'>
       {products?.map((product) => {
-        return <div className='col-md-4 mb-4 col-6' key={product.id} onClick={()=> navigate(`/products/product/${product.id}`, { state:{ product }})}>
+        return <div className='col-md-4 mb-4 col-6' key={product?.id} onClick={()=> navigate(`/products/product/${product.id}`, { state:{ product }})}>
           <div className='cate h-100 position-relative'>
-            <img src={product.img} alt={product?.name} className='img w-100 h-100' />
+            <img src={product?.product_images[0]?.url} alt={product?.name_en} className='img w-100 h-100' />
             <div className='desc'>
-              <p>{product.name}</p>
+              <p>{lang === 'en' ? product.name_en : product?.name_ar}</p>
               <Link to='/'>{t("Explore")}</Link>
             </div>
           </div>
@@ -33,7 +38,7 @@ const FeatureProducts = () => {
       })}
     </div>
     <div className='text-center mt-5'>
-        <Link to='/' className='viewAll'>{t("View All")}</Link>
+        <Link to='/products' className='viewAll'>{t("View All")}</Link>
       </div>
     </div>
   );
