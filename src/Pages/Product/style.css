@@ -33,6 +33,7 @@
     background: var(--primary-color);
     padding-left: 2rem;
     padding-right: 2rem;
+    border-radius: 8px;
 }
 .product .amounts span{
     font-size: 22px;

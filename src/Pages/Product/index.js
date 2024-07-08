@@ -13,6 +13,7 @@ import ProductsService from "../../services/ProductsService"
 
 const Product = () => {
     const [product, setProduct] = useState({})
+    const [totalPrice, setTotalPrice] = useState(0)
     const [amount, setAmount] = useState(1)
     const [selectedImage, setSelectedImage] = useState('')
     const [dynamicVariants, setDynamicVariants] = useState([])
@@ -32,13 +33,20 @@ const Product = () => {
             let id = location?.state?.product?.id
             productsService.getDynamicVariants(id).then(res => {
                 if(res?.status === 200){
-                    setDynamicVariants(res?.data?.data)
+                    let data = res?.data?.data?.map(item=>{
+                        return{
+                            ...item,
+                            amount: 0
+                        }
+                    })
+                    setDynamicVariants(data)
                 }
             }).catch((e)=> console.log(e))
             productsService.getProdust(id)?.then(res=>{
                 if(res?.status === 200){
                     setProduct(res?.data?.data?.product)
                     setSelectedImage(res?.data?.data?.product.product_images[0]?.url)
+                    setTotalPrice(prev => prev+res?.data?.data?.product?.price)
                     if(res?.data?.data?.variant?.length > 0) {
                         setVariants(res?.data?.data?.variant)
                         let ids = res?.data?.data?.variant?.map( variant => variant?.variant_values?.find(val => val?.isSelected).id )
@@ -115,8 +123,8 @@ const Product = () => {
                     </div>
                 </div>
                 <div className="col-md-6">
-                    <h1>{lang==='en' ? product?.name_en : product?.name_ar}</h1>
                     <h4 className="category">{lang==='en' ? product?.category?.name_en : product?.category?.name_ar}</h4>
+                    <h1>{lang==='en' ? product?.name_en : product?.name_ar}</h1>
                     <p className="price">{product?.price} {t("KWD")}</p>
                     {variants?.map((variant, index)=> {
                         return <div className="variant mb-3" key={index}>
@@ -178,11 +186,63 @@ const Product = () => {
                             </div>
                         </div>
                     })}
-                    <p className="description">{lang==='en' ? product?.description_en : product?.description_ar}</p>
+                    {console.log(dynamicVariants)}
+                    {dynamicVariants?.length > 0 && dynamicVariants?.map((dyVar, index)=>{
+                        return <div key={index} className="d-flex justify-content-between align-items-center mb-3">
+                            <p className="m-0">{lang === 'en' ? dyVar?.name_en : dyVar?.name_ar} 
+                                <span className="mx-2" style={{color: 'var(--primary-color)'}}>({dyVar?.price} {t('KWD')})</span>
+                            </p>
+                            <div className="amounts d-flex" style={{alignItems: 'center'}}>
+                            <button 
+                                disabled={dyVar?.amount === dyVar?.available_amount}
+                                style={{
+                                    cursor: dyVar?.amount === dyVar?.available_amount ? 'not-allowed' : 'pointer',
+                                    padding: '5px 8px', lineHeight: '1'
+                                }}
+                                onClick={()=> {
+                                    let update = dynamicVariants?.map((dyV, ind)=>{
+                                        if(index === ind){
+                                            return{
+                                                ...dyV,
+                                                amount: dyV?.amount+1
+                                            }
+                                        } else{
+                                            return dyV
+                                        }
+                                    })
+                                    setDynamicVariants(update)
+                                }}
+                                className="btn btn-outline-secondary" 
+                            >+</button>
+                            <span style={{margin: '0 12px',fontSize: '19px'}}>{dyVar?.amount}</span>
+                            <button
+                                style={{
+                                    padding: '5px 8px', lineHeight: '1'
+                                }}
+                                onClick={()=> {
+                                    let update = dynamicVariants?.map((dyV, ind)=>{
+                                        if(index === ind){
+                                            return{
+                                                ...dyV,
+                                                amount: dyV?.amount-1
+                                            }
+                                        } else{
+                                            return dyV
+                                        }
+                                    })
+                                    setDynamicVariants(update)
+                                }}
+                                className="btn btn-outline-secondary" 
+                                disabled={dyVar?.amount === 0}
+                            >-</button>
+                        </div>
+                        </div>
+                    })}
+                    <p className="description mt-4">{lang==='en' ? product?.description_en : product?.description_ar}</p>
                     <div className="d-flex" style={{gap: '22px'}}>
                         {loader ? 
                         <div className='d-flex justify-content-center' style={{width: '167px'}}><Loader /></div> : 
-                        <button onClick={()=> addCart()} className="buy">{t("Add To Cart")}</button>}
+                        <button onClick={()=> addCart()} className="buy">{t("Add To Cart") }</button>}
 
                         <div className="amounts d-flex" style={{alignItems: 'center'}}>
                             <button 
