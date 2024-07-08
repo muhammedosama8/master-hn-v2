@@ -82,3 +82,21 @@
     text-decoration: none;
     margin-top: 12px;
   }
+  @media only screen and (max-width: 500px) {
+    .shop-by-category {
+      padding: 1rem;
+    }
+    .shop-by-category h4 {
+      font-size: 22px;
+    }
+    .shop-by-category h4::before,
+    .shop-by-category h4::after{
+      content: '';
+    }
+    .shop-by-category .desc p {
+      font-size: 16px;
+    }
+    .shop-by-category .cate .desc {
+      padding: 1rem 6px;
+    }
+  }

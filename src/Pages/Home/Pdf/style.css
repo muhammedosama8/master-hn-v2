@@ -32,3 +32,24 @@
     background-color: #fff;
     border-radius: 8px;
 }
+@media only screen and (max-width: 500px) {
+    .pdf {
+        margin: 3rem 0;
+    }
+    .pdf .custom-div {
+        padding: 1rem !important;
+    }
+    .pdf h1{
+        font-size: 22px;
+    }
+    .pdf h1::after {
+        content: '';
+    }
+    .pdf img {
+        width: 80px;
+    }
+    .pdf button{
+        padding: 8px;
+        font-size: 14px;
+    }
+}

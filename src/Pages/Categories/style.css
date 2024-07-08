@@ -66,3 +66,19 @@
     text-decoration: none;
     margin-top: 12px;
   }
+  @media only screen and (max-width: 500px) {
+    .categories {
+      padding: 1rem;
+      margin-top: 7rem;
+    }
+    .categories .cate .desc {
+      padding: 1rem 8px;
+    }
+    .categories .desc p {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+    .categories .desc a {
+      font-size: 14px;
+    }
+  }

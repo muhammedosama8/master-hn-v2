@@ -16,6 +16,7 @@ const Cart = () =>{
     const dispatch = useDispatch()
     const {t} = useTranslation()
     const user = useSelector(state => state?.user)
+    const lang = useSelector(state => state?.lang?.lang)
     const cart = useSelector(state => state?.user?.cart)
 
     useEffect(()=>{
@@ -34,17 +35,17 @@ const Cart = () =>{
                     <Card style={{border: 'none'}}>
                         <CardBody>
                             {cartProducts?.map(product => {
-                            return <div key={product.id} className='product-cart'>
+                            return <div key={product?.id} className='product-cart'>
                                     <div className='row align-items-center'>
-                                        <div className='col-md-8 d-flex' style={{gap: '16px'}}>
-                                            <img src={product.img} alt='img' width={90} height={90} />
+                                        <div className='col-md-8 col-12 d-flex' style={{gap: '16px'}}>
+                                            <img src={product.product_images[0]?.url} alt='img' width={90} height={90} />
                                             <div>
-                                                <h4>{product?.name}</h4>
-                                                <Badge className='mb-2' variant="primary">{product?.category}</Badge>
+                                                <h4>{lang === 'en' ? product?.name_en : product?.name_ar}</h4>
+                                                <Badge className='mb-2' variant="primary">{lang === 'en' ? product?.category?.name_en : product?.category?.name_ar}</Badge>
                                                 <h5 className='mb-0'>{product?.amount} * {product?.price}</h5>
                                             </div>
                                         </div>
-                                        <div className='col-md-3'>
+                                        <div className='col-md-3 col-9'>
                                             <div>
                                                 <button className='prod-btn' onClick={()=> dispatch(increaseProduct(product))}>
                                                     +
@@ -60,7 +61,7 @@ const Cart = () =>{
                                                 </button>
                                             </div>
                                         </div>
-                                        <div className='col-md-1'>
+                                        <div className='col-md-1 col-3'>
                                             <div>
                                                 <button className='trash' onClick={()=> dispatch(removeProduct(product))}>
                                                 <img src={trash} alt='trash' />

@@ -89,5 +89,6 @@ export const en = {
     "This Field is required": "This Field is required",
     "Amount": "Amount",
     "Buy it again": "Buy it again",
-    "There are No Products": "There are No Products"
+    "There are No Products": "There are No Products",
+    "Product Added To Cart": "Product Added To Cart"
 }

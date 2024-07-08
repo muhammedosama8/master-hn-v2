@@ -29,3 +29,20 @@
   padding: 9px 22px;
   border-radius: 8px;
 }
+@media only screen and (max-width: 500px) {
+  .banner {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .banner h1 {
+    margin-bottom: 2rem;
+    font-size: 22px;
+  }
+  .banner h1::after{
+    content: '';
+  }
+  .banner img {
+    margin-bottom: 2rem;
+  }
+  
+}

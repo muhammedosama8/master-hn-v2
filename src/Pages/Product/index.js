@@ -1,67 +1,193 @@
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper/modules';
 import "./style.css"
 import { useDispatch, useSelector } from "react-redux"
 import { addToCart } from "../../store/actions/AuthActions"
 import { useTranslation } from "react-i18next"
 import Path from "../../common/Path"
+import Loader from "../../common/Loader"
+import { toast } from "react-toastify"
+import ProductsService from "../../services/ProductsService"
 
 const Product = () => {
     const [product, setProduct] = useState({})
     const [amount, setAmount] = useState(1)
-    const [customPaths, setCustomPaths] = useState([])
+    const [selectedImage, setSelectedImage] = useState('')
+    const [dynamicVariants, setDynamicVariants] = useState([])
+    const [variants, setVariants] = useState([])
+    const [variantsIds, setVariantsIds] = useState([])
     const location = useLocation()
     const dispatch = useDispatch()
     const {t} = useTranslation()
+    const [loader, setLoader] = useState(false)
+    const [custom, setCustom] = useState(false)
+    const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state => state?.lang?.lang)
-    
-    useEffect(()=> {
-      if(location.state){
-        setCustomPaths([
-        //   {href: 'categories' , state: location.state?.category, name: location.state.category?.name},
-          {href: 'products' , state: '', name: location?.state?.product?.name},
-        ])
-      } else {
-        setCustomPaths([
-          {href: 'products' , state: '', name: lang === 'en' ? location?.state?.product?.name_en : location?.state?.product?.name_ar},
-        ])
-      }
-    }, [])
+    const productsService = new ProductsService()
 
     useEffect(()=>{
         if(location?.state){
-            setProduct({...location?.state?.product})
+            let id = location?.state?.product?.id
+            productsService.getDynamicVariants(id).then(res => {
+                if(res?.status === 200){
+                    setDynamicVariants(res?.data?.data)
+                }
+            }).catch((e)=> console.log(e))
+            productsService.getProdust(id)?.then(res=>{
+                if(res?.status === 200){
+                    setProduct(res?.data?.data?.product)
+                    setSelectedImage(res?.data?.data?.product.product_images[0]?.url)
+                    if(res?.data?.data?.variant?.length > 0) {
+                        setVariants(res?.data?.data?.variant)
+                        let ids = res?.data?.data?.variant?.map( variant => variant?.variant_values?.find(val => val?.isSelected).id )
+                        setVariantsIds(ids)
+                    }
+                }
+            })
         }
     },[location])
 
+    useEffect(()=>{
+        if(custom){
+            productsService.changeProduct(product?.code, variantsIds.map(id => `variant_value_ids=${id}`).join('&'))?.then(res=>{
+                if(res?.status === 200){
+                    setProduct(res?.data?.data?.product)
+                    setSelectedImage(res?.data?.data?.product.product_images[0]?.url)
+                    if(res?.data?.data?.variant?.length > 0) {
+                        setVariants(res?.data?.data?.variant)
+                        let ids = res?.data?.data?.variant?.map( variant => variant?.variant_values?.find(val => val?.isSelected).id )
+                        setVariantsIds(ids)
+                    }
+                }
+            })
+        }
+    },[shouldUpdate])
+
     const addCart = () => {
+        setLoader(true)
         dispatch(addToCart({
             ...product,
             amount: amount
         }))
+        toast.success(t("Product Added To Cart"))
+        setTimeout(()=> setLoader(false),1000)
     }
 
     return <div className="product">
         <div style={{padding: '0 2rem'}}>
             <Path
                 title={lang==='en' ? product?.name_en : product?.name_ar}
-                paths={customPaths} 
+                paths={[
+                    {href: 'categories' , state: product?.category, name: lang === 'en' ? product.category?.name_en : product.category?.name_ar},
+                    {href: 'products' , state: '', name: lang === 'en' ? product?.name_en : product?.name_ar},
+                ]} 
             />
         </div>
         <div className="container">
             <div className="row">
                 <div className="col-md-6 text-center">
-                    <img src={product?.product_images?.length > 0 ? product?.product_images[0]?.url : ''} alt='product' />
+                    <img src={selectedImage} alt='product' className="w-75 main-img" />
+                    <div className="px-5">
+                    <Swiper
+                        slidesPerView={4}
+                        spaceBetween={5}
+                        pagination={{
+                        clickable: true,
+                        }}
+                        // navigation={true}
+                        className="mySwiper mt-4 d-flex flex-column"
+                        style={{direction: 'ltr'}}
+                        modules={[Pagination]}
+                    >
+                        {product?.product_images?.map((img,index)=>{
+                            return <SwiperSlide style={{height: 'auto'}} key={index}>
+                                <img
+                                    className="w-75 h-100"  
+                                    src={img?.url} 
+                                    alt={index} 
+                                    onClick={()=> setSelectedImage(img?.url)}
+                                />
+                            </SwiperSlide>
+                        })}
+                    </Swiper>
+                    </div>
                 </div>
                 <div className="col-md-6">
                     <h1>{lang==='en' ? product?.name_en : product?.name_ar}</h1>
                     <h4 className="category">{lang==='en' ? product?.category?.name_en : product?.category?.name_ar}</h4>
-                    <p className="price">{product?.price} KWD</p>
+                    <p className="price">{product?.price} {t("KWD")}</p>
+                    {variants?.map((variant, index)=> {
+                        return <div className="variant mb-3" key={index}>
+                            <p className="mb-1">{lang==='en' ? variant?.name_en : variant?.name_ar}</p>
+                            <div className="variant-values d-flex" style={{gap: '40px'}}>
+                                {variant?.variant_values?.map((val, ind)=> {
+                                    if(val?.value_ar === 'اللون'){
+                                        return <div className="value position-relative mb-4" key={ind}>
+                                                <span 
+                                                    onClick={()=> {
+                                                        setCustom(true)
+                                                        setShouldUpdate(prev => !prev)
+                                                        let update = variantsIds?.map((id, i) => {
+                                                            if(i === index){
+                                                                return val?.id
+                                                            } else {
+                                                                return id
+                                                            }
+                                                        })
+                                                        setVariantsIds(update)
+                                                    }}
+                                                    style={{
+                                                    position: 'absolute', cursor: 'pointer',
+                                                    width: '30px', height: '30px',
+                                                    border: '1px solid #dedede',
+                                                    backgroundColor: val?.value_en
+                                                    }}
+                                                >
+                                                    {val?.isSelected && <span style={{
+                                                    position: 'absolute', borderRadius: '50%',
+                                                    width: '15px', height: '15px',
+                                                    border: '2px solid #dedede',
+                                                    backgroundColor: '#fff',
+                                                    top: '50%',  left: '50%',
+                                                    transform: 'translate(-50%, -50%)'
+                                                }}></span>}
+                                                </span>
+                                        </div>
+                                    } else {
+                                        return <div className="value" key={ind}>
+                                            <label>
+                                                <input type="radio" checked={val?.isSelected} onChange={()=> {
+                                                    setCustom(true)
+                                                    setShouldUpdate(prev => !prev)
+                                                    let update = variantsIds?.map((id, i) => {
+                                                        if(i === ind){
+                                                            return val?.id
+                                                        } else {
+                                                            return id
+                                                        }
+                                                    })
+                                                    setVariantsIds(update)
+                                                }} className="mx-2"/>
+                                                {lang==='en' ? val?.value_en : val?.value_ar}
+                                            </label>
+                                        </div>
+                                    }
+                                })}
+                            </div>
+                        </div>
+                    })}
                     <p className="description">{lang==='en' ? product?.description_en : product?.description_ar}</p>
                     <div className="d-flex" style={{gap: '22px'}}>
-                        <button onClick={()=> addCart()} className="buy">{t("Add To Cart")}</button>
+                        {loader ? 
+                        <div className='d-flex justify-content-center' style={{width: '167px'}}><Loader /></div> : 
+                        <button onClick={()=> addCart()} className="buy">{t("Add To Cart")}</button>}
+
                         <div className="amounts d-flex" style={{alignItems: 'center'}}>
                             <button 
+                                disabled={product?.amount === amount}
+                                style={{cursor: product?.amount === amount ? 'not-allowed' : 'pointer'}}
                                 onClick={()=> setAmount(prev => ++prev)}
                                 className="btn btn-outline-secondary" 
                             >+</button>

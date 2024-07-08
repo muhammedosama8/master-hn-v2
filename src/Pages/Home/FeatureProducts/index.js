@@ -4,27 +4,33 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import ProductsService from '../../../services/ProductsService';
+import Loader from '../../../common/Loader';
 
 const FeatureProducts = () => {
   const [products, setProducts] = useState([])
   const navigate = useNavigate()
+  const [loader, setLoader] = useState(false)
   const {t} = useTranslation()
 
   const lang = useSelector(state => state?.lang?.lang)
   const productsService = new ProductsService()
 
   useEffect(()=>{
+    setLoader(true)
     productsService?.getList().then(res=>{
       if(res?.status === 200){
         let info = res?.data?.data?.data?.slice(0,6)
         setProducts(info)
       }
-    })
+      setLoader(false)
+    }).catch(()=> setLoader(false))
   },[])
 
   return (<div className='feature-products'>
     <h1>{t("Feature Products")}</h1>
-    <div className='row mt-3'>
+    {loader ? <div className='d-flex justify-content-center py-5'>
+        <Loader />
+      </div> : <div className='row mt-3'>
       {products?.map((product) => {
         return <div className='col-md-4 mb-4 col-6' key={product?.id} onClick={()=> navigate(`/products/product/${product.id}`, { state:{ product }})}>
           <div className='cate h-100 position-relative'>
@@ -36,7 +42,7 @@ const FeatureProducts = () => {
           </div>
         </div>
       })}
-    </div>
+    </div>}
     <div className='text-center mt-5'>
         <Link to='/products' className='viewAll'>{t("View All")}</Link>
       </div>

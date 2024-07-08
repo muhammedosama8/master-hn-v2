@@ -78,3 +78,16 @@
     font-size: 16px;
     color: #ffffff;
   }
+  @media only screen and (max-width: 500px) {
+    .feature-products {
+      margin-top: 1rem !important;
+      padding: 1rem;
+    }
+    .feature-products h1 {
+      margin-bottom: 1rem;
+      font-size: 24px;
+    }
+    .feature-products h1::after {
+      content: '';
+    }
+  }

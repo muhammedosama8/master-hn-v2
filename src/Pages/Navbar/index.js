@@ -33,7 +33,12 @@ const Navbar = () =>{
   return <div>
     <nav className="navbar navbar-expand-lg">
       <div className='row w-100 m-auto' style={{alignItems: 'center'}}>
-        <div className='col-5'>
+        <div className='col-12 nav-mobile-logo mb-3' style={{textAlign: 'center'}}>
+          <Link to='/' className="navbar-brand logo m-0 p-0" >
+            <img src={logo} alt='logo' width={150} />
+          </Link>
+        </div>
+        <div className='col-md-5 col-6'>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -48,12 +53,12 @@ const Navbar = () =>{
             {/* <h2>{t('welcome')}</h2> */}
           </div>
         </div>
-        <div className='col-3' style={{textAlign: 'center'}}>
+        <div className='col-md-3 col-5 nav-logo' style={{textAlign: 'center'}}>
           <Link to='/' className="navbar-brand logo m-0 p-0" >
           <img src={logo} alt='logo' width={150} />
         </Link>
         </div>
-        <div className='col-4 d-flex align-items-center' style={{justifyContent: 'end'}}>
+        <div className='col-md-4 col-6 d-flex align-items-center' style={{justifyContent: 'end'}}>
         <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className='p-0' style={{background: 'none', border: 'none'}}>
           <img src={translate} alt='translate' width={27} className='mx-1' />

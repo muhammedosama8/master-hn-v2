@@ -89,5 +89,6 @@ export const ar = {
     "This Field is required": "هذه الخانة مطلوبه",
     "Amount": "كميه",
     "Buy it again": "اشتري مره أخري",
-    "There are No Products": "لا يوجد منتجات"
+    "There are No Products": "لا يوجد منتجات",
+    "Product Added To Cart": "تم إضافة المنتج إلى سلة التسوق",
 }

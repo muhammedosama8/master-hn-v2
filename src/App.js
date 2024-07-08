@@ -17,6 +17,7 @@ import Contact from './Pages/Contact';
 import './i18n';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 import './App.css';
 import Profile from './Pages/Profile';
 import { ToastContainer } from "react-toastify";

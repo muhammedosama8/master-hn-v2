@@ -17,3 +17,9 @@
   top: -5px;
   rotate: 20deg;
 } */
+@media only screen and (max-width: 500px) {
+  .aboutUs {
+    padding: 1rem;
+    margin-top: 7rem;
+  }
+}

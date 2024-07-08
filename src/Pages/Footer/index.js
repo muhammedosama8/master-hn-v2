@@ -30,7 +30,7 @@ const Footer = () => {
             borderRadius: '16px 16px 0 0'
         }}>
             <div className="row">
-                <div className="col-md-3">
+                <div className="col-md-3 col-12">
                     <img src={logo} alt='logo' width={150} />
                     <h4 className="mt-4">{t("quick_links")}</h4>
                     <div className="links">
@@ -41,7 +41,7 @@ const Footer = () => {
                         <NavLink to='/contact' className={({ isActive }) => isActive ? "active" : ""} aria-current="page">{t("contact")}</NavLink>
                     </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 col-12">
                     <div className="social h-100 d-flex flex-column  justify-content-between">
                             <div className="text-center">
                                 <div className="visa">
@@ -87,8 +87,8 @@ const Footer = () => {
                             </div>
                     </div>
                 </div>
-                <div className="col-md-3 qr">
-                    <img src={Qr} alt='Qr' width={150}/>
+                <div className="col-md-3 col-12 qr">
+                    <img src={Qr} alt='Qr' className="qr-img" width={150}/>
                     <div className="mt-3 d-flex">
                         <img src={phone} alt='phone' />
                         <span className="mx-2">{t("Hasan Al Naser")}</span>
