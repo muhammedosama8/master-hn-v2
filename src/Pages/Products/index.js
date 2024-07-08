@@ -21,6 +21,7 @@ const Products = () => {
   const [loader, setLoader] = useState(false)
 
   useEffect(()=>{
+    console.log(location)
     let params = {}
     if(location.state?.category) params['category_id'] = location.state?.category?.id
     if(location.state?.bestSeller) params['bestSeller'] = location.state?.bestSeller
@@ -32,7 +33,7 @@ const Products = () => {
       }
       setLoader(false)
     }).catch(()=> setLoader(false))
-  },[])
+  },[location])
 
   useEffect(()=>{
     let productDiv = document.getElementsByName('product')[0]?.clientWidth
