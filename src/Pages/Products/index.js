@@ -51,7 +51,7 @@ const Products = () => {
         {href: 'products' , state: '', name: t('products')},
       ])
     }
-  }, [lang])
+  }, [location,lang])
 
   return (<div className='products'>
     <Path 
