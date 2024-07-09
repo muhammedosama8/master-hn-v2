@@ -32,8 +32,8 @@ const FeatureProducts = () => {
         <Loader />
       </div> : <div className='row mt-3'>
       {products?.map((product) => {
-        return <div className='col-md-4 mb-4 col-6' key={product?.id} onClick={()=> navigate(`/products/product/${product.id}`, { state:{ product }})}>
-          <div className='cate h-100 position-relative'>
+        return <div className='col-md-4 mb-4 col-6' key={product?.id}>
+          <div className='cate h-100 position-relative' onClick={()=> navigate(`/products/product/${product.id}`, { state:{ product }})}>
             <img src={product?.product_images[0]?.url} alt={product?.name_en} className='img w-100 h-100' />
             <div className='desc'>
               <p>{lang === 'en' ? product.name_en : product?.name_ar}</p>

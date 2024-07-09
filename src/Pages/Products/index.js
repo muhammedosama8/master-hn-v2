@@ -65,8 +65,8 @@ const Products = () => {
       </div> : data?.length > 0 ? data?.map((product, index) => {
         return <div className='col-md-3 mb-4 col-6' 
         style={{ height: `${document.getElementsByName('product')[0]?.clientWidth}px` }} 
-        name='product' key={product?.id} onClick={()=> navigate(`/products/product/${product?.id}`, { state:{ product }})}>
-          <div className='cate h-100 position-relative'>
+        name='product' key={product?.id}>
+          <div className='cate h-100 position-relative' onClick={()=> navigate(`/products/product/${product?.id}`, { state:{ product }})}>
             <img src={product?.product_images[0]?.url} alt={product?.name_en} className='img w-100 h-100' />
             <div className='desc'>
               <h4>{lang === 'en' ? product.name_en : product?.name_ar}</h4>
