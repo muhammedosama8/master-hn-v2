@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 const Area = () =>{
     const {t} = useTranslation()
-    return <select class="form-control form-select" name="area_id" id="guest_area_id" required>
+    return <select className="form-control form-select" name="area_id" id="guest_area_id" required>
     <option value="">{t("Please Select")}</option>
     <option value="162">الاندلس</option>
                                                                 <option value="163">الرابيه</option>
