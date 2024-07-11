@@ -1,5 +1,6 @@
+import { toast } from 'react-toastify';
 import {
-    formatError,
+    login,
     saveTokenInLocalStorage,
     signUp,
 } from '../../services/AuthService';
@@ -9,6 +10,8 @@ export const SIGNUP_CONFIRMED_ACTION = '[signup action] confirmed signup';
 export const SIGNUP_FAILED_ACTION = '[signup action] failed signup';
 export const LOGIN_CONFIRMED_ACTION = '[login action] confirmed login';
 export const LOGIN = 'login';
+export const UPDATE_DATA_ACTION = 'update data';
+export const CHANGE_AVATAR_ACTION = 'change avatar';
 export const SHOWLOGIN = 'show login';
 export const CART = 'cart';
 export const REMOVE = 'remove';
@@ -18,77 +21,72 @@ export const LOGIN_FAILED_ACTION = '[login action] failed login';
 export const LOADING_TOGGLE_ACTION = '[Loading action] toggle loading';
 export const LOGOUT_ACTION = '[Logout action] logout action';
 
-export function signupAction(email, password, navigate) {
+export function signupAction(data, navigate, pathname, setModal, setLoading) {
     return (dispatch) => {
-        signUp(email, password)
-        .then((response) => {
-            saveTokenInLocalStorage(response.data);
-            dispatch(confirmedSignupAction(response.data));
-            navigate('/dashboard');
-        })
-        .catch((error) => {
-            const errorMessage = formatError(error.response.data);
+        setLoading(true)
+        signUp(data).then((response) => {
+            if(response?.status === 200){
+                saveTokenInLocalStorage(response.data);
+                dispatch(confirmedSignupAction(response.data));
+                navigate(pathname);
+                toast.success('Register Successfully.')
+                setModal()
+            }
+            setLoading(false)
+        }).catch((error) => {
+            const errorMessage = error?.response?.data?.message?.replaceAll('_',' ') || error?.response?.data?.message;
             dispatch(signupFailedAction(errorMessage));
+            toast.error(errorMessage)
+            setLoading(false)
         });
     };
 }
 
-export function Logout() {
-	localStorage.removeItem('userDetails');
-	localStorage.removeItem('LeapAdminRules');
-	localStorage.removeItem('adminLang');
-    
-    if(!window.location.pathname.includes('login')) {
-        window.location.href= '/login';
-    }
+export function LogoutFn() {
+	localStorage.removeItem('masterHN');
+    toast.success('Logout Successfully.')
     
 	return {
         type: LOGOUT_ACTION,
     };
 }
 
-export function loginAction(email, password, navigate, path) {
+export function loginAction(data, navigate, path, setModal, setLoading) {
     return (dispatch) => {
-        let data = {
-            email: email,
-            password: password,
-        }
-        dispatch(loginFn({email, password:''}))  
-        saveTokenInLocalStorage(data);
-        dispatch(loadingToggleAction(false))  
-        navigate(path); 
-    }
-    // return (dispatch) => {
-    //      login(email, password).then((response) => {  
-    //             if(response?.status === 200){
-    //                 dispatch(loginFn({email, password:''}))  
-    //                 saveTokenInLocalStorage(response.data);
-    //                 dispatch(loginConfirmedAction(response.data));
-    //                 navigate(path); 
-    //             }  
-    //             dispatch(loadingToggleAction(false))  
-    //         }).catch(error => {
-    //             const errorMessage = formatError(error?.response?.data);
-    //             dispatch(loginFailedAction(errorMessage));
-    //         });
-    // };
+        setLoading(true)
+        login(data).then((response) => {  
+                if(response?.status === 200){
+                    dispatch(loginFn({...data, password:''}))  
+                    saveTokenInLocalStorage(response.data);
+                    dispatch(loginConfirmedAction(response.data));
+                    navigate(path); 
+                    toast.success('Login Successfully.')
+                    dispatch(loadingToggleAction(false))  
+                    setModal(false)
+                }  
+                setLoading(false)
+            }).catch(error => {
+                const errorMessage = error?.response?.data?.message?.replaceAll('_',' ') || error?.response?.data?.message;
+                dispatch(loginFailedAction(errorMessage));
+                toast.error(errorMessage)
+                setLoading(false)
+            });
+    };
 }
-// export function loginVerifiedAction(email, password,code, navigate) {
-//     return (dispatch) => {
-//         loginVerified(email, password, code)
-//             .then((response) => {
-//                 saveTokenInLocalStorage(response.data);
-//                 dispatch(loginConfirmedAction(response.data));  
-//                 dispatch(loginFn({email, password: ''}))  
-//                 dispatch(loadingToggleAction(false))               
-// 				navigate('/dashboard');                
-//             })
-//             .catch((error) => {
-//                 const errorMessage = formatError(error.response.data?.message);
-//                 dispatch(loginFailedAction(errorMessage));
-//             });
-//     };
-// }
+
+export function updateDataAction(data) {
+    return {
+        type: UPDATE_DATA_ACTION,
+        payload: data,
+    };
+}
+
+export function updateAvatarAction(data) {
+    return {
+        type: CHANGE_AVATAR_ACTION,
+        payload: data,
+    };
+}
 
 export function loginFailedAction(data) {
     return {

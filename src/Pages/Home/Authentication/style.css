@@ -59,3 +59,13 @@
 .signup-btn span {
     margin-left: 1rem;
 }
+.forget{
+    background: none;
+    border: none;
+    color: blue;
+    padding: 0;
+    margin-top: 5px;
+}
+.forget:hover{
+    color: rgba(0, 0, 255, 0.57);
+}

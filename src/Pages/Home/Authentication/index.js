@@ -4,12 +4,12 @@ import Login from "./Login";
 import './style.css'
 import Signup from "./Signup";
 
-const Authentication = ({modal, setModal, path}) => {
+const Authentication = ({modal, setModal}) => {
     const [type, setType] = useState("login")
 
     return <Modal className="fade " show={modal} onHide={setModal}>
             <Modal.Body>
-                {type === 'login' ? <Login setType={setType} path={path} setModal={setModal} /> : <Signup setType={setType} path={path} />}
+                {type === 'login' ? <Login setType={setType} setModal={setModal} /> : <Signup setType={setType} setModal={setModal} />}
             </Modal.Body>
     </Modal>
 }

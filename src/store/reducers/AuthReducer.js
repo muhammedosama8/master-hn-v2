@@ -11,6 +11,8 @@ import {
     DECREASE,
     REMOVE,
     SHOWLOGIN,
+    UPDATE_DATA_ACTION,
+    CHANGE_AVATAR_ACTION,
 } from '../actions/AuthActions';
 
 const initialState = {
@@ -107,6 +109,24 @@ export function AuthReducer(state = initialState, action) {
             showLoading: false,
         };
     }
+    if (action.type === UPDATE_DATA_ACTION) {
+        return {
+            ...state,
+            user: {
+                ...state.user,
+                ...action.payload
+            }
+        };
+    }
+    if (action.type === CHANGE_AVATAR_ACTION) {
+        return {
+            ...state,
+            user: {
+                ...state.user,
+                ...action.payload
+            }
+        };
+    }
     if (action.type === SHOWLOGIN) {
         return {
             ...state,
@@ -116,7 +136,8 @@ export function AuthReducer(state = initialState, action) {
     if (action.type === LOGIN_CONFIRMED_ACTION) {
         return {
             ...state,
-            user: action.payload,
+            user: action.payload.user,
+            accessToken: action.payload.accessToken,
             errorMessage: '',
             successMessage: 'Login Successfully Completed',
             showLoading: false,

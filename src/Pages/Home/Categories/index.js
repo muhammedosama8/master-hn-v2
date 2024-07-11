@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import categoryImg from '../../../assets/category.jpeg'
-import categoryImg2 from '../../../assets/2.webp'
 import './style.css'
-import { Link, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import CategoriesService from '../../../services/CategoriesService';
 import { useSelector } from 'react-redux';
@@ -11,8 +8,6 @@ import Loader from '../../../common/Loader';
 
 const Categories = () => {
   const [data, setData] = useState([])
-  const navigate = useNavigate()
-  const {t} = useTranslation()
   const [loader, setLoader] = useState(false)
   const lang = useSelector(state => state?.lang?.lang)
   const categoriesService = new CategoriesService()
@@ -58,8 +53,8 @@ const Categories = () => {
         className="mySwiper"
       >
         {data?.map((category,index)=>{
-          return <SwiperSlide>
-            <Link to='/products' state={category}>
+          return <SwiperSlide key={index}>
+            <Link to='/products' state={{category}}>
               {lang==='en' ? category.name_en : category?.name_ar}
             </Link>
             </SwiperSlide>

@@ -1,6 +1,6 @@
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import shoppingBag from '../../assets/shopping-bag.png'
-import user from '../../assets/user.png'
+import userIcon from '../../assets/user.png'
 import logo from '../../assets/MasterHN-white.svg'
 import translate from '../../assets/translate.svg'
 import './style.css'
@@ -18,7 +18,7 @@ const Navbar = () =>{
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const auth = useSelector(state => state)
+  const user = useSelector(state => state.user)
   const { t, i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
@@ -27,8 +27,8 @@ const Navbar = () =>{
   };
 
   useEffect(()=>{ 
-    setCart(auth.user.cart?.length)
-  },[location, auth])
+    setCart(user.cart?.length)
+  },[location, user])
 
   return <div>
     <nav className="navbar navbar-expand-lg">
@@ -50,7 +50,6 @@ const Navbar = () =>{
               <NavLink to='/about-us' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('about-us')}</NavLink>
               <NavLink to='/contact' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('contact')}</NavLink>
             </div>
-            {/* <h2>{t('welcome')}</h2> */}
           </div>
         </div>
         <div className='col-md-3 col-5 nav-logo' style={{textAlign: 'center'}}>
@@ -76,27 +75,26 @@ const Navbar = () =>{
             <img src={shoppingBag} alt='shoppingBag' width={28}/>
             {cart > 0 && <p className='cart-num'>{cart}</p>}
           </Link>
-          {!!auth.user?.user ?  <Dropdown>
+          {!!user?.user ?  <Dropdown>
           <Dropdown.Toggle id="dropdown-basic" className='p-0' style={{background: 'none', border: 'none', paddingRight: '0'}}>
-            <img src={user} alt='user' width={28}/>
+            <img src={user?.user?.avatar || userIcon} alt='user' height={28} width={28} style={{borderRadius: '50%'}}/>
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
             <Dropdown.Item style={{color: '#000'}} onClick={()=> navigate('/profile')}>
               {t("Profile")}
             </Dropdown.Item>
-            <Dropdown.Item style={{color: '#000'}} onClick={()=> dispatch(Logout(navigate))}>
+            <Dropdown.Item style={{color: '#000'}} onClick={()=> Logout(user?.accessToken, dispatch, navigate, location?.pathname)}>
               {t("Logout")}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown> : <button type='button' onClick={()=> dispatch(ShowLogin(true))} className="nav-link p-0">
-            <img src={user} alt='user' width={28}/>
+            <img src={userIcon} alt='user' width={28}/>
           </button>}
-          {auth?.user?.showLogin && 
+          {user?.showLogin && 
             <Authentication 
-              modal={auth?.user?.showLogin} 
-              setModal={()=> dispatch(ShowLogin(false))} 
-              path={location?.pathname}
+              modal={user?.showLogin} 
+              setModal={()=> dispatch(ShowLogin(false))}
             />
           }
         </div>

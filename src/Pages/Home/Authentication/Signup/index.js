@@ -3,20 +3,28 @@ import { AvField, AvForm } from "availity-reactstrap-validation"
 import { useState } from "react"
 import { Button, Col, Row } from "react-bootstrap"
 import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { signupAction } from "../../../../store/actions/AuthActions"
+import { useLocation, useNavigate } from "react-router-dom"
 
-const Signup = ({setType}) => {
+const Signup = ({setType, setModal}) => {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
-        name: "",
+        username: "",
         phone: ""
     })
     const [loading, setLoading] = useState(false)
     const lang = useSelector(state=> state?.lang?.lang)
     const {t} = useTranslation()
+    const location = useLocation()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const submit = () => {}
+    const submit = () => {
+        let pathname = location?.pathname
+        dispatch(signupAction(formData, navigate, pathname, setModal, setLoading));
+    }
 
     return <AvForm
     className='form-horizontal signup-form'
@@ -32,7 +40,7 @@ const Signup = ({setType}) => {
                     type='text'
                     placeholder={t("Name")}
                     bsSize="lg"
-                    name='name'
+                    name='username'
                     validate={{
                         required: {
                             value: true,
@@ -40,7 +48,7 @@ const Signup = ({setType}) => {
                         }
                     }}
                     value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    onChange={(e) => setFormData({...formData, username: e.target.value})}
                 />
             </Col>
             <Col md={12}>

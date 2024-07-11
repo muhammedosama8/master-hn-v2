@@ -1,17 +1,20 @@
 import { AvField, AvForm } from "availity-reactstrap-validation"
 import { useState } from "react"
 import { Button, Col, Row } from "react-bootstrap"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { loadingToggleAction, loginAction } from "../../../../store/actions/AuthActions"
 import { useDispatch, useSelector } from "react-redux"
 import { useTranslation } from "react-i18next"
+import ForgetPassword from "../ForgetPassword"
 
-const Login = ({setType, path, setModal}) => {
+const Login = ({setType, setModal}) => {
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     })
+    const [forgetPassword, setForgetPassword] = useState(false)
     const [loading, setLoading] = useState(false)
+    const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const lang = useSelector(state=> state?.lang?.lang)
@@ -19,10 +22,10 @@ const Login = ({setType, path, setModal}) => {
 
     const submit = () =>{
         dispatch(loadingToggleAction(true));
-        dispatch(loginAction(formData.email, formData.password, navigate, path));
-        setModal()
+        dispatch(loginAction(formData, navigate, location?.pathname, setModal, setLoading));
     }
 
+    if(!forgetPassword){
     return <AvForm
     className='form-horizontal login-form'
     style={{direction: lang === 'ar' ? 'rtl' : 'ltr'}}
@@ -65,6 +68,9 @@ const Login = ({setType, path, setModal}) => {
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                 />
             </Col>
+            <Col md={12}>
+                <button className="forget" onClick={()=> setForgetPassword(true)}>{t("Forget Password?")}</button>
+            </Col>
         </Row>
         <Button variant="primary" className="login-btn" type='submit' disabled={loading}>
             {t("Login")}
@@ -74,5 +80,8 @@ const Login = ({setType, path, setModal}) => {
         </Button>
            
     </AvForm>
+    } else {
+        return <ForgetPassword setForgetPassword={setForgetPassword} />
+    }
 }
 export default Login

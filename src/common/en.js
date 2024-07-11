@@ -85,10 +85,14 @@ export const en = {
     "Update": "Update",
     "Change Password": "Change Password",
     "New Password": "New Password",
+    "Old Password": "Old Password",
     "Confirm New Password": "Confirm New Password",
     "This Field is required": "This Field is required",
     "Amount": "Amount",
     "Buy it again": "Buy it again",
     "There are No Products": "There are No Products",
-    "Product Added To Cart": "Product Added To Cart"
+    "Product Added To Cart": "Product Added To Cart",
+    "Forget Password?": "Forget Password?",
+    "Forget Password": "Forget Password",
+    "Back": "Back",
 }
