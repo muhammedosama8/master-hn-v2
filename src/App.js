@@ -28,7 +28,7 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const lang = useSelector(state=> state?.lang?.lang)
-console.log(lang)
+
   useEffect(() => {
     checkAutoLogin(dispatch, navigate);
   }, []);
