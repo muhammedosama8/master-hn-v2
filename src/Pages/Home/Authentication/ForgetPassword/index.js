@@ -45,6 +45,7 @@ const ForgetPassword = ({setForgetPassword}) => {
             if(res?.status === 200){
                 setType('password')
             }
+            setLoading(false)
         }).catch(e => {
             setLoading(false)
             toast.error(e?.response?.data?.message)
@@ -61,6 +62,7 @@ const ForgetPassword = ({setForgetPassword}) => {
                 toast.success('Password Updated Successfully.')
                 setForgetPassword(false)
             }
+            setLoading(false)
         }).catch(e => {
             setLoading(false)
             toast.error(e?.response?.data?.message)
