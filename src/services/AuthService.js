@@ -37,7 +37,7 @@ export function Logout(token, dispatch, navigate, pathname) {
 export function checkAutoLogin(dispatch, navigate) {
     const tokenDetailsString = localStorage.getItem('masterHN');
     const lang = localStorage.getItem('masterHN_Lang')
-    if(!!lang){
+    if(!!lang && lang !== 'null'){
         dispatch(changeLang(lang));
     } else {
         dispatch(changeLang('en'));

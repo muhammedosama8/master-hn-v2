@@ -13,6 +13,7 @@ const ForgetPassword = ({setForgetPassword}) => {
         code: '',
         new_password: ""
     })
+    const [token, setToken] = useState('')
     const [showPassword, setShowPassword] = useState(false)
     const [loading, setLoading] = useState(false)
     const lang = useSelector(state=> state?.lang?.lang)
@@ -44,6 +45,7 @@ const ForgetPassword = ({setForgetPassword}) => {
         userService.verifiedForgetPasswordCode(data).then(res=>{
             if(res?.status === 200){
                 setType('password')
+                setToken(res?.data?.accessToken)
             }
             setLoading(false)
         }).catch(e => {
@@ -57,7 +59,7 @@ const ForgetPassword = ({setForgetPassword}) => {
             new_password: formData.new_password
         }
         setLoading(true)
-        userService.changePasswordForForgetPassword(data).then(res=>{
+        userService.changePasswordForForgetPassword(data, token).then(res=>{
             if(res?.status === 200){
                 toast.success('Password Updated Successfully.')
                 setForgetPassword(false)

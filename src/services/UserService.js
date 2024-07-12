@@ -26,7 +26,8 @@ export default class UserService extends BaseService {
         return http.put(`${apiEndpoint}/verifiedForgetPasswordCode`, data)
     }
 
-    changePasswordForForgetPassword(data){
+    changePasswordForForgetPassword(data, token){
+        http.setJwt(token)
         return http.put(`${apiEndpoint}/changePasswordForForgetPassword`, data)
     }
 
