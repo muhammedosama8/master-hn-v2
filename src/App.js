@@ -23,19 +23,14 @@ import Profile from './Pages/Profile';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import StyleUp from './Pages/StyleUp';
-import { changeLang } from './store/actions/LangActions';
 
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const lang = useSelector(state=> state?.lang?.lang)
-
+console.log(lang)
   useEffect(() => {
     checkAutoLogin(dispatch, navigate);
-
-    if(!lang){
-      dispatch(changeLang('en'))
-    }
   }, []);
 
   return (
