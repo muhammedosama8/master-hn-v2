@@ -69,3 +69,16 @@
 .forget:hover{
     color: rgba(0, 0, 255, 0.57);
 }
+.showPassword{
+    position: absolute;
+    top: 2.6rem;
+    cursor: pointer;
+}
+.en .showPassword{
+    right: 25px;
+    left: auto;
+}
+.ar .showPassword{
+    left: 25px;
+    right: auto;
+}

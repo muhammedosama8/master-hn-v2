@@ -25,7 +25,7 @@ export function signupAction(data, navigate, pathname, setModal, setLoading) {
     return (dispatch) => {
         setLoading(true)
         signUp(data).then((response) => {
-            if(response?.status === 200){
+            if(response?.status === 201){
                 saveTokenInLocalStorage(response.data);
                 dispatch(confirmedSignupAction(response.data));
                 navigate(pathname);
@@ -44,7 +44,6 @@ export function signupAction(data, navigate, pathname, setModal, setLoading) {
 
 export function LogoutFn() {
 	localStorage.removeItem('masterHN');
-    toast.success('Logout Successfully.')
     
 	return {
         type: LOGOUT_ACTION,

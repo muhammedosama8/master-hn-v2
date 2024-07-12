@@ -2,6 +2,7 @@ import axios from 'axios';
 import { API_BASE_URL_ENV } from '../common/common';
 import { LogoutFn, loginConfirmedAction } from '../store/actions/AuthActions';
 import { changeLang } from '../store/actions/LangActions';
+import { toast } from 'react-toastify';
 
 export function login(data) {
     return axios.post(`${API_BASE_URL_ENV()}/users/login`, data);
@@ -25,11 +26,12 @@ export function Logout(token, dispatch, navigate, pathname) {
     axios.post(`${API_BASE_URL_ENV()}/users/logout`).then(res=>{
         if(res.status === 200){
             dispatch(LogoutFn())
+            toast.success('Logout Successfully.')
             if(pathname === '/profile'){
                 navigate('/')
             }
         }
-    })
+    }).catch(()=> dispatch(LogoutFn()))
 }
 
 export function checkAutoLogin(dispatch, navigate) {
@@ -38,6 +40,7 @@ export function checkAutoLogin(dispatch, navigate) {
     dispatch(changeLang(lang));
 
     if (!tokenDetailsString) {
+        dispatch(LogoutFn())
 		return;
     }
     dispatch(loginConfirmedAction(JSON.parse(tokenDetailsString)));

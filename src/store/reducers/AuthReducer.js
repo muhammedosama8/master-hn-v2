@@ -28,7 +28,8 @@ export function AuthReducer(state = initialState, action) {
     if (action.type === SIGNUP_CONFIRMED_ACTION) {
         return {
             ...state,
-            user: action.payload,
+            user: action.payload.user,
+            accessToken: action.payload.accessToken,
             errorMessage: '',
             successMessage: 'Signup Successfully Completed',
             showLoading: false,
