@@ -13,17 +13,28 @@ import mastercard from '../../assets/mastercard.svg'
 import visa from '../../assets/visa.svg'
 import './style.css'
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import MHSocialMediaService from "../../services/MHSocialMediaService";
 
 const Footer = () => {
-    const data = {
+    const [data, setData] = useState({
         facebook: '',
         instagram: '',
         twitter: '',
         youtube: '',
-        snap: '',
+        snapchat: '',
 
-    }
+    })
     const {t} = useTranslation()
+    const mHSocialMediaService = new MHSocialMediaService()
+
+    useEffect(()=>{
+        mHSocialMediaService.getList().then(res=>{
+            if(res?.status === 200){
+                setData(res?.data?.data)
+            }
+        })
+    },[])
 
     return <div className="mt-5 footer">
         <div className="custom-div pb-4 pt-5" style={{
@@ -50,24 +61,24 @@ const Footer = () => {
                                     <img src={knet} alt='knet' />
                                 </div>
                                 <div className="icons">
-                                    <a rel="noreferrer" href={data.facebook} target='_blank'>
+                                    {!!data.facebook && <a rel="noreferrer" href={data.facebook} target='_blank'>
                                         <img src={facebook} alt='facebook' />
-                                    </a>
-                                    <a rel="noreferrer" href={data?.instagram} target='_blank'>
+                                    </a>}
+                                    {!!data?.instagram && <a rel="noreferrer" href={data?.instagram} target='_blank'>
                                         <img src={instagram} alt='instagram' />
-                                    </a>
-                                    <a rel="noreferrer" href={data.twitter} target='_blank'>
+                                    </a>}
+                                    {!!data.twitter && <a rel="noreferrer" href={data.twitter} target='_blank'>
                                         <img src={twitter} alt='x' />
-                                    </a>
-                                    <a rel="noreferrer" href={data?.you_tube} target='_blank'>
+                                    </a>}
+                                    {!!data?.you_tube && <a rel="noreferrer" href={data?.you_tube} target='_blank'>
                                         <img src={youtube} alt='youtube' />
-                                    </a>
-                                    <a rel="noreferrer" href={data?.snap} target='_blank'>
+                                    </a>}
+                                    {!!data?.snapchat && <a rel="noreferrer" href={data?.snapchat} target='_blank'>
                                         <img src={snap} alt='snap' />
-                                    </a>
-                                    <a rel="noreferrer" href={data?.tiktok} target='_blank'>
+                                    </a>}
+                                   {!!data?.tiktok && <a rel="noreferrer" href={data?.tiktok} target='_blank'>
                                         <img src={tiktok} alt='tiktok' />
-                                    </a>
+                                    </a>}
                                 </div>
                             </div>
                             <div>
