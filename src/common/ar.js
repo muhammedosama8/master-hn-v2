@@ -95,4 +95,8 @@ export const ar = {
     "Forget Password?": "هل نسيت كلمه المرور؟",
     "Forget Password": "نسيت كلمه المرور",
     "Back": "الي الخلف",
+    "Message Sent Successfully.": "تم إرسال الرسالة بنجاح.",
+    "First Name": "الاسم الأول",
+    "Last Name": "اسم العائلة",
+    "Message Required": "الرسالة المطلوبة",
 }

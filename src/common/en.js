@@ -95,4 +95,8 @@ export const en = {
     "Forget Password?": "Forget Password?",
     "Forget Password": "Forget Password",
     "Back": "Back",
+    "Message Sent Successfully.": "Message Sent Successfully.",
+    "First Name": "First Name",
+    "Last Name": "Last Name",
+    "Message Required": "Message Required",
 }

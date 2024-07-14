@@ -1,5 +1,7 @@
-import { Link, NavLink } from "react-router-dom";
-import Qr from '../../assets/qr_code.jpeg'
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import MHSocialMediaService from "../../services/MHSocialMediaService";
 import facebook from '../../assets/facebook.svg'
 import instagram from '../../assets/instagram.svg'
 import twitter from '../../assets/x.svg'
@@ -12,9 +14,6 @@ import knet from '../../assets/knet.svg'
 import mastercard from '../../assets/mastercard.svg'
 import visa from '../../assets/visa.svg'
 import './style.css'
-import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import MHSocialMediaService from "../../services/MHSocialMediaService";
 
 const Footer = () => {
     const [data, setData] = useState({
@@ -23,7 +22,7 @@ const Footer = () => {
         twitter: '',
         youtube: '',
         snapchat: '',
-
+        qr_code: '',
     })
     const {t} = useTranslation()
     const mHSocialMediaService = new MHSocialMediaService()
@@ -99,11 +98,13 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="col-md-3 col-12 qr">
-                    <img src={Qr} alt='Qr' className="qr-img" width={150}/>
-                    <div className="mt-3 d-flex">
-                        <img src={phone} alt='phone' />
-                        <span className="mx-2">{t("Hasan Al Naser")}</span>
-                    </div>
+                    {!!data?.qr_code && <>
+                        <img src={data?.qr_code} alt='Qr' className="qr-img" width={150}/>
+                        <div className="mt-3 d-flex">
+                            <img src={phone} alt='phone' />
+                            <span className="mx-2">{t("Hasan Al Naser")}</span>
+                        </div>
+                    </>}
                 </div>
             </div>
         </div>

@@ -5,17 +5,42 @@ import Path from '../../common/Path';
 import { AvField, AvForm } from 'availity-reactstrap-validation';
 import { Col, Row } from 'react-bootstrap';
 import whats from '../../assets/whatsapp.svg'
+import ContactUsService from '../../services/ContactUsService';
+import { toast } from 'react-toastify';
 
 const Contact = () => {
+  const [error, setError] = useState({
+    message: false
+  })
   const [formData, setFormData] = useState({
-    name: '',
+    f_name: '',
+    l_name: '',
     email: '',
     phone: '',
     message: ''
   })
   const {t} = useTranslation()
+  const contactUsService = new ContactUsService()
+
   const submit = (e) => {
     e.preventDefault();
+    if(!formData.message) {
+      toast.error(t('Message Required.'))
+      return
+    }
+
+    contactUsService.create(formData).then(res=>{
+      if(res?.status === 201){
+        toast.success(t('Message Sent Successfully.'))
+        setFormData({
+          f_name: '',
+          l_name: '',
+          email: '',
+          phone: '',
+          message: ''
+        })
+      }
+    }).catch(e=> toast.error(e?.response?.data?.message))
   }
   return (<div className='contact'>
     <Path 
@@ -33,22 +58,41 @@ const Contact = () => {
           <Col md={2}></Col>
           <Col md={4}>
             <h4 className='getInTouch'>{t("GET IN TOUCH")}</h4>
-            <div>
-              <AvField
-                label={t("Name")}
-                type='text'
-                placeholder={t("Name")}
-                bsSize="lg"
-                name='name'
-                validate={{
-                    required: {
-                        value: true,
-                        errorMessage: `${t("This Field is required")}`
-                    }
-                }}
-                value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
-              />
+            <div className='d-flex' style={{gap: '8px'}}>
+              <div>
+                <AvField
+                  label={t("First Name")}
+                  type='text'
+                  placeholder={t("First Name")}
+                  bsSize="lg"
+                  name='f_name'
+                  validate={{
+                      required: {
+                          value: true,
+                          errorMessage: `${t("This Field is required")}`
+                      }
+                  }}
+                  value={formData.f_name}
+                  onChange={(e) => setFormData({...formData, f_name: e.target.value})}
+                />
+              </div>
+              <div>
+                <AvField
+                  label={t("Last Name")}
+                  type='text'
+                  placeholder={t("Last Name")}
+                  bsSize="lg"
+                  name='l_name'
+                  validate={{
+                      required: {
+                          value: true,
+                          errorMessage: `${t("This Field is required")}`
+                      }
+                  }}
+                  value={formData.l_name}
+                  onChange={(e) => setFormData({...formData, l_name: e.target.value})}
+                />
+              </div>
             </div>
             <div>
               <AvField
@@ -90,12 +134,15 @@ const Contact = () => {
                 rows={8}
                 className='w-100'
                 placeholder={t("Message")}
+                required
                 style={{
                   border: '1px solid #dedede',
                   borderRadius: '8px',
                   padding: '8px'
                 }}
-                onChange={e=> setFormData({...formData, message: e.target.value})}
+                onChange={e=> {
+                  setFormData({...formData, message: e.target.value})
+                }}
               />
             </div>
             <button 
