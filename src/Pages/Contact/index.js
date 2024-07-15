@@ -9,9 +9,6 @@ import ContactUsService from '../../services/ContactUsService';
 import { toast } from 'react-toastify';
 
 const Contact = () => {
-  const [error, setError] = useState({
-    message: false
-  })
   const [formData, setFormData] = useState({
     f_name: '',
     l_name: '',
@@ -23,7 +20,6 @@ const Contact = () => {
   const contactUsService = new ContactUsService()
 
   const submit = (e) => {
-    e.preventDefault();
     if(!formData.message) {
       toast.error(t('Message Required.'))
       return
@@ -42,6 +38,7 @@ const Contact = () => {
       }
     }).catch(e=> toast.error(e?.response?.data?.message))
   }
+
   return (<div className='contact'>
     <Path 
       title='contact' 
@@ -159,7 +156,7 @@ const Contact = () => {
             }}>
               <img src={whats} alt='whats' />
               <p className='mt-3' style={{color: '#fff'}}>{t("CONTACT US ON WHATSAPP")}</p>
-              <button className='contact-whats'>{t("contact")}</button>
+              <button type='button' className='contact-whats'>{t("contact")}</button>
             </div>
           </Col>
           <Col md={2}></Col>
