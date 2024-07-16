@@ -16,6 +16,15 @@ export default class CartService extends BaseService {
     }
 
     deletePromoCode(data){
-        return http.post(`${apiEndpoint}/promoCode`, data)
+        return http.delete(`${apiEndpoint}/promoCode`, {data})
+    }
+
+    remove(data){
+        return http.delete(apiEndpoint, {data})
+    }
+
+    update(data) {
+        const body = { ...data };
+        return http.put(apiEndpoint, body);
     }
 }

@@ -57,10 +57,20 @@
     border-radius: 35px;
     background-color: #26847d;
 }
-.ar .cart .form-coupon .btn-site {
+.cart .form-coupon .btn-danger {
+    height: 40px;
+    position: absolute;
+    top: 5px;
+    border-radius: 35px;
+    color: #fff;
+    background-color: var(--bs-btn-bg);
+}
+.ar .cart .form-coupon .btn-site,
+.ar .cart .form-coupon .btn-danger {
     left: 4px;
 }
-.en .cart .form-coupon .btn-site {
+.en .cart .form-coupon .btn-site,
+.en .cart .form-coupon .btn-danger {
     right: 4px;
 }
 @media only screen and (max-width: 500px) {

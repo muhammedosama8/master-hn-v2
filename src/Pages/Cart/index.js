@@ -56,12 +56,52 @@ const Cart = () =>{
             }
         })
     }
-    console.log(cartProducts, subCart)
+
+    const removeProductFromCart = (product) => {
+        let data ={
+            product_id: product.id
+        }
+        cartService.remove(data).then(res=>{
+            if(res?.status === 200){
+                toast.success(t("Remove from Cart"))
+                setShouldUpdate(prev=> !prev)
+                dispatch(removeProduct(product))
+            }
+        })
+    }
+
+    const changeAmount = (product, amount) => {
+        let data ={
+            product_id: product.id,
+            amount: amount
+        }
+        cartService.update(data).then(res=>{
+            if(res?.status === 200){
+                setShouldUpdate(prev=> !prev)
+                dispatch(removeProduct(product))
+            }
+        })
+    }
+
+    const removePromoCode = () => {
+        let data = {
+            cart_id: subCart?.id
+        }
+        cartService.deletePromoCode(data).then(res=> {
+            if(res?.status === 200){
+                toast.success(t("Remove"))
+                setShouldUpdate(prev=> !prev)
+                setCoupon('')
+            }
+        })
+    }
+
     if(loading){
         return <div className='d-flex align-items-center justify-content-around' style={{minHeight: '80vh'}}>
             <Loader />
             </div>
     }
+
     return <div className="cart">
         <div className='container'>
             {cartProducts?.length > 0 ? <div className='row'>
@@ -69,7 +109,7 @@ const Cart = () =>{
                     <Card style={{border: 'none'}}>
                         <CardBody>
                             {cartProducts?.map(product => {
-                            return <div key={product?.id} className='product-cart'>
+                            return <div key={product?.product?.id} className='product-cart'>
                                     <div className='row align-items-center'>
                                         <div className='col-md-8 col-12 d-flex' style={{gap: '16px'}}>
                                             <img src={product?.product.product_images[0]?.url} alt='img' width={90} height={90} />
@@ -81,7 +121,7 @@ const Cart = () =>{
                                         </div>
                                         <div className='col-md-3 col-9'>
                                             <div>
-                                                <button className='prod-btn' onClick={()=> dispatch(increaseProduct(product))}>
+                                                <button className='prod-btn' onClick={()=> changeAmount(product?.product, product?.amount+1) }>
                                                     +
                                                 </button>
                                                 <span style={{fontSize: '20px'}} className='mx-4'>{product?.amount}</span>
@@ -89,7 +129,10 @@ const Cart = () =>{
                                                     className='prod-btn minus' 
                                                     disabled={product?.amount === 1} 
                                                     style={{cursor: product?.amount > 1 ? 'pointer' : 'not-allowed'}}
-                                                    onClick={()=> dispatch(decreaseProduct(product))}
+                                                    onClick={()=> {
+                                                        changeAmount(product?.product, product?.amount-1)
+                                                        // dispatch(decreaseProduct(product))
+                                                    }}
                                                 >
                                                     -
                                                 </button>
@@ -97,7 +140,7 @@ const Cart = () =>{
                                         </div>
                                         <div className='col-md-1 col-3'>
                                             <div>
-                                                <button className='trash' onClick={()=> dispatch(removeProduct(product))}>
+                                                <button className='trash' onClick={()=> removeProductFromCart(product?.product)}>
                                                 <img src={trash} alt='trash' />
                                                 </button>
                                             </div>
@@ -119,11 +162,13 @@ const Cart = () =>{
                                         <input type="text" 
                                             required
                                             value={coupon}
+                                            disabled={!!subCart?.coupon_name}
                                             onChange={e=> setCoupon(e.target.value)}
                                             className="form-control" 
                                             name="code_name" id="code_name"
                                             placeholder={t("Please Enter")} />
-                                        <button className="btn-site" disabled={!coupon} onClick={promoCode}><span>{t("Apply")}</span></button>
+                                        {!subCart?.coupon_name && <button className="btn-site" disabled={!coupon} onClick={promoCode}><span>{t("Apply")}</span></button>}
+                                        {!!subCart?.coupon_name && <button className="btn-danger" onClick={removePromoCode}><span>{t("Remove")}</span></button>}
                                     </div>
                                 </div>
 

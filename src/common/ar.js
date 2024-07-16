@@ -101,4 +101,6 @@ export const ar = {
     "Message Required": "الرسالة المطلوبة",
     "promo code is invalid!": "الرمز الترويجي غير صالح!",
     "Successfully Applied": "تم التطبيق بنجاح",
+    "Remove from Cart": "إزالة من السلة",
+    "Remove": "إزاله",
 }

@@ -101,4 +101,6 @@ export const en = {
     "Message Required": "Message Required",
     "promo code is invalid!": "Promo Code is Invalid!",
     "Successfully Applied": "Successfully Applied",
+    "Remove from Cart": "Remove from Cart",
+    "Remove": "Remove",
 }
