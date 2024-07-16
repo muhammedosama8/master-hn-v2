@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import "./style.css"
 import { useDispatch, useSelector } from "react-redux"
 import { addToCart } from "../../store/actions/AuthActions"
@@ -21,6 +21,7 @@ const Product = () => {
     const [variants, setVariants] = useState([])
     const [variantsIds, setVariantsIds] = useState([])
     const location = useLocation()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const {t} = useTranslation()
     const [loader, setLoader] = useState(false)
@@ -31,7 +32,7 @@ const Product = () => {
     const cartService = new CartService()
 
     useEffect(()=>{
-        if(location?.state){
+        if(!!location?.state){
             let id = location?.state?.product?.id
             productsService.getDynamicVariants(id).then(res => {
                 if(res?.status === 200){
@@ -56,6 +57,8 @@ const Product = () => {
                     }
                 }
             })
+        } else {
+            navigate('/')
         }
     },[location])
 
