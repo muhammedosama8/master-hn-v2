@@ -99,4 +99,6 @@ export const en = {
     "First Name": "First Name",
     "Last Name": "Last Name",
     "Message Required": "Message Required",
+    "promo code is invalid!": "Promo Code is Invalid!",
+    "Successfully Applied": "Successfully Applied",
 }

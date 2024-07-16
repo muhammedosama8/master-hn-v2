@@ -10,6 +10,7 @@ import Path from "../../common/Path"
 import Loader from "../../common/Loader"
 import { toast } from "react-toastify"
 import ProductsService from "../../services/ProductsService"
+import CartService from "../../services/CartService";
 
 const Product = () => {
     const [product, setProduct] = useState({})
@@ -27,6 +28,7 @@ const Product = () => {
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state => state?.lang?.lang)
     const productsService = new ProductsService()
+    const cartService = new CartService()
 
     useEffect(()=>{
         if(location?.state){
@@ -41,7 +43,7 @@ const Product = () => {
                     })
                     setDynamicVariants(data)
                 }
-            }).catch((e)=> console.log(e))
+            }).catch((e)=> console.error(e))
             productsService.getProdust(id)?.then(res=>{
                 if(res?.status === 200){
                     setProduct(res?.data?.data?.product)
@@ -59,28 +61,41 @@ const Product = () => {
 
     useEffect(()=>{
         if(custom){
-            productsService.changeProduct(product?.code, variantsIds.map(id => `variant_value_ids=${id}`).join('&'))?.then(res=>{
-                if(res?.status === 200){
-                    setProduct(res?.data?.data?.product)
-                    setSelectedImage(res?.data?.data?.product.product_images[0]?.url)
-                    if(res?.data?.data?.variant?.length > 0) {
-                        setVariants(res?.data?.data?.variant)
-                        let ids = res?.data?.data?.variant?.map( variant => variant?.variant_values?.find(val => val?.isSelected).id )
-                        setVariantsIds(ids)
+            setTimeout(()=> {
+                productsService.changeProduct(product?.code, variantsIds.map(id => `variant_value_ids=${id}`).join('&'))?.then(res=>{
+                    if(res?.status === 200){
+                        setProduct(res?.data?.data?.product)
+                        setSelectedImage(res?.data?.data?.product.product_images[0]?.url)
+                        if(res?.data?.data?.variant?.length > 0) {
+                            setVariants(res?.data?.data?.variant)
+                            let ids = res?.data?.data?.variant?.map( variant => variant?.variant_values?.find(val => val?.isSelected).id )
+                            setVariantsIds(ids)
+                        }
                     }
-                }
-            })
+                }).catch(e=> toast.error(e.response?.data?.message?.replaceAll('_', ' ')))
+            }, 2000)
         }
     },[shouldUpdate])
 
     const addCart = () => {
         setLoader(true)
-        dispatch(addToCart({
-            ...product,
-            amount: amount
-        }))
-        toast.success(t("Product Added To Cart"))
-        setTimeout(()=> setLoader(false),1000)
+        let data = {
+            products: [{
+                dynamic_variant: [],
+                amount: amount,
+                product_id: product?.id
+            }]
+        }
+        cartService.create(data).then(res=>{
+            if(res?.status === 201){
+                toast.success(t("Product Added To Cart"));
+                setLoader(false);
+                dispatch(addToCart({
+                    ...product,
+                    amount: amount
+                }))
+            }
+        })
     }
 
     return <div className="product">
@@ -104,7 +119,6 @@ const Product = () => {
                         pagination={{
                         clickable: true,
                         }}
-                        // navigation={true}
                         className="mySwiper mt-4 d-flex flex-column"
                         style={{direction: 'ltr'}}
                         modules={[Pagination]}
@@ -129,7 +143,7 @@ const Product = () => {
                     {variants?.map((variant, index)=> {
                         return <div className="variant mb-3" key={index}>
                             <p className="mb-1">{lang==='en' ? variant?.name_en : variant?.name_ar}</p>
-                            <div className="variant-values d-flex" style={{gap: '40px'}}>
+                            <div className="variant-values">
                                 {variant?.variant_values?.map((val, ind)=> {
                                     if(val?.value_ar === 'اللون'){
                                         return <div className="value position-relative mb-4" key={ind}>
@@ -170,7 +184,7 @@ const Product = () => {
                                                     setCustom(true)
                                                     setShouldUpdate(prev => !prev)
                                                     let update = variantsIds?.map((id, i) => {
-                                                        if(i === ind){
+                                                        if(i === index){
                                                             return val?.id
                                                         } else {
                                                             return id

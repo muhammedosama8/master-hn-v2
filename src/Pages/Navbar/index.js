@@ -12,6 +12,7 @@ import { Logout } from '../../services/AuthService'
 import { useTranslation } from 'react-i18next'
 import { changeLang } from '../../store/actions/LangActions'
 import { ShowLogin } from '../../store/actions/AuthActions'
+import CartService from '../../services/CartService'
 
 const Navbar = () =>{
   const [cart, setCart] = useState(0)
@@ -26,9 +27,13 @@ const Navbar = () =>{
     dispatch(changeLang(lng))
   };
 
-  useEffect(()=>{ 
-    setCart(user.cart?.length)
-  },[location, user])
+  useEffect(()=>{
+    new CartService().getList().then(res=>{
+        if(res?.status === 200){
+          setCart(res.data?.data?.sub_carts?.length)
+        }
+    }).catch(() => {})
+  },[user.cart])
 
   return <div>
     <nav className="navbar navbar-expand-lg">

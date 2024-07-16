@@ -30,6 +30,39 @@
     border-bottom: none;
     padding-bottom: 1rem;
 }
+.cart .coupon-code {
+    background: #26847d;
+    padding: 20px 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.cart .coupon-code h5 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+.cart .form-coupon .form-group {
+    position: relative;
+}
+.cart .form-coupon .form-control {
+    background: #fff;
+    border: 0;
+    border-radius: 35px;
+    height: 50px;
+    color: #505153;
+}
+.cart .form-coupon .btn-site {
+    height: 40px;
+    position: absolute;
+    top: 5px;
+    border-radius: 35px;
+    background-color: #26847d;
+}
+.ar .cart .form-coupon .btn-site {
+    left: 4px;
+}
+.en .cart .form-coupon .btn-site {
+    right: 4px;
+}
 @media only screen and (max-width: 500px) {
     .cart .row div:first-of-type img{
         width: 60px;

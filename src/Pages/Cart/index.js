@@ -7,27 +7,61 @@ import { Badge, Card, CardBody } from 'react-bootstrap'
 import { ShowLogin, decreaseProduct, increaseProduct, removeProduct } from '../../store/actions/AuthActions'
 import { useTranslation } from 'react-i18next'
 import CheckLogin from './CheckLogin'
+import CartService from '../../services/CartService'
+import Loader from '../../common/Loader'
+import { toast } from 'react-toastify'
 
 const Cart = () =>{
+    const [subCart, setSubCart] = useState([])
     const [cartProducts, setCartProducts] = useState([])
+    const [shouldUpdate, setShouldUpdate] = useState(false)
     const [totalPrice, setTotalPrice] = useState(0)
     const [coupon, setCoupon] = useState("")
+    const [loading, setLoading] = useState(false)
     const [modal, setModal] = useState(false)
     const dispatch = useDispatch()
     const {t} = useTranslation()
     const user = useSelector(state => state?.user)
     const lang = useSelector(state => state?.lang?.lang)
     const cart = useSelector(state => state?.user?.cart)
+    const cartService = new CartService()
 
     useEffect(()=>{
-        setCartProducts(cart)
-    }, [cart])
-
-    useEffect(()=>{
-        let total = cart?.map(item=> item?.amount*item?.price)?.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-        setTotalPrice(total)
-    },[cart,coupon])
-
+        setLoading(true)
+        cartService.getList().then(res=>{
+            if(res?.status === 200){
+                let data = res?.data.data
+                setSubCart(data)
+                setCartProducts(data?.sub_carts)
+                setTotalPrice(data?.total.toFixed(3))
+                if(!!data?.coupon_name) setCoupon(data?.coupon_name)
+            }
+            setLoading(false)
+        }).catch(() => setLoading(false))
+    },[shouldUpdate])
+    
+    const promoCode = () =>{
+        let data = {
+            promoCode: coupon,
+            cart_id: subCart?.id
+        }
+        cartService.createPromoCode(data).then(res=>{
+            if(res?.status === 200){
+                setShouldUpdate(prev=> !prev)
+                toast.success(t("Successfully Applied"))
+            }
+        }).catch((e)=> {
+            if(e?.response.data?.message === "promo_code_not_Exist"){
+                toast.error(t("promo code is invalid!"))
+            }
+        })
+    }
+    console.log(cartProducts, subCart)
+    if(loading){
+        return <div className='d-flex align-items-center justify-content-around' style={{minHeight: '80vh'}}>
+            <Loader />
+            </div>
+    }
     return <div className="cart">
         <div className='container'>
             {cartProducts?.length > 0 ? <div className='row'>
@@ -38,11 +72,11 @@ const Cart = () =>{
                             return <div key={product?.id} className='product-cart'>
                                     <div className='row align-items-center'>
                                         <div className='col-md-8 col-12 d-flex' style={{gap: '16px'}}>
-                                            <img src={product.product_images[0]?.url} alt='img' width={90} height={90} />
+                                            <img src={product?.product.product_images[0]?.url} alt='img' width={90} height={90} />
                                             <div>
-                                                <h4>{lang === 'en' ? product?.name_en : product?.name_ar}</h4>
-                                                <Badge className='mb-2' variant="primary">{lang === 'en' ? product?.category?.name_en : product?.category?.name_ar}</Badge>
-                                                <h5 className='mb-0'>{product?.amount} * {product?.price}</h5>
+                                                <h4>{lang === 'en' ? product?.product?.name_en : product?.product?.name_ar}</h4>
+                                                <Badge className='mb-2' variant="primary">{lang === 'en' ? product?.product?.category?.name_en : product?.product?.category?.name_ar}</Badge>
+                                                <h5 className='mb-0'>{product?.amount} * {product?.product?.price}</h5>
                                             </div>
                                         </div>
                                         <div className='col-md-3 col-9'>
@@ -75,16 +109,25 @@ const Cart = () =>{
                     </Card>
                 </div>
                 <div className='col-md-4'>
-                    <Card style={{border: 'none'}}>
+                    <Card style={{border: 'none',boxShadow: '0 0 12px #dedede78'}}>
                         <CardBody>
                             <h5 className='mb-4'>{t("Payment Details")}</h5>
-                            {/* <div>
-                                <p>Coupon:</p>
-                                <input 
-                                    type='text' 
-                                    onChange={(e)=> setCoupon(e?.target?.value)} 
-                                />
-                            </div> */}
+                            <div className="coupon-code wow fadeInUp">
+                                <h5>{t("Coupon Code")}</h5>
+                                <div className="form-coupon">
+                                    <div className="form-group">
+                                        <input type="text" 
+                                            required
+                                            value={coupon}
+                                            onChange={e=> setCoupon(e.target.value)}
+                                            className="form-control" 
+                                            name="code_name" id="code_name"
+                                            placeholder={t("Please Enter")} />
+                                        <button className="btn-site" disabled={!coupon} onClick={promoCode}><span>{t("Apply")}</span></button>
+                                    </div>
+                                </div>
+
+                            </div>
                             <div className='d-flex justify-content-between'>
                                 <h5 style={{fontSize: '18px'}}>{t("Total Price")}:</h5>
                                 <h5 style={{fontSize: '18px', fontWeight: "600"}}>{totalPrice} {t("KWD")}</h5>

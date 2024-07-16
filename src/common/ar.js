@@ -99,4 +99,6 @@ export const ar = {
     "First Name": "الاسم الأول",
     "Last Name": "اسم العائلة",
     "Message Required": "الرسالة المطلوبة",
+    "promo code is invalid!": "الرمز الترويجي غير صالح!",
+    "Successfully Applied": "تم التطبيق بنجاح",
 }
