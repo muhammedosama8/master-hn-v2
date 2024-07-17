@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './style.css'
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
 import CategoriesService from '../../../services/CategoriesService';
 import { useSelector } from 'react-redux';
 import Loader from '../../../common/Loader';
+import 'swiper/css'
 
 const Categories = () => {
   const [data, setData] = useState([])
@@ -31,18 +33,23 @@ const Categories = () => {
     {loader ? <div className='d-flex justify-content-center py-1'>
         <Loader />
       </div> : <Swiper
+        modules={[Autoplay]}
         slidesPerView={8}
+        autoplay={{
+          delay: 1500,
+          // disableOnInteraction: true,
+        }}
         spaceBetween={10}
         pagination={{
-          clickable: true,
+          clickable: true
         }}
         breakpoints={{
           640: {
-            slidesPerView: 2,
+            slidesPerView: 4,
             // spaceBetween: 20,
           },
           768: {
-            slidesPerView: 4,
+            slidesPerView: 6,
             // spaceBetween: 40,
           },
           1024: {
