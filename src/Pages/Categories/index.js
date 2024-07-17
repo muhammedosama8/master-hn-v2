@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import categoryImg from '../../assets/category.jpeg'
-import categoryImg2 from '../../assets/2.webp'
 import './style.css'
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Path from '../../common/Path';
 import CategoriesService from '../../services/CategoriesService';
