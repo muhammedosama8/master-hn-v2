@@ -26,14 +26,11 @@ const FeatureProducts = () => {
     }).catch(()=> setLoader(false))
   },[])
 
-  return (<div className='feature-products'>
+  return (<div className='feature-products' data-aos="fade-down-left">
     <h1>{t("Feature Products")}</h1>
     {loader ? <div className='d-flex justify-content-center py-5'>
         <Loader />
-      </div> : <div className='row mt-3' 
-          data-aos="fade-left"
-          data-aos-offset="300"
-          data-aos-easing="ease-in-sine">
+      </div> : <div className='row mt-3'>
       {products?.map((product) => {
         return <div className='col-md-3 mb-4 col-4' key={product?.id}>
           <div className='cate h-100 position-relative' onClick={()=> navigate(`/products/product/${product.id}`, { state:{ product }})}>
