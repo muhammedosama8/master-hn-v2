@@ -31,7 +31,11 @@ const ShopByCategory = () => {
     <div className='position-relative'>
       <h4>{t("Shop By Category")}</h4>
     </div>
-    <div className='row'>
+    <div className='row' 
+          data-aos="fade-right"
+          data-aos-offset="300"
+          data-aos-easing="ease-in-sine"
+    >
       {loader ? <div className='d-flex justify-content-center py-5'>
         <Loader />
       </div> : data?.map((category) => {

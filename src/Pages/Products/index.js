@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import Loader from '../../common/Loader';
 
 const Products = () => {
+  const [search, setSearch] = useState('')
   const [customPaths, setCustomPaths] = useState([])
   const [data, setData] = useState([])
   const navigate = useNavigate()
@@ -21,6 +22,7 @@ const Products = () => {
     let params = {}
     if(location.state?.category) params['category_id'] = location.state?.category?.id
     if(location.state?.bestSeller) params['bestSeller'] = location.state?.bestSeller
+    if(!!search) params['search'] = search
     setLoader(true)
     productsService?.getList(params).then(res=>{
       if(res?.status === 200){
@@ -29,7 +31,7 @@ const Products = () => {
       }
       setLoader(false)
     }).catch(()=> setLoader(false))
-  },[location])
+  },[location, search])
 
   useEffect(()=> {
     if(location.state?.category){
@@ -43,10 +45,12 @@ const Products = () => {
       ])
     }
   }, [location,lang])
+
   return (<div className='products'>
     <Path 
       title='products' 
       paths={customPaths} 
+      setSearch={setSearch}
     />
 
     <div className='row'>

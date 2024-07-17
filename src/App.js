@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkAutoLogin } from './services/AuthService';
 import Navbar from './Pages/Navbar';
@@ -30,6 +32,8 @@ function App() {
   const lang = useSelector(state=> state?.lang?.lang)
 
   useEffect(() => {
+    AOS.init();
+
     checkAutoLogin(dispatch, navigate);
   }, []);
 

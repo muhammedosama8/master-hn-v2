@@ -29,6 +29,12 @@ const Categories = () => {
     }).catch(()=> setLoader(false))
   },[])
 
+  function toTitleCase(str) {
+    return str.toLowerCase().split(' ').map(word => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+  }
+
   return (<div className='categories-home'>
     {loader ? <div className='d-flex justify-content-center py-1'>
         <Loader />
@@ -62,7 +68,7 @@ const Categories = () => {
         {data?.map((category,index)=>{
           return <SwiperSlide key={index}>
             <Link to='/products' state={{category}}>
-              {lang==='en' ? category.name_en : category?.name_ar}
+              {lang==='en' ? toTitleCase(category.name_en) : category?.name_ar}
             </Link>
             </SwiperSlide>
         })}

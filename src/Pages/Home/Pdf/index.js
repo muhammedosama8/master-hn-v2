@@ -17,7 +17,7 @@ const Pdf = () => {
         })
       },[])
 
-    return <div className='pdf'>
+    return <div className='pdf' data-aos="zoom-out-left">
             <div className='custom-div pt-5 pb-5'>
                 <div className='row' style={{alignItems: 'center'}}>
                     <div className='col-8' >

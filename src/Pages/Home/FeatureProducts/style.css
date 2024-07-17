@@ -49,6 +49,7 @@
     cursor: pointer;
     overflow: hidden;
     box-shadow: 0 0 5px #dedede7a;
+    height: 326px !important;
   }
   .feature-products .cate .desc{
     position: absolute;

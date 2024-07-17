@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import Loader from '../../common/Loader';
 
 const Categories = () => {
+  const [search, setSearch] = useState('')
   const [data, setData] = useState([])
   const navigate = useNavigate()
   const [loader, setLoader] = useState(false)
@@ -19,14 +20,16 @@ const Categories = () => {
 
   useEffect(()=>{
     setLoader(true)
-    categoriesService?.getList().then(res=>{
+    let params = {}
+    if(!!search) params['search'] = search
+    categoriesService?.getList(params).then(res=>{
       if(res?.status === 200){
         let info = res?.data?.data?.data
         setData(info)
       }
       setLoader(false)
     }).catch(()=> setLoader(false))
-  },[])
+  },[search])
 
   return (<div className='categories'>
     <Path 
@@ -34,6 +37,7 @@ const Categories = () => {
       paths={[
         {href: 'categories' , state: '', name: t('categories')},
       ]} 
+      setSearch={setSearch}
     />
 
     <div className='row'>
