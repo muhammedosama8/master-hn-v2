@@ -81,7 +81,7 @@ const Login = ({setType, setModal}) => {
                 </span>}
             </Col>
             <Col md={12}>
-                <button className="forget" onClick={()=> setForgetPassword(true)}>{t("Forget Password?")}</button>
+                <button className="forget" type='button' onClick={()=> setForgetPassword(true)}>{t("Forget Password?")}</button>
             </Col>
         </Row>
         <Button variant="primary" className="login-btn" type='submit' disabled={loading}>
