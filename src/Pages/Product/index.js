@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { addToCart } from "../../store/actions/AuthActions"
 import { useTranslation } from "react-i18next"
 import Path from "../../common/Path"
+import Select from 'react-select';
 import Loader from "../../common/Loader"
 import { toast } from "react-toastify"
 import ProductsService from "../../services/ProductsService"
@@ -56,7 +57,7 @@ const Product = () => {
                         setVariantsIds(ids)
                     }
                 }
-            })
+            }).catch((e)=> console.error(e))
         } else {
             navigate('/')
         }
@@ -90,12 +91,27 @@ const Product = () => {
         cartService.create(data).then(res=>{
             if(res?.status === 201){
                 toast.success(t("Product Added To Cart"));
-                setLoader(false);
                 dispatch(addToCart({
                     ...product,
                     amount: amount
                 }))
             }
+            setLoader(false);
+        }).catch(e=> {
+            setLoader(false);
+            if(e.response?.data?.message === "product_is_already_Exist_in_your_cart"){
+                let data ={
+                    product_id: product.id,
+                    amount: amount
+                }
+                cartService.update(data).then(res=>{
+                    if(res?.status === 200){
+                        toast.success(t("Product Added To Cart"));
+                    }
+                })
+                return
+            }
+            toast.error(e.response?.data?.message?.replaceAll('_', ' '))
         })
     }
 
@@ -144,60 +160,79 @@ const Product = () => {
                     {variants?.map((variant, index)=> {
                         return <div className="variant mb-3" key={index}>
                             <p className="mb-1">{lang==='en' ? variant?.name_en : variant?.name_ar}</p>
-                            <div className="variant-values">
-                                {variant?.variant_values?.map((val, ind)=> {
-                                    if(val?.value_ar === 'اللون'){
-                                        return <div className="value position-relative mb-4" key={ind}>
-                                                <span 
-                                                    onClick={()=> {
-                                                        setCustom(true)
-                                                        setShouldUpdate(prev => !prev)
-                                                        let update = variantsIds?.map((id, i) => {
-                                                            if(i === index){
-                                                                return val?.id
-                                                            } else {
-                                                                return id
-                                                            }
-                                                        })
-                                                        setVariantsIds(update)
-                                                    }}
-                                                    style={{
-                                                    position: 'absolute', cursor: 'pointer',
-                                                    width: '30px', height: '30px',
-                                                    border: '1px solid #dedede',
-                                                    backgroundColor: val?.value_en
-                                                    }}
-                                                >
-                                                    {val?.isSelected && <span style={{
-                                                    position: 'absolute', borderRadius: '50%',
-                                                    width: '15px', height: '15px',
-                                                    border: '2px solid #dedede',
-                                                    backgroundColor: '#fff',
-                                                    top: '50%',  left: '50%',
-                                                    transform: 'translate(-50%, -50%)'
-                                                }}></span>}
-                                                </span>
-                                        </div>
-                                    } else {
-                                        return <div className="value" key={ind}>
+                            <div className="variant-values"
+                            style={{gridTemplateColumns: variant?.name_ar === 'اللون' ? "auto auto auto auto auto" : "auto auto auto"}}>
+                                {(variant?.name_ar === 'اللون' || variant?.name_en === 'color') ? variant?.variant_values?.map((val, ind)=> {
+                                    return <div className="value position-relative mb-4" key={ind}>
+                                    <span 
+                                        onClick={()=> {
+                                            setCustom(true)
+                                            setShouldUpdate(prev => !prev)
+                                            let update = variantsIds?.map((id, i) => {
+                                                if(i === index){
+                                                    return val?.id
+                                                } else {
+                                                    return id
+                                                }
+                                            })
+                                            setVariantsIds(update)
+                                        }}
+                                        style={{
+                                        position: 'absolute', cursor: 'pointer',
+                                        width: '30px', height: '30px',
+                                        border: '1px solid #dedede',
+                                        backgroundColor: val?.value_en
+                                        }}>
+                                        {val?.isSelected && <span style={{
+                                        position: 'absolute', borderRadius: '50%',
+                                        width: '15px', height: '15px',
+                                        border: '2px solid #dedede',
+                                        backgroundColor: '#fff',
+                                        top: '50%',  left: '50%',
+                                        transform: 'translate(-50%, -50%)'
+                                    }}></span>}
+                                    </span>
+                                    </div>
+                                }) :
+                                <>
+                                <Select
+                                    value={{
+                                        ...variant?.variant_values?.find(v=> v.isSelected),
+                                        label: lang==='en' ? variant?.variant_values?.find(v=> v.isSelected).value_en : variant?.variant_values?.find(v=> v.isSelected).value_ar,
+                                        value: variant?.variant_values?.find(v=> v.isSelected).value_en,
+                                    }}
+                                    placeholder={t("Select")}
+                                    options={variant?.variant_values?.map(val=> {
+                                        return {
+                                            ...val,
+                                            label: lang==='en' ? val?.value_en : val?.value_ar,
+                                            value: val?.value_en
+                                        }
+                                    })}
+                                    onChange={(e)=> {
+                                        let update = variantsIds?.map((id, i) => {
+                                                if(i === index){
+                                                    return e?.id
+                                                } else {
+                                                    return id
+                                                }
+                                            })
+                                        setCustom(true)
+                                        setVariantsIds(update)
+                                        setShouldUpdate(prev => !prev)
+                                    }}
+                                />
+                                {/* {variant?.variant_values?.map((val, ind)=> {
+                                    return <option value={val?.value_en}></option>
+                                    <div className="value" key={ind}>
+
                                             <label>
-                                                <input type="radio" checked={val?.isSelected} onChange={()=> {
-                                                    setCustom(true)
-                                                    setShouldUpdate(prev => !prev)
-                                                    let update = variantsIds?.map((id, i) => {
-                                                        if(i === index){
-                                                            return val?.id
-                                                        } else {
-                                                            return id
-                                                        }
-                                                    })
-                                                    setVariantsIds(update)
-                                                }} className="mx-2"/>
-                                                {lang==='en' ? val?.value_en : val?.value_ar}
+                                                <input type="radio" checked={val?.isSelected}  className="mx-2"/>
+                                                
                                             </label>
-                                        </div>
-                                    }
-                                })}
+                                    </div>
+                                })} */}
+                                </>}
                             </div>
                         </div>
                     })}

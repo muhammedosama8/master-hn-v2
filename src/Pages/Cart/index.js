@@ -78,7 +78,6 @@ const Cart = () =>{
         cartService.update(data).then(res=>{
             if(res?.status === 200){
                 setShouldUpdate(prev=> !prev)
-                dispatch(removeProduct(product))
             }
         })
     }

@@ -19,7 +19,7 @@
 .product .variant-values{
     gap: 20px 50px;
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto auto auto;
 }
 .product .addToCart{
     background-color: var(--primary-color);
