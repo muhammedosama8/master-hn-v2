@@ -31,7 +31,7 @@
     padding-bottom: 1rem;
 }
 .cart .coupon-code {
-    background: #26847d;
+    background: var(--primary-color);
     padding: 20px 15px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -55,7 +55,7 @@
     position: absolute;
     top: 5px;
     border-radius: 35px;
-    background-color: #26847d;
+    background-color: var(--primary-color);
 }
 .cart .form-coupon .btn-danger {
     height: 40px;

@@ -2,3 +2,6 @@
     padding: 2rem;
     margin-top: 9rem;
 }
+.style-up .sheet-title{
+    color: var(--primary-color);
+}

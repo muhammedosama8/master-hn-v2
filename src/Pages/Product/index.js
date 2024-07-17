@@ -64,7 +64,6 @@ const Product = () => {
 
     useEffect(()=>{
         if(custom){
-            setTimeout(()=> {
                 productsService.changeProduct(product?.code, variantsIds.map(id => `variant_value_ids=${id}`).join('&'))?.then(res=>{
                     if(res?.status === 200){
                         setProduct(res?.data?.data?.product)
@@ -76,7 +75,6 @@ const Product = () => {
                         }
                     }
                 }).catch(e=> toast.error(e.response?.data?.message?.replaceAll('_', ' ')))
-            }, 2000)
         }
     },[shouldUpdate])
 

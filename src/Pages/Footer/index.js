@@ -52,14 +52,9 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="col-md-6 col-12">
-                    <div className="social h-100 d-flex flex-column  justify-content-between">
+                    <div className="social h-100 d-flex flex-column  justify-content-end">
                             <div className="text-center">
-                                <div className="visa">
-                                    <img src={visa} alt='visa' />
-                                    <img src={mastercard} alt='mastercard' className="mx-2" />
-                                    <img src={knet} alt='knet' />
-                                </div>
-                                <div className="icons">
+                                <div className="icons mb-4">
                                     {!!data.facebook && <a rel="noreferrer" href={data.facebook} target='_blank'>
                                         <img src={facebook} alt='facebook' />
                                     </a>}
@@ -78,6 +73,11 @@ const Footer = () => {
                                    {!!data?.tiktok && <a rel="noreferrer" href={data?.tiktok} target='_blank'>
                                         <img src={tiktok} alt='tiktok' />
                                     </a>}
+                                </div>
+                                <div className="visa mb-4">
+                                    <img src={visa} alt='visa' />
+                                    <img src={mastercard} alt='mastercard' className="mx-2" />
+                                    <img src={knet} alt='knet' />
                                 </div>
                             </div>
                             <div>

@@ -64,7 +64,9 @@
   transition: transform .5s ease-in-out;
 }
 .shop-by-category .desc p{
-  font-size: 26px;
+  font-size: 22px;
+  overflow-x: scroll;
+  margin-bottom: .5rem;
 }
 .shop-by-category .desc a{
   background: none;

@@ -22,6 +22,7 @@
   cursor: pointer;
   overflow: hidden;
   box-shadow: 0 0 5px #dedede7a;
+  height: 326px !important;
 }
 .products .cate .desc{
   position: absolute;
@@ -33,10 +34,6 @@
   height: 50%;
   padding: 1rem 2rem;
   text-wrap: nowrap;
-}
-.products .cate:hover .desc{
-  background-color: var(--primary-color);
-  transition: .5s ease-in-out;
 }
 
 .products .cate:hover img{

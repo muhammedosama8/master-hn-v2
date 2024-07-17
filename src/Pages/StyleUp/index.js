@@ -1,33 +1,38 @@
 import { useTranslation } from "react-i18next";
 import Path from "../../common/Path";
 import './style.css'
-
-import color1 from '../../assets/styleup/color1.jpeg'
-import color2 from '../../assets/styleup/color2.jpeg'
-import color3 from '../../assets/styleup/color3.jpeg'
-import color4 from '../../assets/styleup/color4.jpeg'
-import kitch from '../../assets/styleup/kitch.jpeg'
-import kitch1 from '../../assets/styleup/kitch1.jpeg'
-import kitch2 from '../../assets/styleup/kitch2.jpeg'
-import kitch3 from '../../assets/styleup/kitch3.jpeg'
-import kitch4 from '../../assets/styleup/kitch4.jpeg'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
+import StyleUpService from "../../services/StyleUpService";
 
 const StyleUp = () => {
-    const data = [{
-        sheet_title: 'high-pressure laminate sheets -color',
-        info: [
-            {color_img: color1, img: kitch3},
-            {color_img: color2, img: kitch1},
-            {color_img: color3, img: kitch2},
-            {color_img: color4, img: kitch4},
-        ]
-    }]
+    const [data, setData] = useState({})
     const {t} = useTranslation()
-    const [selected, setSelected] = useState({
-        color_img: '', img: kitch
-    })
+    const [selected, setSelected] = useState({})
+
+    useEffect(()=>{
+        new StyleUpService()?.getList()?.then(res=>{
+            if(res?.status === 200 && res.data?.data?.length > 0){
+                let response = res.data?.data[0]
+                let data = {
+                    main_image: {src: response.main_image, loading: false},
+                    sheets: response?.sheets?.map(sheet=>{
+                        return {
+                            title: sheet.title,
+                            items: sheet?.item_sheet?.map(item=>{
+                                return {
+                                    src: item?.image, srcLoading: false, 
+                                    color: item?.color, colorLoading: false
+                                }
+                            })
+                        }
+                    })
+                }
+                setSelected({img: response.main_image})
+                setData(data)
+            }
+        })
+    },[])
 
     return <div className="style-up">
     <Path
@@ -36,16 +41,16 @@ const StyleUp = () => {
     />
 
     <div className="text-center mt-5">
-        <img src={selected?.img} alt='main' height={400} className="w-75" />
+        <img src={selected?.img} alt='main' height={400} className="w-100" />
     </div>
     <div className="mt-3">
-        {data?.map((sheet,index) => {
+        {data?.sheets?.map((sheet,index) => {
             return <div key={index} className="sheet mt-5">
-                <h2>{sheet?.sheet_title}</h2>
+                <h2 className="sheet-title">{sheet?.title}</h2>
                 <Row className="mt-4">
-                {sheet?.info?.map((info, ind) => {
-                    return <Col md={3} key={ind} className="text-center mb-3">
-                        <img src={info?.color_img} alt='color_img' style={{cursor: 'pointer'}} onClick={()=> setSelected(info)}/>
+                {sheet?.items?.map((info, ind) => {
+                    return <Col md={2} key={ind} className="text-center mb-3">
+                        <img src={info?.color} alt='color_img' className="w-75 h-100" style={{cursor: 'pointer'}} onClick={()=> setSelected({img: info?.src})}/>
                     </Col>
                 })}
                 </Row>
