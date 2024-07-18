@@ -39,6 +39,10 @@
   transition: .5s ease-in-out;
 }
 
+.categories .cate img{
+  min-height: 326px !important;
+  height: 326px !important;
+}
 .categories .cate:hover img{
   transform: scale(1.1);
   transition: transform .5s ease-in-out;

@@ -18,7 +18,7 @@ const  BestSellingProducts = () => {
     setLoader(true)
     productsService?.getList({bestSeller: true}).then(res=>{
       if(res?.status === 200){
-        let info = res?.data?.data?.data?.slice(0,6)
+        let info = res?.data?.data?.data?.slice(0,8)
         setProducts(info)
       }
       setLoader(false)

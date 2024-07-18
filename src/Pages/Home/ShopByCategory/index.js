@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import categoryImg from '../../../assets/category.jpeg'
-import categoryImg2 from '../../../assets/2.webp'
 import './style.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +18,7 @@ const ShopByCategory = () => {
     setLoader(true)
     categoriesService?.getList().then(res=>{
       if(res?.status === 200){
-        let info = res?.data?.data?.data?.slice(0,6)
+        let info = res?.data?.data?.data?.slice(0,8)
         setData(info)
       }
       setLoader(false)
