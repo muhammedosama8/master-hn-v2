@@ -4,9 +4,21 @@ import './style.css'
 import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import StyleUpService from "../../services/StyleUpService";
+import Loader from "../../common/Loader";
 
+const initial = {
+    main_image: {src: '', loading: false},
+    sheets: [{
+        title: "",
+        items: [{
+            src: '', srcLoading: false, 
+            color: '', colorLoading: false
+        }]
+    }]
+}
 const StyleUp = () => {
     const [data, setData] = useState({})
+    const [loading, setLoading] = useState(false)
     const {t} = useTranslation()
     const [selected, setSelected] = useState({})
     const tabs = [
@@ -17,21 +29,13 @@ const StyleUp = () => {
 
     useEffect(()=>{
         let type= selectTab?.value
+        setLoading(true)
         new StyleUpService()?.getList(type)?.then(res=>{
             if(res?.status === 200){
                 if(!res.data?.data){
-                    let data = {
-                        main_image: {src: '', loading: false},
-                        sheets: [{
-                            title: "",
-                            items: [{
-                                src: '', srcLoading: false, 
-                                color: '', colorLoading: false
-                            }]
-                        }]
-                    }
                     setSelected({img: ''})
-                    setData(data)
+                    setData(initial)
+                    return
                 }
                 let response = res.data?.data
                 let data = {
@@ -51,7 +55,8 @@ const StyleUp = () => {
                 setSelected({img: response.main_image})
                 setData(data)
             }
-        })
+            setLoading(false)
+        }).catch(()=> setLoading(false))
     },[selectTab])
 
     return <div className="style-up">
@@ -75,6 +80,9 @@ const StyleUp = () => {
               </p>
             })}
     </div>
+    {loading ? <div className="d-flex justify-content-center" style={{marginTop: '8rem'}}>
+        <Loader />
+    </div> : <>
     <div className="text-center mt-5">
         <img src={selected?.img} alt='main' height={400} className="w-100" />
     </div>
@@ -92,6 +100,7 @@ const StyleUp = () => {
             </div>
         })}
     </div>
+    </>}
     </div>
 }
 export default StyleUp;
