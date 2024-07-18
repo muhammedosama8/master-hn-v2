@@ -5,3 +5,16 @@
 .style-up .sheet-title{
     color: var(--primary-color);
 }
+.style-up .tabs-div {
+    padding-bottom: 5px;
+    /* border-bottom: 1px solid #e8eaeb; */
+    display: flex;
+    gap: 12px;
+    width: fit-content;
+}
+.style-up p {
+    padding: 5px 16px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 500;
+}

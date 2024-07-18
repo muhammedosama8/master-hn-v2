@@ -103,5 +103,7 @@ export const ar = {
     "Successfully Applied": "تم التطبيق بنجاح",
     "Remove from Cart": "إزالة من السلة",
     "Remove": "إزاله",
-    "Search": "بحث"
+    "Search": "بحث",
+    "kitchen one": "المطبخ الأول",
+    "kitchen two": "المطبخ الثاني",
 }

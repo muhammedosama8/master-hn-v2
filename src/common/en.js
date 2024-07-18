@@ -103,5 +103,7 @@ export const en = {
     "Successfully Applied": "Successfully Applied",
     "Remove from Cart": "Remove from Cart",
     "Remove": "Remove",
-    "Search": "Search"
+    "Search": "Search",
+    "kitchen one": "Kitchen One",
+    "kitchen two": "Kitchen Two",
 }

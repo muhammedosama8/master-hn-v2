@@ -9,11 +9,31 @@ const StyleUp = () => {
     const [data, setData] = useState({})
     const {t} = useTranslation()
     const [selected, setSelected] = useState({})
+    const tabs = [
+        {label: 'kitchen one', value: 'one'},
+        {label: 'kitchen two', value: 'two'},
+    ]
+    const [selectTab, setSelectTab] = useState({label: 'kitchen_one', value: 'one'})
 
     useEffect(()=>{
-        new StyleUpService()?.getList()?.then(res=>{
-            if(res?.status === 200 && res.data?.data?.length > 0){
-                let response = res.data?.data[0]
+        let type= selectTab?.value
+        new StyleUpService()?.getList(type)?.then(res=>{
+            if(res?.status === 200){
+                if(!res.data?.data){
+                    let data = {
+                        main_image: {src: '', loading: false},
+                        sheets: [{
+                            title: "",
+                            items: [{
+                                src: '', srcLoading: false, 
+                                color: '', colorLoading: false
+                            }]
+                        }]
+                    }
+                    setSelected({img: ''})
+                    setData(data)
+                }
+                let response = res.data?.data
                 let data = {
                     main_image: {src: response.main_image, loading: false},
                     sheets: response?.sheets?.map(sheet=>{
@@ -32,7 +52,7 @@ const StyleUp = () => {
                 setData(data)
             }
         })
-    },[])
+    },[selectTab])
 
     return <div className="style-up">
     <Path
@@ -40,6 +60,21 @@ const StyleUp = () => {
       paths={[{href: 'style-up' , state: '', name: t('Style Up')}]} 
     />
 
+    <div className="tabs-div">
+        {tabs?.map((tab,index) => {
+            return <p
+                key={index}
+                className='mb-0'
+                style={{
+                    color: tab.value === selectTab.value ? "var(--primary)" : "#7E7E7E",
+                    borderBottom: tab.value === selectTab.value ? "2px solid" : "none",
+                }}
+                onClick={() => setSelectTab(tab)}
+            >
+              {t(tab.label)}
+              </p>
+            })}
+    </div>
     <div className="text-center mt-5">
         <img src={selected?.img} alt='main' height={400} className="w-100" />
     </div>
