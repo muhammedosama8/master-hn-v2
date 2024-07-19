@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import MHBannerService from '../../../services/MHBannerService';
 import Loader from '../../../common/Loader';
+import './style.css'
 
 function Header() {
     const [data, setData] = useState([])
