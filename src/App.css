@@ -194,3 +194,22 @@ footer p {
 .header-home .carousel-control-prev{
   display: none;
 }
+
+.scroll-animation div p{
+  width: 100%;
+  overflow: hidden;
+}
+.scroll-animation:hover div p{
+  animation: scroll 5s infinite;
+  animation-timing-function: ease-in-out;
+}
+@keyframes scroll {
+  0% {
+    translate: 0;
+    overflow: visible;
+  }
+  100% {
+    translate: -100%;
+    overflow: visible;
+  }
+}
