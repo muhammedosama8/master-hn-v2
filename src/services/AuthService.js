@@ -3,6 +3,7 @@ import { API_BASE_URL_ENV } from '../common/common';
 import { LogoutFn, loginConfirmedAction } from '../store/actions/AuthActions';
 import { changeLang } from '../store/actions/LangActions';
 import { toast } from 'react-toastify';
+import UserService from './UserService';
 
 export function login(data) {
     return axios.post(`${API_BASE_URL_ENV()}/users/login`, data);
@@ -34,18 +35,34 @@ export function Logout(token, dispatch, navigate, pathname) {
     }).catch(()=> dispatch(LogoutFn()))
 }
 
-export function checkAutoLogin(dispatch, navigate) {
+export function checkAutoLogin(dispatch, navigate, pathname) {
     const tokenDetailsString = localStorage.getItem('masterHN');
-    const lang = localStorage.getItem('masterHN_Lang')
-    if(!!lang && lang !== 'null'){
-        dispatch(changeLang(lang));
-    } else {
-        dispatch(changeLang('en'));
-    }
 
     if (!tokenDetailsString) {
         dispatch(LogoutFn())
+        if(pathname === '/profile'){
+            navigate('/')
+        }
 		return;
     }
-    dispatch(loginConfirmedAction(JSON.parse(tokenDetailsString)));
+    new UserService().profile().then(res=>{
+        if(res?.status){
+            const tokenDetailsString = localStorage.getItem('masterHN');
+            dispatch(loginConfirmedAction(JSON.parse(tokenDetailsString)));
+            const lang = localStorage.getItem('masterHN_Lang')
+            if(!!lang && lang !== 'null'){
+                dispatch(changeLang(lang));
+            } else {
+                dispatch(changeLang('en'));
+            }
+        }
+    }).catch(e=> {
+        if(e?.response?.data?.message === "not_authorized_old_Token"){
+            dispatch(LogoutFn())
+            if(pathname === '/profile'){
+                navigate('/')
+            }
+		    return;
+        }
+    })
 }

@@ -15,7 +15,6 @@ import CartService from "../../services/CartService";
 
 const Product = () => {
     const [product, setProduct] = useState({})
-    const [totalPrice, setTotalPrice] = useState(0)
     const [amount, setAmount] = useState(1)
     const [selectedImage, setSelectedImage] = useState('')
     const [dynamicVariants, setDynamicVariants] = useState([])
@@ -29,6 +28,7 @@ const Product = () => {
     const [custom, setCustom] = useState(false)
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const lang = useSelector(state => state?.lang?.lang)
+    const user = useSelector(state => state?.user)
     const productsService = new ProductsService()
     const cartService = new CartService()
 
@@ -50,7 +50,6 @@ const Product = () => {
                 if(res?.status === 200){
                     setProduct(res?.data?.data?.product)
                     setSelectedImage(res?.data?.data?.product.product_images[0]?.url)
-                    setTotalPrice(prev => prev+res?.data?.data?.product?.price)
                     if(res?.data?.data?.variant?.length > 0) {
                         setVariants(res?.data?.data?.variant)
                         let ids = res?.data?.data?.variant?.map( variant => variant?.variant_values?.find(val => val?.isSelected).id )
@@ -80,7 +79,6 @@ const Product = () => {
     },[shouldUpdate])
 
     const addCart = () => {
-        setLoader(true)
         let data = {
             products: [{
                 dynamic_variant: [],
@@ -88,31 +86,40 @@ const Product = () => {
                 product_id: product?.id
             }]
         }
-        cartService.create(data).then(res=>{
-            if(res?.status === 201){
-                toast.success(t("Product Added To Cart"));
-                dispatch(addToCart({
-                    ...product,
-                    amount: amount
-                }))
-            }
-            setLoader(false);
-        }).catch(e=> {
-            setLoader(false);
-            if(e.response?.data?.message === "product_is_already_Exist_in_your_cart"){
-                let data ={
-                    product_id: product.id,
-                    amount: amount
+        setLoader(true)
+        if(!!user?.user){
+            cartService.create(data).then(res=>{
+                if(res?.status === 201){
+                    toast.success(t("Product Added To Cart"));
+                    dispatch(addToCart({
+                        ...product,
+                        amount: amount
+                    }))
                 }
-                cartService.update(data).then(res=>{
-                    if(res?.status === 200){
-                        toast.success(t("Product Added To Cart"));
+                setLoader(false);
+            }).catch(e=> {
+                setLoader(false);
+                if(e.response?.data?.message === "product_is_already_Exist_in_your_cart"){
+                    let data ={
+                        product_id: product.id,
+                        amount: amount
                     }
-                })
-                return
-            }
-            toast.error(e.response?.data?.message?.replaceAll('_', ' '))
-        })
+                    cartService.update(data).then(res=>{
+                        if(res?.status === 200){
+                            toast.success(t("Product Added To Cart"));
+                        }
+                    })
+                    return
+                }
+                toast.error(e.response?.data?.message?.replaceAll('_', ' '))
+            })
+        } else {
+            dispatch(addToCart({
+                ...product,
+                amount: amount
+            }))
+            setTimeout(()=> setLoader(false), [1000])
+        }
     }
 
     return <div className="product">

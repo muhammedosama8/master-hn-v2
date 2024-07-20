@@ -9,13 +9,14 @@ import { useState } from "react";
 import UpdateAccount from "./UpdateAccount";
 import ChangePassword from "./ChangePassword";
 import MyOrders from "./MyOrders";
+import Address from "./Address";
 
 const Profile = () => {
     const {t} = useTranslation()
     const auth = useSelector(state => state?.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const tabs = ["My Orders", "Update Account", "Change Password"]
+    const tabs = ["My Orders", "Update Account", "Change Password", "Address"]
     const [selectedTab, setSelectedTab] = useState("My Orders")
 
     return <div className='profile'>
@@ -67,6 +68,7 @@ const Profile = () => {
                 {selectedTab === "My Orders" && <MyOrders />}
                 {selectedTab === "Update Account" && <UpdateAccount />}
                 {selectedTab === "Change Password" && <ChangePassword />}
+                {selectedTab === "Address" && <Address />}
             </Col>
         </Row>
     </div>

@@ -28,18 +28,33 @@ const Cart = () =>{
 
     useEffect(()=>{
         setLoading(true)
-        cartService.getList().then(res=>{
-            if(res?.status === 200){
-                let data = res?.data.data
-                setSubCart(data)
-                setCartProducts(data?.sub_carts)
-                setTotalPrice(data?.total.toFixed(3))
-                if(!!data?.coupon_name) setCoupon(data?.coupon_name)
-            }
+        if(!!user?.user){
+            cartService.getList().then(res=>{
+                if(res?.status === 200){
+                    let data = res?.data.data
+                    setSubCart(data)
+                    setCartProducts(data?.sub_carts)
+                    setTotalPrice(data?.total.toFixed(3))
+                    if(!!data?.coupon_name) setCoupon(data?.coupon_name)
+                }
+                setLoading(false)
+            }).catch(() => setLoading(false))
+        } else {
+            let data = cart?.map(item=> {
+                return {
+                    amount: item?.amount,
+                    product: item
+                }
+            })
             setLoading(false)
-        }).catch(() => setLoading(false))
-    },[shouldUpdate])
-    
+            let totalP = data?.map(res=> res?.product?.amount*res?.product?.price).reduce((accumulator, currentValue) => {
+                return accumulator + currentValue;
+            }, 0)
+            setTotalPrice(totalP.toFixed(3))
+            setCartProducts(data)
+        }
+    },[shouldUpdate, user])
+
     const promoCode = () =>{
         let data = {
             promoCode: coupon,
@@ -47,8 +62,14 @@ const Cart = () =>{
         }
         cartService.createPromoCode(data).then(res=>{
             if(res?.status === 200){
-                setShouldUpdate(prev=> !prev)
                 toast.success(t("Successfully Applied"))
+                if(!!user?.user){
+                    setShouldUpdate(prev=> !prev)
+                } else {
+                    if(res?.data?.data?.coupon_type === "percentage"){
+                        let dis = totalPrice
+                    }
+                }
             }
         }).catch((e)=> {
             if(e?.response.data?.message === "promo_code_not_Exist"){
@@ -61,13 +82,15 @@ const Cart = () =>{
         let data ={
             product_id: product.id
         }
-        cartService.remove(data).then(res=>{
-            if(res?.status === 200){
-                toast.success(t("Remove from Cart"))
-                setShouldUpdate(prev=> !prev)
-                dispatch(removeProduct(product))
-            }
-        })
+        if(!!user?.user){
+            cartService.remove(data).then(res=>{
+                if(res?.status === 200){
+                    toast.success(t("Remove from Cart"))
+                    setShouldUpdate(prev=> !prev)
+                }
+            })
+        }
+        dispatch(removeProduct(product))
     }
 
     const changeAmount = (product, amount) => {
@@ -86,13 +109,19 @@ const Cart = () =>{
         let data = {
             cart_id: subCart?.id
         }
-        cartService.deletePromoCode(data).then(res=> {
-            if(res?.status === 200){
-                toast.success(t("Remove"))
-                setShouldUpdate(prev=> !prev)
-                setCoupon('')
-            }
-        })
+        if(!!user?.user){
+            cartService.deletePromoCode(data).then(res=> {
+                if(res?.status === 200){
+                    toast.success(t("Remove"))
+                    setShouldUpdate(prev=> !prev)
+                    setCoupon('')
+                }
+            })
+        } else {
+            toast.success(t("Remove"))
+            setShouldUpdate(prev=> !prev)
+            setCoupon('')
+        }
     }
 
     if(loading){
@@ -120,7 +149,12 @@ const Cart = () =>{
                                         </div>
                                         <div className='col-md-3 col-9'>
                                             <div>
-                                                <button className='prod-btn' onClick={()=> changeAmount(product?.product, product?.amount+1) }>
+                                                <button className='prod-btn' onClick={()=> {
+                                                    if(!!user?.user){
+                                                        changeAmount(product?.product, product?.amount+1)
+                                                    }
+                                                    dispatch(increaseProduct(product?.product))
+                                                } }>
                                                     +
                                                 </button>
                                                 <span style={{fontSize: '20px'}} className='mx-4'>{product?.amount}</span>
@@ -129,8 +163,10 @@ const Cart = () =>{
                                                     disabled={product?.amount === 1} 
                                                     style={{cursor: product?.amount > 1 ? 'pointer' : 'not-allowed'}}
                                                     onClick={()=> {
-                                                        changeAmount(product?.product, product?.amount-1)
-                                                        // dispatch(decreaseProduct(product))
+                                                        if(!!user?.user){
+                                                            changeAmount(product?.product, product?.amount-1)
+                                                        }
+                                                        dispatch(decreaseProduct(product?.product))
                                                     }}
                                                 >
                                                     -

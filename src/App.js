@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,12 +29,13 @@ import StyleUp from './Pages/StyleUp';
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const lang = useSelector(state=> state?.lang?.lang)
 
   useEffect(() => {
     AOS.init();
 
-    checkAutoLogin(dispatch, navigate);
+    checkAutoLogin(dispatch, navigate, location?.pathname);
   }, []);
 
   return (

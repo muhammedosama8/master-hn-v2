@@ -28,11 +28,15 @@ const Navbar = () =>{
   };
 
   useEffect(()=>{
-    new CartService().getList().then(res=>{
-        if(res?.status === 200){
-          setCart(res.data?.data?.sub_carts?.length)
-        }
-    }).catch(() => {})
+    if(!!user?.user){
+      new CartService().getList().then(res=>{
+          if(res?.status === 200){
+            setCart(res.data?.data?.sub_carts?.length)
+          }
+      }).catch(() => {})
+    } else {
+      setCart(user?.cart?.length)
+    }
   },[user.cart])
 
   return <div>

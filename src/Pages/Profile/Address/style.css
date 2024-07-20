@@ -1,0 +1,13 @@
+
+.address label{
+    color: #666;
+    font-size: 18px;
+}
+.address p,
+.address .accordion-button{
+    font-size: 20px;
+}
+.address .accordion-button:not(.collapsed){
+    background-color: var(--primary-color);
+    color: #fff;
+}
