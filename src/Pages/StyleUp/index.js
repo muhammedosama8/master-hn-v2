@@ -22,8 +22,8 @@ const StyleUp = () => {
     const {t} = useTranslation()
     const [selected, setSelected] = useState({})
     const tabs = [
-        {label: 'kitchen one', value: 'one'},
-        {label: 'kitchen two', value: 'two'},
+        {label: 'Classic kitchen', value: 'one'},
+        {label: 'modern kitchen', value: 'two'},
     ]
     const [selectTab, setSelectTab] = useState({label: 'kitchen_one', value: 'one'})
 
