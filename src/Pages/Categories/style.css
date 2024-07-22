@@ -21,6 +21,7 @@
 .categories .cate{
   cursor: pointer;
   overflow: hidden;
+  box-shadow: 0 0 5px #dedede85;
 }
 .categories .cate .desc{
   position: absolute;
