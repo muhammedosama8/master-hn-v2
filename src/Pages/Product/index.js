@@ -20,6 +20,7 @@ const Product = () => {
     const [dynamicVariants, setDynamicVariants] = useState([])
     const [variants, setVariants] = useState([])
     const [variantsIds, setVariantsIds] = useState([])
+    const [fixedIds, setFixedIds] = useState([])
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -54,6 +55,7 @@ const Product = () => {
                         setVariants(res?.data?.data?.variant)
                         let ids = res?.data?.data?.variant?.map( variant => variant?.variant_values?.find(val => val?.isSelected).id )
                         setVariantsIds(ids)
+                        setFixedIds(ids)
                     }
                 }
             }).catch((e)=> console.error(e))
@@ -72,9 +74,13 @@ const Product = () => {
                             setVariants(res?.data?.data?.variant)
                             let ids = res?.data?.data?.variant?.map( variant => variant?.variant_values?.find(val => val?.isSelected).id )
                             setVariantsIds(ids)
+                            setFixedIds(ids)
                         }
                     }
-                }).catch(e=> toast.error(e.response?.data?.message?.replaceAll('_', ' ')))
+                }).catch(e=> {
+                    setVariantsIds(fixedIds)
+                    toast.error(e.response?.data?.message?.replaceAll('_', ' '))
+                })
         }
     },[shouldUpdate])
 
@@ -229,16 +235,6 @@ const Product = () => {
                                         setShouldUpdate(prev => !prev)
                                     }}
                                 />
-                                {/* {variant?.variant_values?.map((val, ind)=> {
-                                    return <option value={val?.value_en}></option>
-                                    <div className="value" key={ind}>
-
-                                            <label>
-                                                <input type="radio" checked={val?.isSelected}  className="mx-2"/>
-                                                
-                                            </label>
-                                    </div>
-                                })} */}
                                 </>}
                             </div>
                         </div>
