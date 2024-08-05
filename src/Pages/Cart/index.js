@@ -65,14 +65,14 @@ const Cart = () =>{
             setCouponDetails(promocodeText)
             let dis
             if(promocodeText?.coupon_type === "percentage"){
-                dis = Number(totalPrice) - ((Number(totalPrice)* (Number(promocodeText?.coupon_value)/100)))
+                dis = Number(totalP) - ((Number(totalP)* (Number(promocodeText?.coupon_value)/100)))
             }
             if(promocodeText?.coupon_type === "fixed"){
-                dis = Number(totalPrice) - Number(promocodeText?.coupon_value)
+                dis = Number(totalP) - Number(promocodeText?.coupon_value)
             }
             setTotalPriceAfterDis(dis)
         }
-    },[shouldUpdate, user])
+    },[shouldUpdate, user, cart])
 
     const promoCode = () =>{
         let data = {
