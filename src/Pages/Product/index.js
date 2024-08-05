@@ -87,7 +87,12 @@ const Product = () => {
     const addCart = () => {
         let data = {
             products: [{
-                dynamic_variant: [],
+                dynamic_variant: dynamicVariants?.filter(res=> res?.amount > 0)?.map(dy =>{
+                    return {
+                        dynamic_variant_id: dy?.amount,
+                        amount: dy?.id
+                    }
+                }),
                 amount: amount,
                 product_id: product?.id
             }]
@@ -99,6 +104,7 @@ const Product = () => {
                     toast.success(t("Product Added To Cart"));
                     dispatch(addToCart({
                         ...product,
+                        dynamicVariants: dynamicVariants,
                         amount: amount
                     }))
                 }
@@ -120,11 +126,13 @@ const Product = () => {
                 toast.error(e.response?.data?.message?.replaceAll('_', ' '))
             })
         } else {
+            toast.success(t("Product Added To Cart"));
             dispatch(addToCart({
                 ...product,
+                dynamicVariants: dynamicVariants,
                 amount: amount
             }))
-            setTimeout(()=> setLoader(false), [1000])
+            setTimeout(()=> setLoader(false), [500])
         }
     }
 

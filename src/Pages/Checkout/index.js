@@ -92,7 +92,7 @@ const Checkout = () =>{
                                 </div>
                                 <div className="row">
                                     <div className="col-md-4 form-group">
-                                        <label>{t("Extra Directions")}*</label>
+                                        <label>{t("Extra Directions")}</label>
                                         <textarea 
                                             className="form-control" 
                                             rows={10}

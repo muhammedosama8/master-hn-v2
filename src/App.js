@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,15 +17,14 @@ import Error404 from './common/Error404';
 import Cart from './Pages/Cart';
 import Checkout from './Pages/Checkout';
 import Contact from './Pages/Contact';
+import StyleUp from './Pages/StyleUp';
+import Profile from './Pages/Profile';
 import './i18n';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './App.css';
-import Profile from './Pages/Profile';
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import StyleUp from './Pages/StyleUp';
 
 function App() {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL_ENV } from '../common/common';
-import { LogoutFn, loginConfirmedAction } from '../store/actions/AuthActions';
+import { LogoutFn, setPromoCode, loginConfirmedAction, setCart } from '../store/actions/AuthActions';
 import { changeLang } from '../store/actions/LangActions';
 import { toast } from 'react-toastify';
 import UserService from './UserService';
@@ -37,6 +37,18 @@ export function Logout(token, dispatch, navigate, pathname) {
 
 export function checkAutoLogin(dispatch, navigate, pathname) {
     const tokenDetailsString = localStorage.getItem('masterHN');
+    const masterCartString = localStorage.getItem('masterHNCart');
+    const promoCode = localStorage.getItem('PromoCodeMasterHN');
+
+    if(!!masterCartString){
+        dispatch(setCart(JSON.parse(masterCartString)))
+    }
+
+    if(!!promoCode && !!masterCartString){
+        setTimeout(()=>{
+            dispatch(setPromoCode(JSON.parse(promoCode)))
+        }, 500)
+    }
 
     if (!tokenDetailsString) {
         dispatch(LogoutFn())
@@ -45,6 +57,7 @@ export function checkAutoLogin(dispatch, navigate, pathname) {
         }
 		return;
     }
+    
     new UserService().profile().then(res=>{
         if(res?.status){
             const tokenDetailsString = localStorage.getItem('masterHN');

@@ -13,6 +13,8 @@ import {
     SHOWLOGIN,
     UPDATE_DATA_ACTION,
     CHANGE_AVATAR_ACTION,
+    SETCART_ACTION,
+    PROMOCODE,
 } from '../actions/AuthActions';
 
 const initialState = {
@@ -21,6 +23,7 @@ const initialState = {
     successMessage: '',
     showLoading: false,
     cart: [],
+    promoCode: '',
     showLogin: false
 };
 
@@ -41,23 +44,32 @@ export function AuthReducer(state = initialState, action) {
                 if(res.id === action.payload?.id){
                     return{
                         ...res,
+                        dynamicVariants: action.payload?.dynamicVariants?.map((dy, ind)=>{
+                            return {
+                                ...dy,
+                                amount: res?.dynamicVariants[ind]?.amount + dy?.amount
+                            }
+                        }),
                         amount: Number(action.payload?.amount) + Number(res?.amount)
                     }
                 } else {
                     return res
                 }
             })
+            localStorage.setItem('masterHNCart', JSON.stringify(update))
             return {
                 ...state,
                 cart: [...update]
             };
         } else {
+            let data = [
+                ...state.cart, 
+                action.payload
+            ]
+            localStorage.setItem('masterHNCart', JSON.stringify(data))
             return {
                 ...state,
-                cart: [
-                    ...state.cart, 
-                    action.payload
-                ]
+                cart: data
             };
         }
     }
@@ -72,6 +84,7 @@ export function AuthReducer(state = initialState, action) {
                 return res
             }
         })
+        localStorage.setItem('masterHNCart', JSON.stringify(update))
         return {
             ...state,
             cart: [...update]
@@ -88,6 +101,7 @@ export function AuthReducer(state = initialState, action) {
                 return res
             }
         })
+        localStorage.setItem('masterHNCart', JSON.stringify(update))
         return {
             ...state,
             cart: [...update]
@@ -95,10 +109,16 @@ export function AuthReducer(state = initialState, action) {
     }
     if (action.type === REMOVE) {
         let update = state?.cart?.filter(res=> res.id !== action.payload?.id)
-
+        localStorage.setItem('masterHNCart', JSON.stringify(update))
         return {
             ...state,
             cart: [...update]
+        };
+    }
+    if (action.type === PROMOCODE) {
+        return {
+            ...state,
+            promoCode: action.payload
         };
     }
     if (action.type === LOGIN) {
@@ -146,12 +166,20 @@ export function AuthReducer(state = initialState, action) {
     }
     if (action.type === LOGOUT_ACTION) {
         return {
+            ...state,
+            promoCode: '',
             user: '',
             errorMessage: '',
             successMessage: '',
             showLoading: false,
             showLogin: false,
             cart: state?.cart,
+        };
+    }
+    if (action.type === SETCART_ACTION) {
+        return {
+            ...state,
+            cart: action.payload
         };
     }
 

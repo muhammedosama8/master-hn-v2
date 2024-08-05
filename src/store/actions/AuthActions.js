@@ -4,6 +4,7 @@ import {
     saveTokenInLocalStorage,
     signUp,
 } from '../../services/AuthService';
+import { t } from 'i18next';
 
 
 export const SIGNUP_CONFIRMED_ACTION = '[signup action] confirmed signup';
@@ -15,13 +16,15 @@ export const CHANGE_AVATAR_ACTION = 'change avatar';
 export const SHOWLOGIN = 'show login';
 export const CART = 'cart';
 export const REMOVE = 'remove';
+export const SETCART_ACTION = 'SETCART';
 export const INCREASE = 'increase';
 export const DECREASE = 'decrease';
 export const LOGIN_FAILED_ACTION = '[login action] failed login';
 export const LOADING_TOGGLE_ACTION = '[Loading action] toggle loading';
 export const LOGOUT_ACTION = '[Logout action] logout action';
+export const PROMOCODE = 'promocode';
 
-export function signupAction(data, navigate, pathname, setModal, setLoading) {
+export function signupAction(data, navigate, pathname, setModal, setLoading, cartService, cartProducts) {
     return (dispatch) => {
         setLoading(true)
         signUp(data).then((response) => {
@@ -30,7 +33,18 @@ export function signupAction(data, navigate, pathname, setModal, setLoading) {
                 dispatch(confirmedSignupAction(response.data));
                 navigate(pathname);
                 toast.success('Register Successfully.')
+                dispatch(loadingToggleAction(false))
                 setModal()
+                setTimeout(()=>{
+                    if(!!cartProducts && cartProducts?.products?.length > 0){
+                        cartService.create(cartProducts).then(res=>{
+                            if(res?.status){
+                                localStorage.removeItem('masterHNCart')
+                                localStorage.removeItem('PromoCodeMasterHN')
+                            }
+                        })
+                    }
+                }, 300)
             }
             setLoading(false)
         }).catch((error) => {
@@ -49,8 +63,14 @@ export function LogoutFn() {
         type: LOGOUT_ACTION,
     };
 }
+export function setCart(data) {
+	return {
+        type: SETCART_ACTION,
+        payload: data
+    };
+}
 
-export function loginAction(data, navigate, path, setModal, setLoading) {
+export function loginAction(data, navigate, path, setModal, setLoading, cartService, cartProducts) {
     return (dispatch) => {
         setLoading(true)
         login(data).then((response) => {  
@@ -62,6 +82,16 @@ export function loginAction(data, navigate, path, setModal, setLoading) {
                     toast.success('Login Successfully.')
                     dispatch(loadingToggleAction(false))  
                     setModal(false)
+                    setTimeout(()=>{
+                        if(!!cartProducts && cartProducts?.products?.length > 0){
+                            cartService.create(cartProducts).then(res=>{
+                                if(res?.status){
+                                    localStorage.removeItem('masterHNCart')
+                                    localStorage.removeItem('PromoCodeMasterHN')
+                                }
+                            })
+                        }
+                    }, 300)
                 }  
                 setLoading(false)
             }).catch(error => {
@@ -115,6 +145,12 @@ export function decreaseProduct(data) {
 export function removeProduct(data) {
     return {
         type: REMOVE,
+        payload: data
+    };
+}
+export function setPromoCode(data) {
+    return {
+        type: PROMOCODE,
         payload: data
     };
 }

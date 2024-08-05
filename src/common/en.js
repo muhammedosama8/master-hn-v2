@@ -98,6 +98,7 @@ export const en = {
     "Default": "Default",
     "Forget Password": "Forget Password",
     "Back": "Back",
+    "Delete": "Delete",
     "Address Added Successfully.": "Address Added Successfully.",
     "Address Updated Successfully.": "Address Updated Successfully.",
     "Address Deleted Successfully.": "Address Deleted Successfully.",

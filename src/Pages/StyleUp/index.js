@@ -84,7 +84,7 @@ const StyleUp = () => {
         <Loader />
     </div> : <>
     <div className="text-center mt-5">
-        <img src={selected?.img} alt='main' height={400} className="w-100" />
+        <img src={selected?.img} alt='main' height={400} className="m-auto" style={{width: '85%'}} />
     </div>
     <div className="mt-3">
         {data?.sheets?.map((sheet,index) => {

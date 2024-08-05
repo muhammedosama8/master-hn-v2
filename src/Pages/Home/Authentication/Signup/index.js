@@ -4,8 +4,9 @@ import { useState } from "react"
 import { Button, Col, Row } from "react-bootstrap"
 import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
-import { signupAction } from "../../../../store/actions/AuthActions"
+import { loadingToggleAction, signupAction } from "../../../../store/actions/AuthActions"
 import { useLocation, useNavigate } from "react-router-dom"
+import CartService from "../../../../services/CartService"
 
 const Signup = ({setType, setModal}) => {
     const [formData, setFormData] = useState({
@@ -21,10 +22,28 @@ const Signup = ({setType, setModal}) => {
     const location = useLocation()
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const cartService = new CartService()
+    const user = useSelector(state => state?.user)
 
     const submit = () => {
+        let cartProducts = {
+            products: user?.cart?.map(product => {
+                return {
+                    dynamic_variant: product?.dynamicVariants?.filter(res=> res?.amount > 0)?.map(res=>{
+                        return {
+                            dynamic_variant_id: res?.id,
+                            amount: res?.amount
+                        }
+                    }),
+                    amount: product?.amount,
+                    product_id: product?.id
+                }
+            })
+        }
+        if(user?.promoCode) cartProducts['promoCode'] = user?.promoCode?.coupon
         let pathname = location?.pathname
-        dispatch(signupAction(formData, navigate, pathname, setModal, setLoading));
+        dispatch(loadingToggleAction(true));
+        dispatch(signupAction(formData, navigate, pathname, setModal, setLoading, cartService, cartProducts));
     }
 
     return <AvForm

@@ -4,7 +4,7 @@ import trash from '../../assets/trash.svg'
 import cartImg from '../../assets/cartIllustartion.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Badge, Card, CardBody } from 'react-bootstrap'
-import { ShowLogin, decreaseProduct, increaseProduct, removeProduct } from '../../store/actions/AuthActions'
+import { setPromoCode, ShowLogin, decreaseProduct, increaseProduct, removeProduct } from '../../store/actions/AuthActions'
 import { useTranslation } from 'react-i18next'
 import CheckLogin from './CheckLogin'
 import CartService from '../../services/CartService'
@@ -16,6 +16,8 @@ const Cart = () =>{
     const [cartProducts, setCartProducts] = useState([])
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const [totalPrice, setTotalPrice] = useState(0)
+    const [totalPriceAfterDis, setTotalPriceAfterDis] = useState(0)
+    const [couponDetails, setCouponDetails] = useState("")
     const [coupon, setCoupon] = useState("")
     const [loading, setLoading] = useState(false)
     const [modal, setModal] = useState(false)
@@ -24,6 +26,7 @@ const Cart = () =>{
     const user = useSelector(state => state?.user)
     const lang = useSelector(state => state?.lang?.lang)
     const cart = useSelector(state => state?.user?.cart)
+    const promocodeText = useSelector(state => state?.user?.promoCode)
     const cartService = new CartService()
 
     useEffect(()=>{
@@ -43,15 +46,31 @@ const Cart = () =>{
             let data = cart?.map(item=> {
                 return {
                     amount: item?.amount,
+                    dynamicVariants: item?.dynamicVariants?.filter(res=> res?.amount > 0),
                     product: item
                 }
             })
             setLoading(false)
-            let totalP = data?.map(res=> res?.product?.amount*res?.product?.price).reduce((accumulator, currentValue) => {
+            let totalP = data?.map(res=> {
+                let tot = (res?.product?.amount*res?.product?.price) + res?.dynamicVariants?.map(dy=> dy?.amount*dy?.price).reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue;
+                }, 0)
+                return tot
+            }).reduce((accumulator, currentValue) => {
                 return accumulator + currentValue;
             }, 0)
             setTotalPrice(totalP.toFixed(3))
             setCartProducts(data)
+            setCoupon(promocodeText.coupon)
+            setCouponDetails(promocodeText)
+            let dis
+            if(promocodeText?.coupon_type === "percentage"){
+                dis = Number(totalPrice) - ((Number(totalPrice)* (Number(promocodeText?.coupon_value)/100)))
+            }
+            if(promocodeText?.coupon_type === "fixed"){
+                dis = Number(totalPrice) - Number(promocodeText?.coupon_value)
+            }
+            setTotalPriceAfterDis(dis)
         }
     },[shouldUpdate, user])
 
@@ -66,9 +85,17 @@ const Cart = () =>{
                 if(!!user?.user){
                     setShouldUpdate(prev=> !prev)
                 } else {
+                    setCouponDetails(res?.data?.data)
+                    let dis
                     if(res?.data?.data?.coupon_type === "percentage"){
-                        let dis = totalPrice
+                        dis = Number(totalPrice) - ((Number(totalPrice)* (Number(res?.data?.data?.coupon_value)/100)))
                     }
+                    if(res?.data?.data?.coupon_type === "fixed"){
+                        dis = Number(totalPrice) - Number(res?.data?.data?.coupon_value)
+                    }
+                    setTotalPriceAfterDis(dis)
+                    localStorage.setItem('PromoCodeMasterHN', JSON.stringify({coupon: coupon,...res?.data?.data}))
+                    dispatch(setPromoCode({coupon: coupon,...res?.data?.data}))
                 }
             }
         }).catch((e)=> {
@@ -119,8 +146,11 @@ const Cart = () =>{
             })
         } else {
             toast.success(t("Remove"))
-            setShouldUpdate(prev=> !prev)
             setCoupon('')
+            setCouponDetails("")
+            setTotalPriceAfterDis(0)
+            localStorage.removeItem('PromoCodeMasterHN')
+            dispatch(setPromoCode(""))
         }
     }
 
@@ -134,21 +164,31 @@ const Cart = () =>{
         <div className='container'>
             {cartProducts?.length > 0 ? <div className='row'>
                 <div className='col-md-8'>
-                    <Card style={{border: 'none'}}>
+                    <Card style={{border: 'none', boxShadow: '0 0 4px rgba(222, 222, 222, 0.47)'}}>
                         <CardBody>
                             {cartProducts?.map(product => {
                             return <div key={product?.product?.id} className='product-cart'>
-                                    <div className='row align-items-center'>
-                                        <div className='col-md-8 col-12 d-flex' style={{gap: '16px'}}>
+                                    <div className='row'>
+                                        <div className='col-md-9 col-12 d-flex' style={{gap: '16px'}}>
                                             <img src={product?.product.product_images[0]?.url} alt='img' width={90} height={90} />
                                             <div>
-                                                <h4>{lang === 'en' ? product?.product?.name_en : product?.product?.name_ar}</h4>
+                                                <h4 className='m-0'>{lang === 'en' ? product?.product?.name_en : product?.product?.name_ar}</h4>
                                                 <Badge className='mb-2' variant="primary">{lang === 'en' ? product?.product?.category?.name_en : product?.product?.category?.name_ar}</Badge>
-                                                <h5 className='mb-0'>{product?.amount} * {product?.product?.price}</h5>
+                                                <h5 className='mb-2'>{product?.amount} * {product?.product?.price.toFixed(3)}</h5>
+                                                {product?.dynamicVariants?.map(dy => {
+                                                    return <h6 key={dy.id}>
+                                                        {lang === 'en' ? dy?.name_en : dy?.name_ar} ({dy?.amount} * {dy?.price?.toFixed(3)})
+                                                    </h6>
+                                                })}
                                             </div>
                                         </div>
                                         <div className='col-md-3 col-9'>
-                                            <div>
+                                            <div className='text-center'>
+                                                <h4 className='text-primary'>{((Number(product?.amount)*Number(product?.product?.price)) + product?.dynamicVariants?.map(res=> res?.amount*res?.price).reduce((accumulator, currentValue) => {
+                                                    return accumulator + currentValue;
+                                                }, 0)).toFixed(3)} {t("KWD")}</h4>
+                                            </div>
+                                            <div className='text-center'>
                                                 <button className='prod-btn' onClick={()=> {
                                                     if(!!user?.user){
                                                         changeAmount(product?.product, product?.amount+1)
@@ -157,7 +197,7 @@ const Cart = () =>{
                                                 } }>
                                                     +
                                                 </button>
-                                                <span style={{fontSize: '20px'}} className='mx-4'>{product?.amount}</span>
+                                                <span style={{fontSize: '20px'}} className='mx-3'>{product?.amount}</span>
                                                 <button 
                                                     className='prod-btn minus' 
                                                     disabled={product?.amount === 1} 
@@ -172,11 +212,9 @@ const Cart = () =>{
                                                     -
                                                 </button>
                                             </div>
-                                        </div>
-                                        <div className='col-md-1 col-3'>
-                                            <div>
+                                            <div className='text-center mt-3'>
                                                 <button className='trash' onClick={()=> removeProductFromCart(product?.product)}>
-                                                <img src={trash} alt='trash' />
+                                                    <img src={trash} alt='trash' /> {t("Delete")}
                                                 </button>
                                             </div>
                                         </div>
@@ -197,21 +235,29 @@ const Cart = () =>{
                                         <input type="text" 
                                             required
                                             value={coupon}
-                                            disabled={!!subCart?.coupon_name}
                                             onChange={e=> setCoupon(e.target.value)}
+                                            disabled={!!couponDetails?.coupon}
                                             className="form-control" 
                                             name="code_name" id="code_name"
                                             placeholder={t("Please Enter")} />
-                                        {!subCart?.coupon_name && <button className="btn-site" disabled={!coupon} onClick={promoCode}><span>{t("Apply")}</span></button>}
-                                        {!!subCart?.coupon_name && <button className="btn-danger" onClick={removePromoCode}><span>{t("Remove")}</span></button>}
+                                        {!couponDetails?.coupon && <button className="btn-site" onClick={promoCode}><span>{t("Apply")}</span></button>}
+                                        {!!couponDetails?.coupon && <button className="btn-danger" onClick={removePromoCode}><span>{t("Remove")}</span></button>}
                                     </div>
                                 </div>
 
                             </div>
                             <div className='d-flex justify-content-between'>
-                                <h5 style={{fontSize: '18px'}}>{t("Total Price")}:</h5>
+                                <h5 style={{fontSize: '18px'}}>{!!totalPriceAfterDis ? t("Total Price") : t("Price")}:</h5>
                                 <h5 style={{fontSize: '18px', fontWeight: "600"}}>{totalPrice} {t("KWD")}</h5>
                             </div>
+                            {!!couponDetails && <div className='d-flex justify-content-between'>
+                                <h5 style={{fontSize: '18px'}}>{t("Discound")}:</h5>
+                                <h5 style={{fontSize: '18px', fontWeight: "600"}}>{couponDetails?.coupon_value} {couponDetails?.coupon_type === 'percentage' ? '%' : t("KWD")}</h5>
+                            </div>}
+                            {!!totalPriceAfterDis && <div className='d-flex justify-content-between'>
+                                <h5 style={{fontSize: '18px'}}>{t("Total Price")}:</h5>
+                                <h5 style={{fontSize: '18px', fontWeight: "600"}}>{totalPriceAfterDis.toFixed(3)} {t("KWD")}</h5>
+                            </div>}
                             <div>
                                 <button 
                                     className='continue w-100'

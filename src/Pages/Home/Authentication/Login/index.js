@@ -6,6 +6,7 @@ import { loadingToggleAction, loginAction } from "../../../../store/actions/Auth
 import { useDispatch, useSelector } from "react-redux"
 import { useTranslation } from "react-i18next"
 import ForgetPassword from "../ForgetPassword"
+import CartService from "../../../../services/CartService"
 
 const Login = ({setType, setModal}) => {
     const [formData, setFormData] = useState({
@@ -20,10 +21,27 @@ const Login = ({setType, setModal}) => {
     const dispatch = useDispatch()
     const lang = useSelector(state=> state?.lang?.lang)
     const {t} = useTranslation()
+    const cartService = new CartService()
+    const user = useSelector(state => state?.user)
 
     const submit = () =>{
+        let cartProducts = {
+            products: user?.cart?.map(product => {
+                return {
+                    dynamic_variant: product?.dynamicVariants?.filter(res=> res?.amount > 0)?.map(res=>{
+                        return {
+                            dynamic_variant_id: res?.id,
+                            amount: res?.amount
+                        }
+                    }),
+                    amount: product?.amount,
+                    product_id: product?.id
+                }
+            })
+        }
+        if(user?.promoCode) cartProducts['promoCode'] = user?.promoCode?.coupon
         dispatch(loadingToggleAction(true));
-        dispatch(loginAction(formData, navigate, location?.pathname, setModal, setLoading));
+        dispatch(loginAction(formData, navigate, location?.pathname, setModal, setLoading, cartService, cartProducts));
     }
 
     if(!forgetPassword){

@@ -98,6 +98,7 @@ export const ar = {
     "Default": "الافتراضية",
     "Forget Password": "نسيت كلمه المرور",
     "Back": "الي الخلف",
+    "Delete": "حذف",
     "Address Added Successfully.": "تمت إضافة العنوان بنجاح.",
     "Address Updated Successfully.": "تمت تعديل العنوان بنجاح.",
     "Address Deleted Successfully.": "تمت حذف العنوان بنجاح.",
