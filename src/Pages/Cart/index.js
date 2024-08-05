@@ -37,8 +37,11 @@ const Cart = () =>{
                     let data = res?.data.data
                     setSubCart(data)
                     setCartProducts(data?.sub_carts)
-                    setTotalPrice(data?.total.toFixed(3))
-                    if(!!data?.coupon_name) setCoupon(data?.coupon_name)
+                    setTotalPrice(data?.sub_total.toFixed(3))
+                    if(!!data?.coupon_name){
+                        setCoupon(data?.coupon_name)
+                        setTotalPriceAfterDis(data?.total)
+                    }
                 }
                 setLoading(false)
             }).catch(() => setLoading(false))
@@ -73,7 +76,7 @@ const Cart = () =>{
             setTotalPriceAfterDis(dis)
         }
     },[shouldUpdate, user, cart])
-
+console.log(coupon, 'dd' ,couponDetails)
     const promoCode = () =>{
         let data = {
             promoCode: coupon,
@@ -82,10 +85,13 @@ const Cart = () =>{
         cartService.createPromoCode(data).then(res=>{
             if(res?.status === 200){
                 toast.success(t("Successfully Applied"))
+                console.log(res?.data?.data)
+                setCouponDetails({coupon,...res?.data?.data})
+                localStorage.setItem('PromoCodeMasterHN', JSON.stringify({coupon: coupon,...res?.data?.data}))
+                dispatch(setPromoCode({coupon: coupon,...res?.data?.data}))
                 if(!!user?.user){
                     setShouldUpdate(prev=> !prev)
                 } else {
-                    setCouponDetails(res?.data?.data)
                     let dis
                     if(res?.data?.data?.coupon_type === "percentage"){
                         dis = Number(totalPrice) - ((Number(totalPrice)* (Number(res?.data?.data?.coupon_value)/100)))
@@ -94,8 +100,6 @@ const Cart = () =>{
                         dis = Number(totalPrice) - Number(res?.data?.data?.coupon_value)
                     }
                     setTotalPriceAfterDis(dis)
-                    localStorage.setItem('PromoCodeMasterHN', JSON.stringify({coupon: coupon,...res?.data?.data}))
-                    dispatch(setPromoCode({coupon: coupon,...res?.data?.data}))
                 }
             }
         }).catch((e)=> {
@@ -132,25 +136,26 @@ const Cart = () =>{
         })
     }
 
+    const commonLines = () => {
+        toast.success(t("Remove"))
+        dispatch(setPromoCode(""))
+        localStorage.removeItem('PromoCodeMasterHN')
+        setCoupon('')
+        setCouponDetails("")
+        setShouldUpdate(prev=> !prev)
+        setTotalPriceAfterDis(0)
+    }
+
     const removePromoCode = () => {
         let data = {
             cart_id: subCart?.id
         }
         if(!!user?.user){
             cartService.deletePromoCode(data).then(res=> {
-                if(res?.status === 200){
-                    toast.success(t("Remove"))
-                    setShouldUpdate(prev=> !prev)
-                    setCoupon('')
-                }
+                if(res?.status === 200) commonLines() 
             })
         } else {
-            toast.success(t("Remove"))
-            setCoupon('')
-            setCouponDetails("")
-            setTotalPriceAfterDis(0)
-            localStorage.removeItem('PromoCodeMasterHN')
-            dispatch(setPromoCode(""))
+            commonLines()
         }
     }
 
@@ -184,9 +189,10 @@ const Cart = () =>{
                                         </div>
                                         <div className='col-md-3 col-9'>
                                             <div className='text-center'>
-                                                <h4 className='text-primary'>{((Number(product?.amount)*Number(product?.product?.price)) + product?.dynamicVariants?.map(res=> res?.amount*res?.price).reduce((accumulator, currentValue) => {
+                                               {product?.dynamicVariants?.length ? <h4 className='text-primary'>{((Number(product?.amount)*Number(product?.product?.price)) + product?.dynamicVariants?.map(res=> res?.amount*res?.price).reduce((accumulator, currentValue) => {
                                                     return accumulator + currentValue;
-                                                }, 0)).toFixed(3)} {t("KWD")}</h4>
+                                                }, 0)).toFixed(3)} {t("KWD")}</h4> :
+                                                <h4 className='text-primary'>{(Number(product?.amount)*Number(product?.product?.price)).toFixed(3)} {t("KWD")}</h4>}
                                             </div>
                                             <div className='text-center'>
                                                 <button className='prod-btn' onClick={()=> {
