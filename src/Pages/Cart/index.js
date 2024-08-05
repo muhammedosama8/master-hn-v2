@@ -247,7 +247,7 @@ const Cart = () =>{
 
                             </div>
                             <div className='d-flex justify-content-between'>
-                                <h5 style={{fontSize: '18px'}}>{!!totalPriceAfterDis ? t("Total Price") : t("Price")}:</h5>
+                                <h5 style={{fontSize: '18px'}}>{!!totalPriceAfterDis ? t("Price") : t("Total Price")}:</h5>
                                 <h5 style={{fontSize: '18px', fontWeight: "600"}}>{totalPrice} {t("KWD")}</h5>
                             </div>
                             {!!couponDetails && <div className='d-flex justify-content-between'>

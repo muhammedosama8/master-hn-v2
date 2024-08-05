@@ -25,6 +25,7 @@
 .cart .continue{
     background-color: var(--primary-color);
     margin-top: 2rem;
+    border-radius: 8px;
 }
 .cart .product-cart:last-child{
     margin-bottom: 0;
