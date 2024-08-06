@@ -41,6 +41,11 @@ const Cart = () =>{
                     if(!!data?.coupon_name){
                         setCoupon(data?.coupon_name)
                         setTotalPriceAfterDis(data?.total)
+                        setCouponDetails({
+                            coupon: data?.coupon_name,
+                            coupon_type: data?.coupon_type,
+                            coupon_value: data?.coupon_value,
+                        })
                     }
                 }
                 setLoading(false)
@@ -76,7 +81,7 @@ const Cart = () =>{
             setTotalPriceAfterDis(dis)
         }
     },[shouldUpdate, user, cart])
-console.log(coupon, 'dd' ,couponDetails)
+
     const promoCode = () =>{
         let data = {
             promoCode: coupon,
@@ -85,7 +90,6 @@ console.log(coupon, 'dd' ,couponDetails)
         cartService.createPromoCode(data).then(res=>{
             if(res?.status === 200){
                 toast.success(t("Successfully Applied"))
-                console.log(res?.data?.data)
                 setCouponDetails({coupon,...res?.data?.data})
                 localStorage.setItem('PromoCodeMasterHN', JSON.stringify({coupon: coupon,...res?.data?.data}))
                 dispatch(setPromoCode({coupon: coupon,...res?.data?.data}))
