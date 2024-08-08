@@ -42,7 +42,7 @@ const Checkout = () =>{
     ]
     const [isLogin, setIsLogin] = useState(null)
     const [address, setAddress] = useState([])
-    const [paymentMethod, setPaymentMethod] = useState('visa')
+    const [paymentMethod, setPaymentMethod] = useState('cash')
     const [addNewAddress, setAddNewAddress] = useState(false)
     const [loadingAddress, setLoadingAddress] = useState(false)
     const navigate = useNavigate()
