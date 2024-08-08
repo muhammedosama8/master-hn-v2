@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Area from '../../Enums/Area';
-import knet from '../../assets/knet.svg'
-import visa from '../../assets/visa.svg'
 import Select from "react-select"
 import { useDispatch, useSelector } from 'react-redux';
 import UserAddressService from '../../services/UserAddressService';
@@ -49,20 +47,19 @@ const Checkout = () =>{
     const [loadingAddress, setLoadingAddress] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const promocodeText = useSelector(state => state?.user?.promoCode)
     const lang = useSelector(state => state?.lang?.lang)
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalPriceAfterDis, setTotalPriceAfterDis] = useState(0)
     const [deliveryChargess, setDeliveryChargess] = useState(0)
     const [discountAmount, setDiscountAmount] = useState(0)
     const [coupon, setCoupon] = useState("")
+    const [paymentType, setPaymentType] = useState('knet')
     const [couponDetails, setCouponDetails] = useState("")
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const [shouldUpdateAddress, setShouldUpdateAddress] = useState(false)
     const [loadin, setLoading] = useState(false)
     const [cartId, setCartId] = useState('')
     const [cartProducts, setCartProducts] = useState([])
-    const cart = useSelector(state=> state?.user) || []
     const user = useSelector(state=> state?.user?.user)
     const userAddressService = new UserAddressService()
     const cartService = new CartService()
@@ -107,7 +104,12 @@ const Checkout = () =>{
                     }
                 }
                 setLoading(false)
-            }).catch(() => setLoading(false))
+            }).catch((e) => {
+                if(e.response.data?.message === "cart_not_Exist"){
+                    navigate('/')
+                }
+                setLoading(false)
+            })
         } else {
             // let data = cart?.map(item=> {
             //     return {
@@ -201,18 +203,20 @@ const Checkout = () =>{
     }
 
     const submitOrder = () => {
-        if(!!address?.length){
+        if(address?.length === 0){
             toast.error(t("Add Address First"))
             return
         }
         let data = {
+            day: "2024-08-09",
             payment_method: paymentMethod,
             user_address_id: address.find(res=> res.is_default)?.id,
             cart_id: cartId,
-            paymentType: "knet"
         }
+        if(paymentMethod === 'visa') data['paymentType'] = paymentType
         orderService.create(data).then(res=>{
             if(res?.status){
+                window.location.href = res.data?.data
             }
         })
     }
@@ -748,24 +752,39 @@ const Checkout = () =>{
                                 {t("Visa/MasterCard")}                                
                             </label>
                         </div>
+                        {paymentMethod === 'visa' && <Row>
+                            <Col md={12} className='d-block mt-3'>
+                                <label>{t("Payment")}</label>
+                                <select 
+                                    style={{ width: '100%', height: '40px', borderRadius: '8px', padding: '0 10px' }} 
+                                    onChange={e=> setPaymentType(e?.target?.value)}
+                                >
+                                    <option value='knet'>Knet</option>
+                                    <option value='cc'>CC</option>
+                                    <option value='samsung-pay'>Samsung Pay</option>
+                                    <option value='apple-pay'>Apple Pay</option>
+                                    <option value='google-pay'>Google Pay</option>
+                                </select>
+                            </Col>
+                        </Row>}
                     </div>
                 </div>
                 <div className="cont-pay-dts wow fadeInUp">
                     <h5>{t("Payment Detail")}</h5>
-                    <div>
-                        <p>{t("Sub Total")}</p>
+                    <div className='mb-2'>
+                        <p className='m-0'>{t("Sub Total")}</p>
                         <span className="sub_total">{totalPrice.toFixed(3)} {t("KWD")}</span>
                     </div>
-                    {!!discountAmount && <div>
-                        <p>{t("Discount")}</p>
+                    {!!discountAmount && <div className='mb-2'>
+                        <p className='m-0'>{t("Discount")}</p>
                         <span className="discount_amount">{discountAmount.toFixed(3)} {t("KWD")}</span>
                     </div>}
-                    <div>
-                        <p>{t("Delivery Charges")}</p>
+                    <div className='mb-2'>
+                        <p className='m-0'>{t("Delivery Charges")}</p>
                         <span className="delivery_charges">{deliveryChargess ? deliveryChargess.toFixed(3) : 0} {t("KWD")}</span>
                     </div>
-                    <div>
-                        <p>{t("Total")}</p>
+                    <div className='mb-2'>
+                        <p className='m-0'>{t("Total")}</p>
                         <span className="total_price">{totalPriceAfterDis.toFixed(3)} {t("KWD")}</span>
                     </div>
                     <Button className='submit-order' variant='primary' onClick={()=> submitOrder()}>

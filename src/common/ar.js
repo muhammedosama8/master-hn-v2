@@ -35,6 +35,7 @@ export const ar = {
     "Quantity": "الكمية",
     "Total": "الإجمالي",
     "Sub Total": "المجموع الفرعي",
+    "Payment": "الدفع",
     "Payment Details": "تفاصيل الدفع",
     "Proceed": "هل ترغب في المتابعة لإتمام الطلب كـ",
     "Login": "تسجيل الدخول",

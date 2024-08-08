@@ -5,17 +5,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import CategoriesService from '../../../services/CategoriesService';
 import { useSelector } from 'react-redux';
-import Loader from '../../../common/Loader';
 import 'swiper/css'
 
 const Categories = () => {
   const [data, setData] = useState([])
-  const [loader, setLoader] = useState(false)
   const lang = useSelector(state => state?.lang?.lang)
   const categoriesService = new CategoriesService()
 
   useEffect(()=>{
-    setLoader(true)
     categoriesService?.getList().then(res=>{
       if(res?.status === 200){
         let info = res?.data?.data?.data?.map(cat=>{
@@ -25,8 +22,7 @@ const Categories = () => {
         })
         setData(info)
       }
-      setLoader(false)
-    }).catch(()=> setLoader(false))
+    }).catch(()=> {})
   },[])
 
   function toTitleCase(str) {
@@ -36,9 +32,7 @@ const Categories = () => {
   }
 
   return (<div className='categories-home'>
-    {loader ? <div className='d-flex justify-content-center py-1'>
-        <Loader />
-      </div> : <Swiper
+      <Swiper
         modules={[Autoplay]}
         slidesPerView={8}
         autoplay={{
@@ -72,7 +66,7 @@ const Categories = () => {
             </Link>
             </SwiperSlide>
         })}
-      </Swiper>}
+      </Swiper>
     </div>
   );
 };

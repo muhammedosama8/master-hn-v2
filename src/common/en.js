@@ -71,6 +71,7 @@ export const en = {
     "Coupon Code": "Coupon Code",
     "Apply": "Apply",
     "Payment Method": "Payment Method",
+    "Payment": "Payment",
     "KNET": "KNET",
     "Visa/MasterCard": "Visa/MasterCard",
     "Payment Detail": "Payment Detail",

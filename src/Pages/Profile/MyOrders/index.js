@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import categoryImg from '../../../assets/category.jpeg'
 import categoryImg2 from '../../../assets/2.webp'
 import { Badge, Button, Col, Row } from "react-bootstrap";
 import { t } from "i18next";
+import OrderService from "../../../services/OrderService";
 
 const MyOrders = () => {
     const [orders, setOrders] = useState([
@@ -11,6 +12,16 @@ const MyOrders = () => {
         {id: 3, img: categoryImg, name: 'Products 1', category: "Category", price: 50, amount: 3, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
         {id: 4, img: categoryImg2, name: 'Products 2', category: "Category", price: 50, amount: 3, description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"},
     ])
+    const orderService = new OrderService()
+
+    useEffect(()=>{
+        orderService.myOrders().then(res=>{
+            if(res?.status === 200){
+                // console.log(res?.data?.data?.data)
+            }
+        })
+    }, [])
+
     return <div className="orders">
         {orders?.map((order, index) => {
             return <Row 
