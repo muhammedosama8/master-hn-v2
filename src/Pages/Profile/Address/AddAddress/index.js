@@ -26,8 +26,8 @@ const AddAddress = ({setAddAddress, setShouldUpdate, item, setItem}) => {
         otherInstructions: "",
         longitude: 0,
         latitude: 0
-      })
-      const {t} = useTranslation()
+    })
+    const {t} = useTranslation()
     const [loading, setLoading] = useState(false)
     const [isAdd, setIsAdd] = useState(true)
     const [governorateOptions, setGovernorateOptions] = useState([])

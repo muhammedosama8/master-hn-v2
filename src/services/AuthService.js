@@ -60,7 +60,6 @@ export function checkAutoLogin(dispatch, navigate, pathname) {
     
     new UserService().profile().then(res=>{
         if(res?.status){
-            const tokenDetailsString = localStorage.getItem('masterHN');
             dispatch(loginConfirmedAction(JSON.parse(tokenDetailsString)));
             const lang = localStorage.getItem('masterHN_Lang')
             if(!!lang && lang !== 'null'){

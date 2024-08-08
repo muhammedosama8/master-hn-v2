@@ -22,8 +22,13 @@
     border-bottom: 1px solid #dedede;
     padding-bottom: 1.5rem;
 }
-.cart .continue{
+.cart .payment-details{
     background-color: var(--primary-color);
+    color: #fff;
+}
+.cart .continue{
+    color: var(--primary-color);
+    background-color: #fff;
     margin-top: 2rem;
     border-radius: 8px;
 }

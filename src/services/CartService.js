@@ -4,6 +4,7 @@ import { API_BASE_URL_ENV } from "../common/common";
 import { getJwt } from "./AuthService";
 
 const apiEndpoint = API_BASE_URL_ENV() + "/cart";
+const apiSummaryEndpoint = API_BASE_URL_ENV() + "/order/orderSummary";
 
 export default class CartService extends BaseService {
     constructor() {
@@ -26,5 +27,9 @@ export default class CartService extends BaseService {
     update(data) {
         const body = { ...data };
         return http.put(apiEndpoint, body);
+    }
+
+    summary(data) {
+        return http.get(`${apiSummaryEndpoint}?payment_method=${data?.payment_method}&user_address_id=${data?.user_address_id}&cart_id=${data?.cart_id}`);
     }
 }

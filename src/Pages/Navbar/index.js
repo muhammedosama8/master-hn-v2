@@ -37,7 +37,7 @@ const Navbar = () =>{
     } else {
       setCart(user?.cart?.length)
     }
-  },[user.cart])
+  },[user])
 
   return <div>
     <nav className="navbar navbar-expand-lg">

@@ -23,8 +23,7 @@
 .ar .sec_head:before{
     right: 0;
 }
-.checkout_page .payment-method, 
-.checkout_page .coupon-code {
+.checkout_page .payment-method{
     background: #26847d;
     padding: 20px 15px;
     border-radius: 10px;
@@ -65,16 +64,19 @@
     flex-direction: row-reverse;
     margin-bottom: 12px;
 }
+.ar .payment-method .list-pay div svg,
 .ar .payment-method .list-pay div img{
     margin-left: 12px;
 }
+.en .payment-method .list-pay div svg,
 .en .payment-method .list-pay div img{
     margin-right: 12px;
 }
 .payment-method .list-pay div label{
     color: #fff;
 }
-.cont-pay-dts{
+.cont-pay-dts,
+.checkout_page .coupon-code{
     background: var(--primary-color);
     padding: 20px 15px;
     border-radius: 10px;
@@ -97,4 +99,50 @@
     color: #fff;
     display: flex;
     justify-content: space-between;
+}
+.address label{
+    color: #666;
+    font-size: 18px;
+}
+.product-cart{
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    border-bottom: 1px solid #dedede;
+    padding-bottom: 1.5rem;
+}
+.form-coupon .btn-site {
+    height: 40px;
+    position: absolute;
+    top: 5px;
+    border-radius: 35px;
+    background-color: var(--primary-color);
+}
+ .form-coupon .btn-danger {
+    height: 40px;
+    position: absolute;
+    top: 5px;
+    border-radius: 35px;
+    color: #fff;
+    background-color: var(--bs-btn-bg);
+    padding: 10px 15px;
+}
+.ar .form-coupon .btn-site,
+.ar .form-coupon .btn-danger {
+    left: 4px;
+}
+.en .form-coupon .btn-site,
+.en .form-coupon .btn-danger {
+    right: 4px;
+}
+.submit-order{
+    background-color: #fff!important;
+    width: 100%;
+    margin-top: 12px;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+.submit-order:hover{
+    border-color: #fff;
+    color: #fff;
+    background-color: var(--primary-color)!important;
 }

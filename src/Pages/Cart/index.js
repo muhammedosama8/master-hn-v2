@@ -10,6 +10,7 @@ import CheckLogin from './CheckLogin'
 import CartService from '../../services/CartService'
 import Loader from '../../common/Loader'
 import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const Cart = () =>{
     const [subCart, setSubCart] = useState([])
@@ -17,11 +18,12 @@ const Cart = () =>{
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalPriceAfterDis, setTotalPriceAfterDis] = useState(0)
-    const [couponDetails, setCouponDetails] = useState("")
-    const [coupon, setCoupon] = useState("")
+    // const [couponDetails, setCouponDetails] = useState("")
+    // const [coupon, setCoupon] = useState("")
     const [loading, setLoading] = useState(false)
     const [modal, setModal] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const {t} = useTranslation()
     const user = useSelector(state => state?.user)
     const lang = useSelector(state => state?.lang?.lang)
@@ -38,15 +40,20 @@ const Cart = () =>{
                     setSubCart(data)
                     setCartProducts(data?.sub_carts)
                     setTotalPrice(data?.sub_total.toFixed(3))
-                    if(!!data?.coupon_name){
-                        setCoupon(data?.coupon_name)
-                        setTotalPriceAfterDis(data?.total)
-                        setCouponDetails({
-                            coupon: data?.coupon_name,
-                            coupon_type: data?.coupon_type,
-                            coupon_value: data?.coupon_value,
-                        })
-                    }
+                    // if(!!data?.coupon_name){
+                    //     setCoupon(data?.coupon_name)
+                    //     setTotalPriceAfterDis(data?.total)
+                    //     setCouponDetails({
+                    //         coupon: data?.coupon_name,
+                    //         coupon_type: data?.coupon_type,
+                    //         coupon_value: data?.coupon_value,
+                    //     })
+                    //     dispatch(setPromoCode({
+                    //         coupon: data?.coupon_name,
+                    //         coupon_type: data?.coupon_type,
+                    //         coupon_value: data?.coupon_value,
+                    //     }))
+                    // }
                 }
                 setLoading(false)
             }).catch(() => setLoading(false))
@@ -69,49 +76,49 @@ const Cart = () =>{
             }, 0)
             setTotalPrice(totalP.toFixed(3))
             setCartProducts(data)
-            setCoupon(promocodeText.coupon)
-            setCouponDetails(promocodeText)
-            let dis
-            if(promocodeText?.coupon_type === "percentage"){
-                dis = Number(totalP) - ((Number(totalP)* (Number(promocodeText?.coupon_value)/100)))
-            }
-            if(promocodeText?.coupon_type === "fixed"){
-                dis = Number(totalP) - Number(promocodeText?.coupon_value)
-            }
-            setTotalPriceAfterDis(dis)
+            // setCoupon(promocodeText.coupon)
+            // setCouponDetails(promocodeText)
+            // let dis
+            // if(promocodeText?.coupon_type === "percentage"){
+            //     dis = Number(totalP) - ((Number(totalP)* (Number(promocodeText?.coupon_value)/100)))
+            // }
+            // if(promocodeText?.coupon_type === "fixed"){
+            //     dis = Number(totalP) - Number(promocodeText?.coupon_value)
+            // }
+            // setTotalPriceAfterDis(dis)
         }
-    },[shouldUpdate, user, cart])
+    },[shouldUpdate, user.user])
 
-    const promoCode = () =>{
-        let data = {
-            promoCode: coupon,
-            cart_id: subCart?.id
-        }
-        cartService.createPromoCode(data).then(res=>{
-            if(res?.status === 200){
-                toast.success(t("Successfully Applied"))
-                setCouponDetails({coupon,...res?.data?.data})
-                localStorage.setItem('PromoCodeMasterHN', JSON.stringify({coupon: coupon,...res?.data?.data}))
-                dispatch(setPromoCode({coupon: coupon,...res?.data?.data}))
-                if(!!user?.user){
-                    setShouldUpdate(prev=> !prev)
-                } else {
-                    let dis
-                    if(res?.data?.data?.coupon_type === "percentage"){
-                        dis = Number(totalPrice) - ((Number(totalPrice)* (Number(res?.data?.data?.coupon_value)/100)))
-                    }
-                    if(res?.data?.data?.coupon_type === "fixed"){
-                        dis = Number(totalPrice) - Number(res?.data?.data?.coupon_value)
-                    }
-                    setTotalPriceAfterDis(dis)
-                }
-            }
-        }).catch((e)=> {
-            if(e?.response.data?.message === "promo_code_not_Exist"){
-                toast.error(t("promo code is invalid!"))
-            }
-        })
-    }
+    // const promoCode = () =>{
+    //     let data = {
+    //         promoCode: coupon,
+    //         cart_id: subCart?.id
+    //     }
+    //     cartService.createPromoCode(data).then(res=>{
+    //         if(res?.status === 200){
+    //             toast.success(t("Successfully Applied"))
+    //             setCouponDetails({coupon,...res?.data?.data})
+    //             localStorage.setItem('PromoCodeMasterHN', JSON.stringify({coupon: coupon,...res?.data?.data}))
+    //             dispatch(setPromoCode({coupon: coupon,...res?.data?.data}))
+    //             if(!!user?.user){
+    //                 setShouldUpdate(prev=> !prev)
+    //             } else {
+    //                 let dis
+    //                 if(res?.data?.data?.coupon_type === "percentage"){
+    //                     dis = Number(totalPrice) - ((Number(totalPrice)* (Number(res?.data?.data?.coupon_value)/100)))
+    //                 }
+    //                 if(res?.data?.data?.coupon_type === "fixed"){
+    //                     dis = Number(totalPrice) - Number(res?.data?.data?.coupon_value)
+    //                 }
+    //                 setTotalPriceAfterDis(dis)
+    //             }
+    //         }
+    //     }).catch((e)=> {
+    //         if(e?.response.data?.message === "promo_code_not_Exist"){
+    //             toast.error(t("promo code is invalid!"))
+    //         }
+    //     })
+    // }
 
     const removeProductFromCart = (product) => {
         let data ={
@@ -144,8 +151,8 @@ const Cart = () =>{
         toast.success(t("Remove"))
         dispatch(setPromoCode(""))
         localStorage.removeItem('PromoCodeMasterHN')
-        setCoupon('')
-        setCouponDetails("")
+        // setCoupon('')
+        // setCouponDetails("")
         setShouldUpdate(prev=> !prev)
         setTotalPriceAfterDis(0)
     }
@@ -179,7 +186,7 @@ const Cart = () =>{
                             return <div key={product?.product?.id} className='product-cart'>
                                     <div className='row'>
                                         <div className='col-md-9 col-12 d-flex' style={{gap: '16px'}}>
-                                            <img src={product?.product.product_images[0]?.url} alt='img' width={90} height={90} />
+                                            <img src={product?.product?.product_images[0]?.url} alt='img' width={90} height={90} />
                                             <div>
                                                 <h4 className='m-0'>{lang === 'en' ? product?.product?.name_en : product?.product?.name_ar}</h4>
                                                 <Badge className='mb-2' variant="primary">{lang === 'en' ? product?.product?.category?.name_en : product?.product?.category?.name_ar}</Badge>
@@ -235,10 +242,10 @@ const Cart = () =>{
                     </Card>
                 </div>
                 <div className='col-md-4'>
-                    <Card style={{border: 'none',boxShadow: '0 0 12px #dedede78'}}>
+                    <Card className='payment-details' style={{border: 'none',boxShadow: '0 0 12px #dedede78'}}>
                         <CardBody>
                             <h5 className='mb-4'>{t("Payment Details")}</h5>
-                            <div className="coupon-code wow fadeInUp">
+                            {/* <div className="coupon-code wow fadeInUp">
                                 <h5>{t("Coupon Code")}</h5>
                                 <div className="form-coupon">
                                     <div className="form-group">
@@ -255,25 +262,27 @@ const Cart = () =>{
                                     </div>
                                 </div>
 
-                            </div>
+                            </div> */}
                             <div className='d-flex justify-content-between'>
                                 <h5 style={{fontSize: '18px'}}>{!!totalPriceAfterDis ? t("Price") : t("Total Price")}:</h5>
                                 <h5 style={{fontSize: '18px', fontWeight: "600"}}>{totalPrice} {t("KWD")}</h5>
                             </div>
-                            {!!couponDetails && <div className='d-flex justify-content-between'>
+                            {/* {!!couponDetails && <div className='d-flex justify-content-between'>
                                 <h5 style={{fontSize: '18px'}}>{t("Discound")}:</h5>
                                 <h5 style={{fontSize: '18px', fontWeight: "600"}}>{couponDetails?.coupon_value} {couponDetails?.coupon_type === 'percentage' ? '%' : t("KWD")}</h5>
-                            </div>}
-                            {!!totalPriceAfterDis && <div className='d-flex justify-content-between'>
+                            </div>} */}
+                            {/* {!!totalPriceAfterDis && <div className='d-flex justify-content-between'>
                                 <h5 style={{fontSize: '18px'}}>{t("Total Price")}:</h5>
                                 <h5 style={{fontSize: '18px', fontWeight: "600"}}>{totalPriceAfterDis.toFixed(3)} {t("KWD")}</h5>
-                            </div>}
+                            </div>} */}
                             <div>
                                 <button 
                                     className='continue w-100'
                                     onClick={()=> {
                                         if(!user?.user){
                                             setModal(true)
+                                        }else{
+                                            navigate('/checkout')
                                         }
                                     }}
                                 >{t("Continue")}</button>
