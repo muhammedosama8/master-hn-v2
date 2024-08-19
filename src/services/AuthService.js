@@ -27,6 +27,7 @@ export function Logout(token, dispatch, navigate, pathname) {
     axios.post(`${API_BASE_URL_ENV()}/users/logout`).then(res=>{
         if(res.status === 200){
             dispatch(LogoutFn())
+            localStorage.removeItem('masterHNCart')
             toast.success('Logout Successfully.')
             if(pathname === '/profile'){
                 navigate('/')

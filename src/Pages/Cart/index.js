@@ -87,7 +87,7 @@ const Cart = () =>{
             // }
             // setTotalPriceAfterDis(dis)
         }
-    },[shouldUpdate, user.user])
+    },[shouldUpdate, user.user, user])
 
     // const promoCode = () =>{
     //     let data = {

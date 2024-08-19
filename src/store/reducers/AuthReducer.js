@@ -177,6 +177,7 @@ export function AuthReducer(state = initialState, action) {
         };
     }
     if (action.type === SETCART_ACTION) {
+        localStorage.setItem('masterHNCart', JSON.stringify(action.payload))
         return {
             ...state,
             cart: action.payload

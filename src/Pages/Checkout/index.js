@@ -13,6 +13,7 @@ import OrderService from '../../services/OrderService';
 import { setPromoCode } from '../../store/actions/AuthActions';
 import { AvField, AvForm } from 'availity-reactstrap-validation';
 import CountryService from '../../services/CountryService';
+import OrderGuestService from '../../services/OrderGuestService';
 
 const Checkout = () =>{
     const [formData, setFormData] = useState({
@@ -30,7 +31,10 @@ const Checkout = () =>{
         aptNumber: "",
         otherInstructions: "",
         longitude: 0,
-        latitude: 0
+        latitude: 0,
+        guest_name: "",
+        guest_email: "",
+        guest_phone: ""
     })
     const {t} = useTranslation()
     const [governorateOptions, setGovernorateOptions] = useState([])
@@ -64,6 +68,8 @@ const Checkout = () =>{
     const userAddressService = new UserAddressService()
     const cartService = new CartService()
     const orderService = new OrderService()
+    const orderGuestService = new OrderGuestService()
+    const cart = useSelector(state => state?.user?.cart)
 
     useEffect(()=> {
         if(!!user){
@@ -111,36 +117,36 @@ const Checkout = () =>{
                 setLoading(false)
             })
         } else {
-            // let data = cart?.map(item=> {
-            //     return {
-            //         amount: item?.amount,
-            //         dynamicVariants: item?.dynamicVariants?.filter(res=> res?.amount > 0),
-            //         product: item
-            //     }
-            // })
-            // setLoading(false)
-            // let totalP = data?.map(res=> {
-            //     let tot = (res?.product?.amount*res?.product?.price) + res?.dynamicVariants?.map(dy=> dy?.amount*dy?.price).reduce((accumulator, currentValue) => {
-            //         return accumulator + currentValue;
-            //     }, 0)
-            //     return tot
-            // }).reduce((accumulator, currentValue) => {
-            //     return accumulator + currentValue;
-            // }, 0)
-            // setTotalPrice(totalP.toFixed(3))
-            // setCartProducts(data)
-            // setCoupon(promocodeText.coupon)
-            // setCouponDetails(promocodeText)
-            // let dis
-            // if(promocodeText?.coupon_type === "percentage"){
-            //     dis = Number(totalP) - ((Number(totalP)* (Number(promocodeText?.coupon_value)/100)))
-            // }
-            // if(promocodeText?.coupon_type === "fixed"){
-            //     dis = Number(totalP) - Number(promocodeText?.coupon_value)
-            // }
-            // setTotalPriceAfterDis(dis)
+            let data = cart?.map(item=> {
+                return {
+                    amount: item?.amount,
+                    dynamicVariants: item?.dynamicVariants?.filter(res=> res?.amount > 0),
+                    product: item
+                }
+            })
+            setLoading(false)
+            let totalP = data?.map(res=> {
+                let tot = (res?.product?.amount*res?.product?.price) + res?.dynamicVariants?.map(dy=> dy?.amount*dy?.price).reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue;
+                }, 0)
+                return tot
+            }).reduce((accumulator, currentValue) => {
+                return accumulator + currentValue;
+            }, 0)
+            setTotalPrice(totalP)
+            setCartProducts(data)
+                               
+            let dis
+            if(couponDetails?.coupon_type === "percentage"){
+                dis = Number(totalP) - ((Number(totalP)* (Number(couponDetails?.coupon_value)/100)))
+            } else if(couponDetails?.coupon_type === "fixed"){
+                dis = Number(totalP) - Number(couponDetails?.coupon_value)
+            } else {
+                dis = Number(totalP)
+            }
+            setTotalPriceAfterDis(dis)
         }
-    },[user, shouldUpdate])
+    },[user, shouldUpdate, couponDetails])
 
     useEffect(()=>{
         if(!!address?.length && !!cartId){
@@ -203,22 +209,67 @@ const Checkout = () =>{
     }
 
     const submitOrder = () => {
-        if(address?.length === 0){
-            toast.error(t("Add Address First"))
-            return
-        }
-        let data = {
-            day: "2024-08-09",
-            payment_method: paymentMethod,
-            user_address_id: address.find(res=> res.is_default)?.id,
-            cart_id: cartId,
-        }
-        if(paymentMethod === 'visa') data['paymentType'] = paymentType
-        orderService.create(data).then(res=>{
-            if(res?.status){
-                window.location.href = res.data?.data
+        if(isLogin === 1){
+            if(address?.length === 0){
+                toast.error(t("Add Address First"))
+                return
             }
-        })
+            let data = {
+                payment_method: paymentMethod,
+                user_address_id: address.find(res=> res.is_default)?.id,
+                cart_id: cartId,
+            }
+            if(paymentMethod === 'visa') data['paymentType'] = paymentType
+            orderService.create(data).then(res=>{
+                if(res?.status){
+                    window.location.href = res.data?.data
+                }
+            })
+        } else {
+            if(!formData?.area_id?.id || !formData?.governorate_id?.id || !formData?.type?.value){
+                return
+            }
+            let data = {
+                products: cartProducts?.map(res=> {
+                    return {
+                        amount: res?.amount,
+                        product_id: res?.product?.id,
+                        dynamic_variant: res?.dynamic_variant?.map(variant => {
+                            let response = {
+                                dynamic_variant_id: variant?.id
+                            }
+                            if(!!variant?.amount) response["amount"] = variant?.amount
+                            return response
+                        })
+                    }
+                }),
+                guest_name: formData?.guest_name,
+                guest_email: formData?.guest_email,
+                guest_phone: formData?.guest_phone,
+                total: totalPriceAfterDis,
+                payment_method: paymentMethod,
+                addressName: formData?.addressName,
+                block: formData?.block,
+                street: formData?.street,
+                area_id: formData?.area_id?.id,
+                governorate_id: formData?.governorate_id?.id,
+                type: formData?.type?.value
+            }
+            if(paymentMethod === 'visa') data['paymentType'] = paymentType
+            if(!!formData?.avenue) data['avenue'] = formData?.avenue
+            if(!!formData?.buildingNumber) data['buildingNumber'] = formData?.buildingNumber
+            if(!!formData?.floorNumber) data['floorNumber'] = formData?.floorNumber
+            if(!!formData?.officeNumber) data['officeNumber'] = formData?.officeNumber
+            if(!!formData?.houseNumber) data['houseNumber'] = formData?.houseNumber
+            if(!!formData?.aptNumber) data['aptNumber'] = formData?.aptNumber
+            if(!!formData?.otherInstructions) data['otherInstructions'] = formData?.otherInstructions
+
+            orderGuestService.create(data).then(res=>{
+                if(res?.status){
+                    window.location.href = res.data?.data
+                }
+            })
+        }
     }
 
     const commonLines = () => {
@@ -232,9 +283,9 @@ const Checkout = () =>{
 
     const promoCode = () =>{
         let data = {
-            promoCode: coupon,
-            cart_id: cartId
+            promoCode: coupon
         }
+        if(!!cartId) data['cart_id'] = cartId
         cartService.createPromoCode(data).then(res=>{
             if(res?.status === 200){
                 toast.success(t("Successfully Applied"))
@@ -324,7 +375,7 @@ const Checkout = () =>{
                             })}
                         </CardBody>
                 </Card>
-                <div className='mt-4 address'>
+                {(addNewAddress && isLogin === 1) && <div className='mt-4 address'>
                     <h5>{t("Address")}</h5>
                     <Accordion defaultActiveKey="0">
                         {address?.map((addressData, index)=> {
@@ -397,106 +448,247 @@ const Checkout = () =>{
                     </Accordion>
 
                     <Button variant="primary" onClick={()=> setAddNewAddress(true)} className="mt-5">{t("Add New Address")}</Button>
-                </div>
-                {(addNewAddress && isLogin === 0) && <div className="cont-checkout wow fadeInUp">
-                    <form className="form-checkout form-st guestForm">                               
-                        <div className="cont-user wow fadeInUp">
-                            <h5 className='text-primary mt-5 mb-2'>{t("User Details")}</h5>
-
-                            <div className="row">
-                                <div className="col-md-4 form-group">
-                                    <label>{t("Full Name")}*</label>
-                                    <input type="text" className="form-control" name="name" placeholder={t("Please Enter")} required />
-                                </div>
-                                <div className="col-md-4 form-group">
-                                    <label>{t("Email")}*</label>
-                                    <input type="email" className="form-control" name="email" placeholder={t("Please Enter")} required />
-                                </div>
-                                <div className="col-md-4 form-group">
-                                    <label>{t("Phone")}*</label>
-                                    <input type="number" className="form-control" id="mobile" name="mobile" placeholder={t("Please Enter")} required />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="cont-address wow fadeInUp mt-4">
-                                <h5 className='text-primary mb-2'>{t("Address Details")}</h5>
-                                <div className="row">
-                                    <div className="col-md-4 mb-3 form-group selectBt">
-                                        <label>{t("Area")}*</label>
-                                        <Area />
-                                    </div>
-                                    <div className="col-md-4 mb-3 form-group selectBt">
-                                        <label>{t("Block")}*</label>
-                                        <input type="text" className="form-control" name="block" placeholder={t("Please Enter")} required />
-                                    </div>
-                                    <div className="col-md-4 mb-3 form-group">
-                                        <label>{t("Street")}*</label>
-                                        <input type="text" className="form-control" name="street" placeholder={t("Please Enter")} required />
-                                    </div>
-                                    <div className="col-md-4 mb-3 form-group">
-                                        <label>{t("Avenue")} ({t("Optional")})</label>
-                                        <input type="text" className="form-control" name="avenue" placeholder={t("Please Enter")} />
-                                    </div>
-                                    <div className="col-md-4 mb-3 form-group">
-                                        <label>{t("Address Type")}*</label>
-                                        <select 
-                                            className="form-control form-select address_type" 
-                                            name="type"
-                                        >
-                                            <option value="">{t("Please Select")}</option>
-                                            <option value="1">{t("Flat")}</option>
-                                            <option value="2">{t("House")}</option>
-                                            <option value="3">{t("Office")}</option>
-                                        </select>
-                                    </div>
-                                    <div className="col-md-4 mb-3  form-group apartment_office_type">
-                                        <label>{t("Building Number")}*</label>
-                                        <input type="text" className="form-control" name="building_number"
-                                            placeholder={t("Please Enter")} required />
-                                    </div>
-                                    <div className="col-md-4 mb-3 form-group apartment_office_type">
-                                        <label>{t("Floor")}*</label>
-                                        <input type="text" className="form-control" name="floor_number"
-                                            placeholder={t("Please Enter")} required />
-                                    </div>
-                                    <div className="col-md-4 mb-3 form-group apartment_type">
-                                        <label>{t("Apartment Number")} ({t("Optional")})</label>
-                                        <input type="text" className="form-control" name="apartment_number" placeholder={t("Please Enter")} required />
-                                    </div>
-                                    <div className="col-md-4 mb-3 form-group house_type">
-                                        <label>{t("House Number")}*</label>
-                                        <input type="text" className="form-control" name="house_number"
-                                            placeholder={t("Please Enter")} required />
-                                    </div>
-
-                                    <div className="col-md-4 mb-3 form-group office_type">
-                                        <label>{t("Office Number")}*</label>
-                                        <input type="text" className="form-control" name="office_number"
-                                            placeholder={t("Please Enter")} required />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-4 form-group">
-                                        <label>{t("Extra Directions")}</label>
-                                        <textarea 
-                                            className="form-control" 
-                                            rows={3}
-                                            name="notes" 
-                                            placeholder={t("Please Enter")} 
-                                        ></textarea>
-                                    </div>
-                                </div>
-                                <div>
-                                    <Button variant='secondary' onClick={()=> setAddNewAddress(false)}>
-                                        {t("Cancel")}
-                                    </Button>
-                                    <Button variant='primary' onClick={()=> setAddNewAddress(false)}>
-                                        {t("Add")}
-                                    </Button>
-                                </div>
-                            </div>
-                        </form>
                 </div>}
+
+                {(isLogin === 0) && <div className="cont-checkout wow fadeInUp">
+                <AvForm
+                    className="form-checkout mt-4 form-st guestForm form-horizontal"
+                    onValidSubmit={()=>{}}> 
+                    <Row>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Name")}
+                                type='text'
+                                placeholder={t("Name")}
+                                bsSize="lg"
+                                name='name'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: t("This Field is required")
+                                    }
+                                }}
+                                value={formData.guest_name}
+                                onChange={(e) => setFormData({...formData, guest_name: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Email")}
+                                type='email'
+                                placeholder={t("Email")}
+                                bsSize="lg"
+                                name='email'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: t("This Field is required")
+                                    }
+                                }}
+                                value={formData.guest_email}
+                                onChange={(e) => setFormData({...formData, guest_email: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Phone")}
+                                type='number'
+                                placeholder={t("Phone")}
+                                bsSize="lg"
+                                name='phone'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: t("This Field is required")
+                                    }
+                                }}
+                                value={formData.guest_phone}
+                                onChange={(e) => setFormData({...formData, guest_phone: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Address Name")}
+                                type='text'
+                                placeholder={t("Address Name")}
+                                bsSize="lg"
+                                name='addressName'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: t("This Field is required")
+                                    }
+                                }}
+                                value={formData.addressName}
+                                onChange={(e) => setFormData({...formData, addressName: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Block")}
+                                type='text'
+                                placeholder={t("Block")}
+                                bsSize="lg"
+                                name='block'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: t("This Field is required")
+                                    }
+                                }}
+                                value={formData.block}
+                                onChange={(e) => setFormData({...formData, block: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Street")}
+                                type='text'
+                                placeholder={t("Street")}
+                                bsSize="lg"
+                                name='street'
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: t("This Field is required")
+                                    }
+                                }}
+                                value={formData.street}
+                                onChange={(e) => setFormData({...formData, street: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <label className="mb-2">{t("Governorate")}</label>
+                            <Select
+                                options={governorateOptions}
+                                name='governorate'
+                                value={formData?.governorate_id}
+                                onChange={e=> setFormData({...formData, governorate_id: e})}
+                            />
+                        </Col>
+                        <Col md={6} className="mb-3">
+                            <label className="mb-2">{t("Area")}</label>
+                            <Select
+                                options={areaOptions}
+                                name='area_id'
+                                value={formData?.area_id}
+                                onChange={e=> setFormData({...formData, area_id: e})}
+                            />
+                        </Col>
+                        <Col md={6} className="mb-3">
+                            <label className="mb-2">{t("Address Type")}</label>
+                            <Select
+                                options={typesOptions}
+                                name='area_id'
+                                value={formData?.type}
+                                onChange={e=> setFormData({...formData, type: e})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Avenue")}
+                                type='text'
+                                placeholder={t("Avenue")}
+                                bsSize="lg"
+                                name='avenue'
+                                value={formData.avenue}
+                                onChange={(e) => setFormData({...formData, avenue: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Building Number")}
+                                type='text'
+                                placeholder={t("Building Number")}
+                                bsSize="lg"
+                                name='buildingNumber'
+                                value={formData.buildingNumber}
+                                onChange={(e) => setFormData({...formData, buildingNumber: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Floor Number")}
+                                type='text'
+                                placeholder={t("Floor Number")}
+                                bsSize="lg"
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: t("This Field is required")
+                                    }
+                                }}
+                                name='floorNumber'
+                                value={formData.floorNumber}
+                                onChange={(e) => setFormData({...formData, floorNumber: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Office Number")}
+                                type='text'
+                                placeholder={t("Office Number")}
+                                bsSize="lg"
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: t("This Field is required")
+                                    }
+                                }}
+                                name='officeNumber'
+                                value={formData.officeNumber}
+                                onChange={(e) => setFormData({...formData, officeNumber: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("House Number")}
+                                type='text'
+                                placeholder={t("House Number")}
+                                bsSize="lg"
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: t("This Field is required")
+                                    }
+                                }}
+                                name='houseNumber'
+                                value={formData.houseNumber}
+                                onChange={(e) => setFormData({...formData, houseNumber: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={6}>
+                            <AvField
+                                label={t("Apartment Number")}
+                                type='text'
+                                placeholder={t("Apartment Number")}
+                                bsSize="lg"
+                                validate={{
+                                    required: {
+                                        value: true,
+                                        errorMessage: t("This Field is required")
+                                    }
+                                }}
+                                name='aptNumber'
+                                value={formData.aptNumber}
+                                onChange={(e) => setFormData({...formData, aptNumber: e.target.value})}
+                            />
+                        </Col>
+                        <Col md={12}>
+                            <AvField
+                                label={t("Other Instructions")}
+                                type='text'
+                                placeholder={t("Other Instructions")}
+                                bsSize="lg"
+                                name='otherInstructions'
+                                value={formData.otherInstructions}
+                                onChange={(e) => setFormData({...formData, otherInstructions: e.target.value})}
+                            />
+                        </Col>
+                    </Row>
+                </AvForm>
+                </div>}
+
                 {(addNewAddress && isLogin === 1) && <AvForm
                     className="form-checkout mt-4 form-st guestForm form-horizontal"
                     onValidSubmit={submit}> 
@@ -778,6 +970,12 @@ const Checkout = () =>{
                     {!!discountAmount && <div className='mb-2'>
                         <p className='m-0'>{t("Discount")}</p>
                         <span className="discount_amount">{discountAmount.toFixed(3)} {t("KWD")}</span>
+                    </div>}
+                    {(!discountAmount && !!couponDetails) && <div className='mb-2'>
+                        <p className='m-0'>{t("Discount")}</p>
+                        <span className="discount_amount">
+                            {couponDetails?.coupon_type === "percentage" ? couponDetails?.coupon_value : couponDetails?.coupon_value.toFixed(3)} {couponDetails?.coupon_type === "percentage" ? '%' : t("KWD")}
+                        </span>
                     </div>}
                     <div className='mb-2'>
                         <p className='m-0'>{t("Delivery Charges")}</p>

@@ -58,12 +58,12 @@ export function signupAction(data, navigate, pathname, setModal, setLoading, car
 
 export function LogoutFn() {
 	localStorage.removeItem('masterHN');
-    localStorage.removeItem('masterHNCart')
     
 	return {
         type: LOGOUT_ACTION,
     };
 }
+
 export function setCart(data) {
 	return {
         type: SETCART_ACTION,
