@@ -61,13 +61,13 @@ const MyOrders = () => {
                     </Col>
                     <Col md={3}>
                         {ind === 0 && <div className="d-flex flex-column">
-                            {order?.status !== 'canceled' && <Button variant='primary' className="mb-2" onClick={()=>{
+                            <Button variant='primary' className="mb-2" onClick={()=>{
                                 setOrderSelect(order)
                                 setInvoiceModal(true)
                             }}>
                                 {t("view")}
-                            </Button>}
-                            {order?.status !== 'canceled' && <Button variant='secondary' onClick={()=>{
+                            </Button>
+                            {order?.status === 'ordered' && <Button variant='secondary' onClick={()=>{
                                 setItem(order)
                                 setModal(true)
 
