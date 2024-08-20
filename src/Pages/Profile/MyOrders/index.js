@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Badge, Button, Col, Row } from "react-bootstrap";
 import { t } from "i18next";
 import OrderService from "../../../services/OrderService";
 import { useSelector } from "react-redux";
@@ -61,19 +61,22 @@ const MyOrders = () => {
                     </Col>
                     <Col md={3}>
                         {ind === 0 && <div className="d-flex flex-column">
-                            <Button variant='primary' className="mb-2" onClick={()=>{
+                            {order?.status !== 'canceled' && <Button variant='primary' className="mb-2" onClick={()=>{
                                 setOrderSelect(order)
                                 setInvoiceModal(true)
                             }}>
                                 {t("view")}
-                            </Button>
-                            <Button variant='secondary' onClick={()=>{
+                            </Button>}
+                            {order?.status !== 'canceled' && <Button variant='secondary' onClick={()=>{
                                 setItem(order)
                                 setModal(true)
 
                             }}>
                                 {t("Cancel")}
-                            </Button>
+                            </Button>}
+                            {order?.status === 'canceled' && <Badge bg="danger">
+                                {t("Canceled")}
+                            </Badge>}
                         </div>}
                         
                     </Col>

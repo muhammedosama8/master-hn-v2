@@ -99,6 +99,7 @@ export const en = {
     "This Field is required": "This Field is required",
     "Amount": "Amount",
     "Cancel": "Cancel",
+    "Canceled": "Canceled",
     "Add": "Add",
     "Add Address First": "Add Address First",
     "Buy it again": "Buy it again",

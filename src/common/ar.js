@@ -104,6 +104,7 @@ export const ar = {
     "This Field is required": "هذه الخانة مطلوبه",
     "Amount": "كميه",
     "Cancel": "إلغاء",
+    "Canceled": "تم الإلغاء",
     "Add": "إضافة",
     "Buy it again": "اشتري مره أخري",
     "Add Address First": "اضف العنوان اولا",
