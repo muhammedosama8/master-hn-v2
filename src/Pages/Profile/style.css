@@ -121,4 +121,7 @@
           height: 100%;
           width: 100%;
 }
-  
+.profile .orders .order{
+    background-color: #F8F8F8;
+    
+}

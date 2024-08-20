@@ -213,3 +213,9 @@ footer p {
     overflow: visible;
   }
 }
+.rtl{
+  direction: rtl;
+}
+.ltr{
+  direction: ltr;
+}
