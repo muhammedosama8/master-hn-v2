@@ -173,7 +173,7 @@ export function AuthReducer(state = initialState, action) {
             successMessage: '',
             showLoading: false,
             showLogin: false,
-            cart: state?.cart,
+            cart: [],
         };
     }
     if (action.type === SETCART_ACTION) {

@@ -15,7 +15,7 @@ import { ShowLogin } from '../../store/actions/AuthActions'
 import CartService from '../../services/CartService'
 
 const Navbar = () =>{
-  const [cart, setCart] = useState(0)
+  const [cart, setCartLength] = useState(0)
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -31,11 +31,11 @@ const Navbar = () =>{
     if(!!user?.user){
       new CartService().getList().then(res=>{
           if(res?.status === 200){
-            setCart(res.data?.data?.sub_carts?.length)
+            setCartLength(res.data?.data?.sub_carts?.length)
           }
       }).catch(() => {})
     } else {
-      setCart(user?.cart?.length)
+      setCartLength(user?.cart?.length)
     }
   },[user])
 

@@ -4,7 +4,7 @@ import trash from '../../assets/trash.svg'
 import cartImg from '../../assets/cartIllustartion.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Badge, Card, CardBody } from 'react-bootstrap'
-import { setPromoCode, ShowLogin, decreaseProduct, increaseProduct, removeProduct } from '../../store/actions/AuthActions'
+import { decreaseProduct, increaseProduct, removeProduct } from '../../store/actions/AuthActions'
 import { useTranslation } from 'react-i18next'
 import CheckLogin from './CheckLogin'
 import CartService from '../../services/CartService'
@@ -13,50 +13,37 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 
 const Cart = () =>{
-    const [subCart, setSubCart] = useState([])
     const [cartProducts, setCartProducts] = useState([])
     const [shouldUpdate, setShouldUpdate] = useState(false)
     const [totalPrice, setTotalPrice] = useState(0)
-    const [totalPriceAfterDis, setTotalPriceAfterDis] = useState(0)
-    // const [couponDetails, setCouponDetails] = useState("")
-    // const [coupon, setCoupon] = useState("")
     const [loading, setLoading] = useState(false)
     const [modal, setModal] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {t} = useTranslation()
-    const user = useSelector(state => state?.user)
+    const user = useSelector(state => state?.user.user)
+    const userData = useSelector(state => state?.user)
     const lang = useSelector(state => state?.lang?.lang)
     const cart = useSelector(state => state?.user?.cart)
-    const promocodeText = useSelector(state => state?.user?.promoCode)
     const cartService = new CartService()
 
     useEffect(()=>{
         setLoading(true)
-        if(!!user?.user){
+        if(!!user){
             cartService.getList().then(res=>{
                 if(res?.status === 200){
                     let data = res?.data.data
-                    setSubCart(data)
                     setCartProducts(data?.sub_carts)
+                    // dispatch(setCart(data?.sub_carts))
                     setTotalPrice(data?.sub_total.toFixed(3))
-                    // if(!!data?.coupon_name){
-                    //     setCoupon(data?.coupon_name)
-                    //     setTotalPriceAfterDis(data?.total)
-                    //     setCouponDetails({
-                    //         coupon: data?.coupon_name,
-                    //         coupon_type: data?.coupon_type,
-                    //         coupon_value: data?.coupon_value,
-                    //     })
-                    //     dispatch(setPromoCode({
-                    //         coupon: data?.coupon_name,
-                    //         coupon_type: data?.coupon_type,
-                    //         coupon_value: data?.coupon_value,
-                    //     }))
-                    // }
                 }
                 setLoading(false)
-            }).catch(() => setLoading(false))
+            }).catch((e) => {
+                setLoading(false)
+                if(e?.response?.data?.message === "cart_not_Exist"){
+                    localStorage.removeItem('masterHNCart')
+                }
+            })
         } else {
             let data = cart?.map(item=> {
                 return {
@@ -76,55 +63,14 @@ const Cart = () =>{
             }, 0)
             setTotalPrice(totalP.toFixed(3))
             setCartProducts(data)
-            // setCoupon(promocodeText.coupon)
-            // setCouponDetails(promocodeText)
-            // let dis
-            // if(promocodeText?.coupon_type === "percentage"){
-            //     dis = Number(totalP) - ((Number(totalP)* (Number(promocodeText?.coupon_value)/100)))
-            // }
-            // if(promocodeText?.coupon_type === "fixed"){
-            //     dis = Number(totalP) - Number(promocodeText?.coupon_value)
-            // }
-            // setTotalPriceAfterDis(dis)
         }
-    },[shouldUpdate, user.user, user])
-
-    // const promoCode = () =>{
-    //     let data = {
-    //         promoCode: coupon,
-    //         cart_id: subCart?.id
-    //     }
-    //     cartService.createPromoCode(data).then(res=>{
-    //         if(res?.status === 200){
-    //             toast.success(t("Successfully Applied"))
-    //             setCouponDetails({coupon,...res?.data?.data})
-    //             localStorage.setItem('PromoCodeMasterHN', JSON.stringify({coupon: coupon,...res?.data?.data}))
-    //             dispatch(setPromoCode({coupon: coupon,...res?.data?.data}))
-    //             if(!!user?.user){
-    //                 setShouldUpdate(prev=> !prev)
-    //             } else {
-    //                 let dis
-    //                 if(res?.data?.data?.coupon_type === "percentage"){
-    //                     dis = Number(totalPrice) - ((Number(totalPrice)* (Number(res?.data?.data?.coupon_value)/100)))
-    //                 }
-    //                 if(res?.data?.data?.coupon_type === "fixed"){
-    //                     dis = Number(totalPrice) - Number(res?.data?.data?.coupon_value)
-    //                 }
-    //                 setTotalPriceAfterDis(dis)
-    //             }
-    //         }
-    //     }).catch((e)=> {
-    //         if(e?.response.data?.message === "promo_code_not_Exist"){
-    //             toast.error(t("promo code is invalid!"))
-    //         }
-    //     })
-    // }
+    },[shouldUpdate, user])
 
     const removeProductFromCart = (product) => {
         let data ={
             product_id: product.id
         }
-        if(!!user?.user){
+        if(!!user){
             cartService.remove(data).then(res=>{
                 if(res?.status === 200){
                     toast.success(t("Remove from Cart"))
@@ -145,29 +91,6 @@ const Cart = () =>{
                 setShouldUpdate(prev=> !prev)
             }
         })
-    }
-
-    const commonLines = () => {
-        toast.success(t("Remove"))
-        dispatch(setPromoCode(""))
-        localStorage.removeItem('PromoCodeMasterHN')
-        // setCoupon('')
-        // setCouponDetails("")
-        setShouldUpdate(prev=> !prev)
-        setTotalPriceAfterDis(0)
-    }
-
-    const removePromoCode = () => {
-        let data = {
-            cart_id: subCart?.id
-        }
-        if(!!user?.user){
-            cartService.deletePromoCode(data).then(res=> {
-                if(res?.status === 200) commonLines() 
-            })
-        } else {
-            commonLines()
-        }
     }
 
     if(loading){
@@ -207,7 +130,7 @@ const Cart = () =>{
                                             </div>
                                             <div className='text-center'>
                                                 <button className='prod-btn' onClick={()=> {
-                                                    if(!!user?.user){
+                                                    if(!!user){
                                                         changeAmount(product?.product, product?.amount+1)
                                                     }
                                                     dispatch(increaseProduct(product?.product))
@@ -220,7 +143,7 @@ const Cart = () =>{
                                                     disabled={product?.amount === 1} 
                                                     style={{cursor: product?.amount > 1 ? 'pointer' : 'not-allowed'}}
                                                     onClick={()=> {
-                                                        if(!!user?.user){
+                                                        if(!!user){
                                                             changeAmount(product?.product, product?.amount-1)
                                                         }
                                                         dispatch(decreaseProduct(product?.product))
@@ -245,41 +168,15 @@ const Cart = () =>{
                     <Card className='payment-details' style={{border: 'none',boxShadow: '0 0 12px #dedede78'}}>
                         <CardBody>
                             <h5 className='mb-4'>{t("Payment Details")}</h5>
-                            {/* <div className="coupon-code wow fadeInUp">
-                                <h5>{t("Coupon Code")}</h5>
-                                <div className="form-coupon">
-                                    <div className="form-group">
-                                        <input type="text" 
-                                            required
-                                            value={coupon}
-                                            onChange={e=> setCoupon(e.target.value)}
-                                            disabled={!!couponDetails?.coupon}
-                                            className="form-control" 
-                                            name="code_name" id="code_name"
-                                            placeholder={t("Please Enter")} />
-                                        {!couponDetails?.coupon && <button className="btn-site" onClick={promoCode}><span>{t("Apply")}</span></button>}
-                                        {!!couponDetails?.coupon && <button className="btn-danger" onClick={removePromoCode}><span>{t("Remove")}</span></button>}
-                                    </div>
-                                </div>
-
-                            </div> */}
                             <div className='d-flex justify-content-between'>
-                                <h5 style={{fontSize: '18px'}}>{!!totalPriceAfterDis ? t("Price") : t("Total Price")}:</h5>
+                                <h5 style={{fontSize: '18px'}}>{t("Total Price")}:</h5>
                                 <h5 style={{fontSize: '18px', fontWeight: "600"}}>{totalPrice} {t("KWD")}</h5>
                             </div>
-                            {/* {!!couponDetails && <div className='d-flex justify-content-between'>
-                                <h5 style={{fontSize: '18px'}}>{t("Discound")}:</h5>
-                                <h5 style={{fontSize: '18px', fontWeight: "600"}}>{couponDetails?.coupon_value} {couponDetails?.coupon_type === 'percentage' ? '%' : t("KWD")}</h5>
-                            </div>} */}
-                            {/* {!!totalPriceAfterDis && <div className='d-flex justify-content-between'>
-                                <h5 style={{fontSize: '18px'}}>{t("Total Price")}:</h5>
-                                <h5 style={{fontSize: '18px', fontWeight: "600"}}>{totalPriceAfterDis.toFixed(3)} {t("KWD")}</h5>
-                            </div>} */}
                             <div>
                                 <button 
                                     className='continue w-100'
                                     onClick={()=> {
-                                        if(!user?.user){
+                                        if(!user){
                                             setModal(true)
                                         }else{
                                             navigate('/checkout')
