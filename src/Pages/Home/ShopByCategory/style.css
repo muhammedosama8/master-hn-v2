@@ -53,6 +53,7 @@
   border-radius: 5px;
   text-align: center;
   text-wrap: nowrap;
+  overflow: hidden;
 }
 .shop-by-category .cate:hover .desc{
   background-color: var(--primary-color);
