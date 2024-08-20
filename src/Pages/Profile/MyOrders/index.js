@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import categoryImg from '../../../assets/category.jpeg'
-import categoryImg2 from '../../../assets/2.webp'
-import { Badge, Button, Col, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { t } from "i18next";
 import OrderService from "../../../services/OrderService";
 import { useSelector } from "react-redux";
@@ -11,6 +9,7 @@ import Loader from "../../../common/Loader";
 
 const MyOrders = () => {
     const [loading, setLoading] = useState(false)
+    const [shouldUpdate, setShouldUpdate] = useState(false)
     const [item, setItem] = useState({})
     const [modal, setModal] = useState(false)
     const [invoiceModal, setInvoiceModal] = useState(false)
@@ -27,7 +26,7 @@ const MyOrders = () => {
             }
             setLoading(false)
         }).catch(()=> setLoading(false))
-    }, [])
+    }, [shouldUpdate])
 
     if(loading){
         return <div className="d-flex justify-content-center mt-5">
@@ -112,9 +111,9 @@ const MyOrders = () => {
             </clipPath>
             </defs>
             </svg>
-            <p>No Orders</p>
+            <p>{t("No Orders")}</p>
         </div>}
-        {modal && <CancelModal modal={modal} setModal={setModal} orderService={orderService} item={item} />}
+        {modal && <CancelModal modal={modal} setModal={setModal} setShouldUpdate={setShouldUpdate} orderService={orderService} item={item} />}
         {invoiceModal && <InvoiceModal modal={invoiceModal} setModal={setInvoiceModal} order={orderSelect} />}
     </div>
 }

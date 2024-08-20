@@ -51,6 +51,7 @@ export const ar = {
     "Sign Up": "التسجيل",
     "Have Account": "لديك حساب",
     "Checkout": "إتمام الشراء",
+    "No Orders": "لا يوجد طلبات",
     "User Details": "تفاصيل المستخدم",
     "Full Name": "الاسم الكامل",
     "Address Details": "تفاصيل العنوان",

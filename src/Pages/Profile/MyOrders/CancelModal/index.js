@@ -1,10 +1,10 @@
 import React ,{useState} from 'react'
-import { Button, Modal } from "react-bootstrap"
+import { Modal } from "react-bootstrap"
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { toast } from "react-toastify";
 
-function CancelModal({modal, setModal, orderService, item}) {
+function CancelModal({modal, setModal, orderService, setShouldUpdate, item}) {
     const [loading, setLoading] = useState(false)
     const {t} = useTranslation()
     const lang = useSelector(state => state?.lang.lang)
@@ -13,6 +13,7 @@ function CancelModal({modal, setModal, orderService, item}) {
         setLoading(true)
         const { data: response } = await orderService.cancelOrderEndpoint(item.id);
         toast.success(response.success)
+        setShouldUpdate(prev => !prev)
         return setModal(false)
     }
     return (

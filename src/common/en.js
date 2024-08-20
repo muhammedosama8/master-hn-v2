@@ -28,6 +28,7 @@ export const en = {
     "Email": "Email",
     "Phone": "Phone",
     "Message": "Message",
+    "No Orders": "No Orders",
     "CONTACT US ON WHATSAPP": "CONTACT US ON WHATSAPP",
     "GET IN TOUCH": "GET IN TOUCH",
     "Product": "Product",
