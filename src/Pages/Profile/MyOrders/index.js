@@ -74,7 +74,9 @@ const MyOrders = () => {
                             }}>
                                 {t("Cancel")}
                             </Button>}
-                            {order?.status === 'canceled' && <Badge bg="danger">
+                            {order?.status === 'canceled' && <Badge bg="danger" style={{
+                                padding: '10px', fontSize: '16px'
+                            }}>
                                 {t("Canceled")}
                             </Badge>}
                         </div>}
