@@ -25,6 +25,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './App.css';
 import "react-toastify/dist/ReactToastify.css";
+import OrderFailed from './common/OrderFailed';
+import OrderSuccessful from './common/OrderSuccessful';
 
 function App() {
   const navigate = useNavigate();
@@ -54,6 +56,9 @@ function App() {
             <Route path='/checkout' element={<Checkout />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/style-up' element={<StyleUp />} />
+
+            <Route path='/order-successful' element={<OrderSuccessful />} />
+            <Route path='/order-failed' element={<OrderFailed />} />
             <Route path='*' element={<Error404 />} />
           </Routes>
         <Footer />
