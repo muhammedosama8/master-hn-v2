@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './style.css'
 import { useTranslation } from 'react-i18next';
 import Path from '../../common/Path';
@@ -16,10 +16,12 @@ const Contact = () => {
     phone: '',
     message: ''
   })
+  const formRef = useRef(null);
   const {t} = useTranslation()
   const contactUsService = new ContactUsService()
 
   const submit = (e) => {
+    e.preventDefault();
     if(!formData.message) {
       toast.error(t('Message Required.'))
       return
@@ -35,6 +37,7 @@ const Contact = () => {
           phone: '',
           message: ''
         })
+        formRef.current.reset();
       }
     }).catch(e=> toast.error(e?.response?.data?.message))
   }
@@ -48,6 +51,7 @@ const Contact = () => {
     />
     <div className='container'>
       <AvForm 
+        ref={formRef}
         className='form-horizontal login-form'
         onValidSubmit={submit}
       >
@@ -132,6 +136,7 @@ const Contact = () => {
                 className='w-100'
                 placeholder={t("Message")}
                 required
+                value={formData?.message}
                 style={{
                   border: '1px solid #dedede',
                   borderRadius: '8px',

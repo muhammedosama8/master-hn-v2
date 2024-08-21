@@ -375,7 +375,7 @@ const Checkout = () =>{
                             })}
                         </CardBody>
                 </Card>
-                {(addNewAddress && isLogin === 1) && <div className='mt-4 address'>
+                {isLogin === 1 && <div className='mt-4 address'>
                     <h5>{t("Address")}</h5>
                     <Accordion defaultActiveKey="0">
                         {address?.map((addressData, index)=> {
@@ -450,7 +450,7 @@ const Checkout = () =>{
                     <Button variant="primary" onClick={()=> setAddNewAddress(true)} className="mt-5">{t("Add New Address")}</Button>
                 </div>}
 
-                {(isLogin === 0) && <div className="cont-checkout wow fadeInUp">
+                {isLogin === 0 && <div className="cont-checkout wow fadeInUp">
                 <AvForm
                     className="form-checkout mt-4 form-st guestForm form-horizontal"
                     onValidSubmit={()=>{}}> 
