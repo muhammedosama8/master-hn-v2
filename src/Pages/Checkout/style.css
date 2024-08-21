@@ -146,3 +146,14 @@
     color: #fff;
     background-color: var(--primary-color)!important;
 }
+@media only screen and (max-width: 500px) {
+    .tot-pri{
+        text-align: start;
+    }
+    input{
+        font-size: 16px!important;
+    }
+    .address{
+        margin-bottom: 1.5rem;
+    }
+}

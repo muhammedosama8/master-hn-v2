@@ -125,14 +125,14 @@ const Cart = () =>{
                                                 })}
                                             </div>
                                         </div>
-                                        <div className='col-md-3 col-9'>
-                                            <div className='text-center'>
+                                        <div className='col-md-3 col-12 mob-view-actions'>
+                                            <div className='one text-center'>
                                                {product?.dynamicVariants?.length ? <h4 className='text-primary'>{((Number(product?.amount)*Number(product?.product?.price)) + product?.dynamicVariants?.map(res=> res?.amount*res?.price).reduce((accumulator, currentValue) => {
                                                     return accumulator + currentValue;
                                                 }, 0)).toFixed(3)} {t("KWD")}</h4> :
-                                                <h4 className='text-primary'>{(Number(product?.amount)*Number(product?.product?.price)).toFixed(3)} {t("KWD")}</h4>}
+                                                <h4 className='text-primary mb-0'>{(Number(product?.amount)*Number(product?.product?.price)).toFixed(3)} {t("KWD")}</h4>}
                                             </div>
-                                            <div className='text-center'>
+                                            <div className='two text-center'>
                                                 <button className='prod-btn' onClick={()=> {
                                                     if(!!user){
                                                         changeAmount(product?.product, product?.amount+1)
@@ -156,7 +156,7 @@ const Cart = () =>{
                                                     -
                                                 </button>
                                             </div>
-                                            <div className='text-center mt-3'>
+                                            <div className='three text-center mt-3'>
                                                 <button className='trash' onClick={()=> removeProductFromCart(product?.product)}>
                                                     <img src={trash} alt='trash' /> {t("Delete")}
                                                 </button>

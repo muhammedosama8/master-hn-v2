@@ -94,4 +94,13 @@
     .feature-products h1::after {
       content: '';
     }
+    .feature-products .cate {
+      min-height: 250px !important;
+      height: 250px !important;
+    }
+    .feature-products .desc p {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
   }

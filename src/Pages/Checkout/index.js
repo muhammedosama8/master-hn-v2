@@ -364,12 +364,12 @@ const Checkout = () =>{
                                                 })}
                                             </div>
                                         </div>
-                                        <div className='col-md-3 col-9'>
+                                        <div className='col-md-3 col-12'>
                                             <div className='text-center'>
                                                {product?.dynamicVariants?.length ? <h4 className='text-primary'>{((Number(product?.amount)*Number(product?.product?.price)) + product?.dynamicVariants?.map(res=> res?.amount*res?.price).reduce((accumulator, currentValue) => {
                                                     return accumulator + currentValue;
                                                 }, 0)).toFixed(3)} {t("KWD")}</h4> :
-                                                <h4 className='text-primary'>{(Number(product?.amount)*Number(product?.product?.price)).toFixed(3)} {t("KWD")}</h4>}
+                                                <h4 className='text-primary tot-pri'>{(Number(product?.amount)*Number(product?.product?.price)).toFixed(3)} {t("KWD")}</h4>}
                                             </div>
                                         </div>
                                     </div>
@@ -388,58 +388,58 @@ const Checkout = () =>{
                             </Accordion.Header>
                             <Accordion.Body>
                                 <Row>
-                                    <Col md={6}>
+                                    <div className="col-6">
                                         <label>{t("Address Name")}</label>
                                         <p>{addressData.addressName}</p>
-                                    </Col>
-                                    <Col md={6}>
+                                    </div>
+                                    <div className="col-6">
                                         <label>{t("Block")}</label>
                                         <p>{addressData.block}</p>
-                                    </Col>
-                                    <Col md={6}>
+                                    </div>
+                                    <div className="col-6">
                                         <label>{t("Street")}</label>
                                         <p>{addressData.street}</p>
-                                    </Col>
-                                    <Col md={6}>
+                                    </div>
+                                    <div className="col-6">
                                         <label>{t("Governorate")}</label>
                                         <p>{lang === 'en' ? addressData?.governorate?.name_en : addressData?.governorate?.name_ar}</p>
-                                    </Col>
-                                    <Col md={6} className="mb-3">
+                                    </div>
+                                    <div className="col-6 mb-3">
                                         <label>{t("Area")}</label>
                                         <p>{lang === 'en' ? addressData?.area?.name_en : addressData?.area?.name_ar}</p>
-                                    </Col>
-                                    <Col md={6} className="mb-3">
+                                    </div>
+                                    <div className="col-6 mb-3">
                                         <label>{t("Address Type")}</label>
                                         <p>{t(addressData.type)}</p>
-                                    </Col>
-                                    <Col md={6}>
+                                    </div>
+                                    <div className="col-6">
                                         <label>{t("Avenue")}</label>
                                         <p>{addressData.avenue}</p>
-                                    </Col>
-                                    <Col md={6}>
+                                    </div>
+                                    <div className="col-6">
                                         <label>{t("Building Number")}</label>
                                         <p>{addressData.buildingNumber}</p>
-                                    </Col>
-                                    <Col md={6}>
+                                    </div>
+                                    <div className="col-6">
                                         <label>{t("Floor Number")}</label>
                                         <p>{addressData.floorNumber}</p>
-                                    </Col>
-                                    <Col md={6}>
+                                    </div>
+                                    <div className="col-6">
                                         <label>{t("Office Number")}</label>
                                         <p>{addressData.officeNumber}</p>
-                                    </Col>
-                                    <Col md={6}>
+                                    </div>
+                                    <div className="col-6">
                                         <label>{t("House Number")}</label>
                                         <p>{addressData.houseNumber}</p>
-                                    </Col>
-                                    <Col md={6}>
+                                    </div>
+                                    <div className="col-6">
                                         <label>{t("Apartment Number")}</label>
                                         <p>{addressData.aptNumber}</p>
-                                    </Col>
-                                    <Col md={12}>
+                                    </div>
+                                    <div className="col-12">
                                         <label>{t("Other Instructions")}</label>
                                         <p>{addressData.otherInstructions}</p>
-                                    </Col>
+                                    </div>
                                 </Row>
                                 <div className="mt-3 d-flex justify-content-between">
                                     {!addressData?.is_default && <Button variant="warning" onClick={()=> setDefault(addressData?.id)} type='button'>{t("Set Default")}</Button>}
@@ -456,8 +456,8 @@ const Checkout = () =>{
                 <AvForm
                     className="form-checkout mt-4 form-st guestForm form-horizontal"
                     onValidSubmit={()=>{}}> 
-                    <Row>
-                        <Col md={6}>
+                    <div className="row">
+                        <div className="col-6">
                             <AvField
                                 label={t("Name")}
                                 type='text'
@@ -473,8 +473,8 @@ const Checkout = () =>{
                                 value={formData.guest_name}
                                 onChange={(e) => setFormData({...formData, guest_name: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Email")}
                                 type='email'
@@ -490,8 +490,8 @@ const Checkout = () =>{
                                 value={formData.guest_email}
                                 onChange={(e) => setFormData({...formData, guest_email: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Phone")}
                                 type='number'
@@ -507,8 +507,8 @@ const Checkout = () =>{
                                 value={formData.guest_phone}
                                 onChange={(e) => setFormData({...formData, guest_phone: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Address Name")}
                                 type='text'
@@ -524,8 +524,8 @@ const Checkout = () =>{
                                 value={formData.addressName}
                                 onChange={(e) => setFormData({...formData, addressName: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Block")}
                                 type='text'
@@ -541,8 +541,8 @@ const Checkout = () =>{
                                 value={formData.block}
                                 onChange={(e) => setFormData({...formData, block: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Street")}
                                 type='text'
@@ -558,8 +558,8 @@ const Checkout = () =>{
                                 value={formData.street}
                                 onChange={(e) => setFormData({...formData, street: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <label className="mb-2">{t("Governorate")}</label>
                             <Select
                                 options={governorateOptions}
@@ -567,8 +567,8 @@ const Checkout = () =>{
                                 value={formData?.governorate_id}
                                 onChange={e=> setFormData({...formData, governorate_id: e})}
                             />
-                        </Col>
-                        <Col md={6} className="mb-3">
+                        </div>
+                        <div className="col-6 mb-3">
                             <label className="mb-2">{t("Area")}</label>
                             <Select
                                 options={areaOptions}
@@ -576,8 +576,8 @@ const Checkout = () =>{
                                 value={formData?.area_id}
                                 onChange={e=> setFormData({...formData, area_id: e})}
                             />
-                        </Col>
-                        <Col md={6} className="mb-3">
+                        </div>
+                        <div className="col-6 mb-3">
                             <label className="mb-2">{t("Address Type")}</label>
                             <Select
                                 options={typesOptions}
@@ -585,8 +585,8 @@ const Checkout = () =>{
                                 value={formData?.type}
                                 onChange={e=> setFormData({...formData, type: e})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Avenue")}
                                 type='text'
@@ -596,8 +596,8 @@ const Checkout = () =>{
                                 value={formData.avenue}
                                 onChange={(e) => setFormData({...formData, avenue: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Building Number")}
                                 type='text'
@@ -607,8 +607,8 @@ const Checkout = () =>{
                                 value={formData.buildingNumber}
                                 onChange={(e) => setFormData({...formData, buildingNumber: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Floor Number")}
                                 type='text'
@@ -624,8 +624,8 @@ const Checkout = () =>{
                                 value={formData.floorNumber}
                                 onChange={(e) => setFormData({...formData, floorNumber: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Office Number")}
                                 type='text'
@@ -641,8 +641,8 @@ const Checkout = () =>{
                                 value={formData.officeNumber}
                                 onChange={(e) => setFormData({...formData, officeNumber: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("House Number")}
                                 type='text'
@@ -658,8 +658,8 @@ const Checkout = () =>{
                                 value={formData.houseNumber}
                                 onChange={(e) => setFormData({...formData, houseNumber: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Apartment Number")}
                                 type='text'
@@ -675,8 +675,8 @@ const Checkout = () =>{
                                 value={formData.aptNumber}
                                 onChange={(e) => setFormData({...formData, aptNumber: e.target.value})}
                             />
-                        </Col>
-                        <Col md={12}>
+                        </div>
+                        <div className="col-12">
                             <AvField
                                 label={t("Other Instructions")}
                                 type='text'
@@ -686,16 +686,16 @@ const Checkout = () =>{
                                 value={formData.otherInstructions}
                                 onChange={(e) => setFormData({...formData, otherInstructions: e.target.value})}
                             />
-                        </Col>
-                    </Row>
+                        </div>
+                    </div>
                 </AvForm>
                 </div>}
 
                 {(addNewAddress && isLogin === 1) && <AvForm
-                    className="form-checkout mt-4 form-st guestForm form-horizontal"
+                    className="form-checkout mt-4 mb-4 form-st guestForm form-horizontal"
                     onValidSubmit={submit}> 
                     <Row>
-                        <Col md={6}>
+                        <div className="col-6">
                             <AvField
                                 label={t("Address Name")}
                                 type='text'
@@ -711,8 +711,8 @@ const Checkout = () =>{
                                 value={formData.addressName}
                                 onChange={(e) => setFormData({...formData, addressName: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Block")}
                                 type='text'
@@ -728,8 +728,8 @@ const Checkout = () =>{
                                 value={formData.block}
                                 onChange={(e) => setFormData({...formData, block: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Street")}
                                 type='text'
@@ -745,8 +745,8 @@ const Checkout = () =>{
                                 value={formData.street}
                                 onChange={(e) => setFormData({...formData, street: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <label className="mb-2">{t("Governorate")}</label>
                             <Select
                                 options={governorateOptions}
@@ -754,8 +754,8 @@ const Checkout = () =>{
                                 value={formData?.governorate_id}
                                 onChange={e=> setFormData({...formData, governorate_id: e})}
                             />
-                        </Col>
-                        <Col md={6} className="mb-3">
+                        </div>
+                        <div className="col-6 mb-3">
                             <label className="mb-2">{t("Area")}</label>
                             <Select
                                 options={areaOptions}
@@ -763,8 +763,8 @@ const Checkout = () =>{
                                 value={formData?.area_id}
                                 onChange={e=> setFormData({...formData, area_id: e})}
                             />
-                        </Col>
-                        <Col md={6} className="mb-3">
+                        </div>
+                        <div className="col-6 mb-3">
                             <label className="mb-2">{t("Address Type")}</label>
                             <Select
                                 options={typesOptions}
@@ -772,8 +772,8 @@ const Checkout = () =>{
                                 value={formData?.type}
                                 onChange={e=> setFormData({...formData, type: e})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Avenue")}
                                 type='text'
@@ -783,8 +783,8 @@ const Checkout = () =>{
                                 value={formData.avenue}
                                 onChange={(e) => setFormData({...formData, avenue: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Building Number")}
                                 type='text'
@@ -794,8 +794,8 @@ const Checkout = () =>{
                                 value={formData.buildingNumber}
                                 onChange={(e) => setFormData({...formData, buildingNumber: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Floor Number")}
                                 type='text'
@@ -811,8 +811,8 @@ const Checkout = () =>{
                                 value={formData.floorNumber}
                                 onChange={(e) => setFormData({...formData, floorNumber: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Office Number")}
                                 type='text'
@@ -828,8 +828,8 @@ const Checkout = () =>{
                                 value={formData.officeNumber}
                                 onChange={(e) => setFormData({...formData, officeNumber: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("House Number")}
                                 type='text'
@@ -845,8 +845,8 @@ const Checkout = () =>{
                                 value={formData.houseNumber}
                                 onChange={(e) => setFormData({...formData, houseNumber: e.target.value})}
                             />
-                        </Col>
-                        <Col md={6}>
+                        </div>
+                        <div className="col-6">
                             <AvField
                                 label={t("Apartment Number")}
                                 type='text'
@@ -862,8 +862,8 @@ const Checkout = () =>{
                                 value={formData.aptNumber}
                                 onChange={(e) => setFormData({...formData, aptNumber: e.target.value})}
                             />
-                        </Col>
-                        <Col md={12}>
+                        </div>
+                        <div className="col-12">
                             <AvField
                                 label={t("Other Instructions")}
                                 type='text'
@@ -873,7 +873,7 @@ const Checkout = () =>{
                                 value={formData.otherInstructions}
                                 onChange={(e) => setFormData({...formData, otherInstructions: e.target.value})}
                             />
-                        </Col>
+                        </div>
                     </Row>
                     <div className="mt-3 d-flex justify-content-between">
                         <Button variant="secondary" type="button" onClick={()=> setAddNewAddress(false)}>{t("Cancel")}</Button>
@@ -947,7 +947,7 @@ const Checkout = () =>{
                             </label>
                         </div>
                         {paymentMethod === 'visa' && <Row>
-                            <Col md={12} className='d-block mt-3'>
+                            <div className='col-12 d-block mt-3'>
                                 <label>{t("Payment")}</label>
                                 <select 
                                     style={{ width: '100%', height: '40px', borderRadius: '8px', padding: '0 10px' }} 
@@ -959,7 +959,7 @@ const Checkout = () =>{
                                     <option value='apple-pay'>Apple Pay</option>
                                     <option value='google-pay'>Google Pay</option>
                                 </select>
-                            </Col>
+                            </div>
                         </Row>}
                     </div>
                 </div>

@@ -98,4 +98,19 @@
     .cart .row div:nth-of-type(1) h5{
         font-size: 16px;
     }
+    .cart .trash img{
+        width: 25px!important;
+        height: 25px!important;
+    }
+    .cart .mob-view-actions{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .cart .mob-view-actions .three{
+        margin-top: 0!important;
+    }
+    .cart .payment-details{
+        width: max-content;
+    }
 }

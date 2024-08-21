@@ -32,7 +32,7 @@ const FeatureProducts = () => {
         <Loader />
       </div> : <div className='row mt-3'>
       {products?.map((product) => {
-        return <div className='col-md-3 mb-4 col-4' key={product?.id}>
+        return <div className='col-md-3 mb-4 col-6' key={product?.id}>
           <div className='scroll-animation cate h-100 position-relative' onClick={()=> navigate(`/products/product/${product.id}`, { state:{ product }})}>
             <img src={product?.product_images[0]?.url} alt={product?.name_en} className='img w-100 h-100' />
             <div className='desc'>

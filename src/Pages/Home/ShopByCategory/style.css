@@ -107,4 +107,12 @@
     .shop-by-category .cate .desc {
       padding: 1rem 6px;
     }
+    .shop-by-category .aos-init{
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .shop-by-category .cate img {
+      min-height: 200px !important;
+      height: 200px !important;
+  }
   }

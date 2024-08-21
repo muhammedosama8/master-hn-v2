@@ -42,16 +42,20 @@
         padding: 1rem !important;
     }
     .pdf h1{
-        font-size: 22px;
+        font-size: 20px;
     }
     .pdf h1::after {
         content: '';
     }
     .pdf img {
-        width: 80px;
+        width: 70px;
     }
     .pdf a{
         padding: 8px;
         font-size: 14px;
+        text-align: center;
+    }
+    .pdf .pdf-img {
+        align-items: center;
     }
 }
