@@ -52,6 +52,7 @@ const Checkout = () =>{
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const lang = useSelector(state => state?.lang?.lang)
+    const [cashInDelivery, setCashInDelivery] = useState(0)
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalPriceAfterDis, setTotalPriceAfterDis] = useState(0)
     const [deliveryChargess, setDeliveryChargess] = useState(0)
@@ -162,6 +163,7 @@ const Checkout = () =>{
                     setTotalPrice(data?.sub_total)
                     setTotalPriceAfterDis(data?.total)
                     setDiscountAmount(data?.discount_amount)
+                    setCashInDelivery(data?.cash_in_delivery)
                 }
             })
         }
@@ -971,16 +973,21 @@ const Checkout = () =>{
                         <p className='m-0'>{t("Discount")}</p>
                         <span className="discount_amount">{discountAmount.toFixed(3)} {t("KWD")}</span>
                     </div>}
+                    
                     {(!discountAmount && !!couponDetails) && <div className='mb-2'>
                         <p className='m-0'>{t("Discount")}</p>
                         <span className="discount_amount">
                             {couponDetails?.coupon_type === "percentage" ? couponDetails?.coupon_value : couponDetails?.coupon_value.toFixed(3)} {couponDetails?.coupon_type === "percentage" ? '%' : t("KWD")}
                         </span>
                     </div>}
-                    <div className='mb-2'>
+                    {paymentMethod === 'cash' && <div className='mb-2'>
+                        <p className='m-0'>{t("Cash in Delivery")}</p>
+                        <span className="discount_amount">{cashInDelivery.toFixed(3)} {t("KWD")}</span>
+                    </div>}
+                    {paymentMethod === 'visa' && <div className='mb-2'>
                         <p className='m-0'>{t("Delivery Charges")}</p>
                         <span className="delivery_charges">{deliveryChargess ? deliveryChargess.toFixed(3) : 0} {t("KWD")}</span>
-                    </div>
+                    </div>}
                     <div className='mb-2'>
                         <p className='m-0'>{t("Total")}</p>
                         <span className="total_price">{totalPriceAfterDis.toFixed(3)} {t("KWD")}</span>

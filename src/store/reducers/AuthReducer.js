@@ -24,7 +24,8 @@ const initialState = {
     showLoading: false,
     cart: [],
     promoCode: '',
-    showLogin: false
+    showLogin: false,
+    isLogin: false
 };
 
 export function AuthReducer(state = initialState, action) {
@@ -36,6 +37,7 @@ export function AuthReducer(state = initialState, action) {
             errorMessage: '',
             successMessage: 'Signup Successfully Completed',
             showLoading: false,
+            isLogin: true,
         };
     }
     if (action.type === CART) {
@@ -128,6 +130,7 @@ export function AuthReducer(state = initialState, action) {
             errorMessage: '',
             successMessage: 'Login Successfully Completed',
             showLoading: false,
+            isLogin: true,
         };
     }
     if (action.type === UPDATE_DATA_ACTION) {
@@ -162,6 +165,7 @@ export function AuthReducer(state = initialState, action) {
             errorMessage: '',
             successMessage: 'Login Successfully Completed',
             showLoading: false,
+            isLogin: true,
         };
     }
     if (action.type === LOGOUT_ACTION) {
@@ -173,7 +177,8 @@ export function AuthReducer(state = initialState, action) {
             successMessage: '',
             showLoading: false,
             showLogin: false,
-            cart: [],
+            isLogin: false,
+            // cart: [],
         };
     }
     if (action.type === SETCART_ACTION) {
@@ -190,6 +195,7 @@ export function AuthReducer(state = initialState, action) {
             errorMessage: action.payload,
             successMessage: '',
             showLoading: false,
+            isLogin: false,
         };
     }
 

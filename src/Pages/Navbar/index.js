@@ -16,6 +16,7 @@ import CartService from '../../services/CartService'
 
 const Navbar = () =>{
   const [cart, setCartLength] = useState(0)
+  const [shouldUpdate, setShouldUpdate] = useState(false)
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -37,7 +38,11 @@ const Navbar = () =>{
     } else {
       setCartLength(user?.cart?.length)
     }
-  },[user])
+  },[shouldUpdate, user])
+
+  useEffect(()=>{
+    setTimeout(()=> setShouldUpdate(prev=> !prev),200)
+  },[user.isLogin])
 
   return <div>
     <nav className="navbar navbar-expand-lg">

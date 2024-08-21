@@ -29,7 +29,7 @@ export function Logout(token, dispatch, navigate, pathname) {
             dispatch(LogoutFn())
             localStorage.removeItem('masterHNCart')
             toast.success('Logout Successfully.')
-            if(pathname === '/profile'){
+            if(pathname === '/profile' || pathname === '/checkout'){
                 navigate('/')
             }
         }

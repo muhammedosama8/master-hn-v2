@@ -90,6 +90,7 @@ export const en = {
     "Logout": "Logout",
     "My Account": "My Account",
     "My Orders": "My Orders",
+    "Cash in Delivery": "Cash in Delivery",
     "Update Account": "Update Account",
     "Update": "Update",
     "Change Password": "Change Password",

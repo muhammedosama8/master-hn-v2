@@ -64,7 +64,11 @@ const Cart = () =>{
             setTotalPrice(totalP.toFixed(3))
             setCartProducts(data)
         }
-    },[shouldUpdate, user])
+    },[shouldUpdate, userData])
+
+    useEffect(()=>{
+        setTimeout(()=> setShouldUpdate(prev=> !prev),200)
+    },[userData.isLogin])
 
     const removeProductFromCart = (product) => {
         let data ={

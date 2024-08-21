@@ -108,6 +108,7 @@ export const ar = {
     "ordered failed": "حدث خطأ ما!",
     "ordered failed description": "لم يتم استكمال الدفع",
     "Cancel": "إلغاء",
+    "Cash in Delivery": "نقدا عند التسليم",
     "Canceled": "تم الإلغاء",
     "Add": "إضافة",
     "Buy it again": "اشتري مره أخري",
