@@ -84,7 +84,7 @@ const StyleUp = () => {
         <Loader />
     </div> : <>
     <div className="text-center mt-5">
-        <img src={selected?.img} alt='main' height={400} className="m-auto" style={{width: '85%'}} />
+        <img src={selected?.img} alt='main' height={400} className="m-auto main-image" style={{width: '85%'}} />
     </div>
     <div className="mt-3">
         {data?.sheets?.map((sheet,index) => {
@@ -92,7 +92,7 @@ const StyleUp = () => {
                 <h2 className="sheet-title">{sheet?.title}</h2>
                 <Row className="mt-4">
                 {sheet?.items?.map((info, ind) => {
-                    return <Col md={2} key={ind} className="text-center mb-3">
+                    return <Col md={2} key={ind} className="text-center mb-3 col-4">
                         <img src={info?.color} alt='color_img' className="w-75 h-100" style={{cursor: 'pointer'}} onClick={()=> setSelected({img: info?.src})}/>
                     </Col>
                 })}
