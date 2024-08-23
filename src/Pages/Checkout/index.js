@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Area from '../../Enums/Area';
 import Select from "react-select"
 import { useDispatch, useSelector } from 'react-redux';
 import UserAddressService from '../../services/UserAddressService';
@@ -10,7 +9,7 @@ import { toast } from 'react-toastify';
 import CartService from '../../services/CartService';
 import './style.css'
 import OrderService from '../../services/OrderService';
-import { setCart, setPromoCode } from '../../store/actions/AuthActions';
+import { setPromoCode } from '../../store/actions/AuthActions';
 import { AvField, AvForm } from 'availity-reactstrap-validation';
 import CountryService from '../../services/CountryService';
 import OrderGuestService from '../../services/OrderGuestService';
