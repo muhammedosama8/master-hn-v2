@@ -42,17 +42,15 @@ export function checkAutoLogin(dispatch, navigate, pathname) {
     const promoCode = localStorage.getItem('PromoCodeMasterHN');
 
     if(!!masterCartString){
+        if(!!promoCode){
+            dispatch(setPromoCode(JSON.parse(promoCode)))
+        }
         dispatch(setCart(JSON.parse(masterCartString)))
     }
 
-    if(!!promoCode && !!masterCartString){
-        setTimeout(()=>{
-            dispatch(setPromoCode(JSON.parse(promoCode)))
-        }, 500)
-    }
-
+    
     if (!tokenDetailsString) {
-        dispatch(LogoutFn())
+        // dispatch(LogoutFn())
         if(pathname === '/profile'){
             navigate('/')
         }

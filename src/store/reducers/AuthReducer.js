@@ -171,7 +171,7 @@ export function AuthReducer(state = initialState, action) {
     if (action.type === LOGOUT_ACTION) {
         return {
             ...state,
-            promoCode: '',
+            // promoCode: '',
             user: '',
             errorMessage: '',
             successMessage: '',

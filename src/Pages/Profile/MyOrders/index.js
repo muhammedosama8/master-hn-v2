@@ -74,11 +74,13 @@ const MyOrders = () => {
                             }}>
                                 {t("Cancel")}
                             </Button>}
-                            {order?.status === 'canceled' && <Badge bg="danger" style={{
-                                padding: '10px', fontSize: '16px'
+                            <Badge 
+                            bg={order?.status === 'canceled' ? "danger" : order?.status === 'ordered' ? "primary" : order?.status === 'delivered' ? 'success' : order?.status === 'shipped' ? "warning": "secondary"} 
+                            style={{
+                                padding: '10px', fontSize: '16px', marginTop: '8px'
                             }}>
-                                {t("Canceled")}
-                            </Badge>}
+                                {t(order?.status)}
+                            </Badge>
                         </div>}
                         
                     </Col>

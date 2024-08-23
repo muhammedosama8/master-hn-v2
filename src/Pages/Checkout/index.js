@@ -147,7 +147,7 @@ const Checkout = () =>{
             }
             setTotalPriceAfterDis(dis)
         }
-    },[user, shouldUpdate, couponDetails])
+    },[user, shouldUpdate,cart, couponDetails])
 
     useEffect(()=>{
         if(!!address?.length && !!cartId){
@@ -156,6 +156,7 @@ const Checkout = () =>{
                 user_address_id: address.find(res=> res.is_default)?.id,
                 payment_method: paymentMethod,
             }
+            
             cartService.summary(data).then(res=> {
                 if(res?.status){
                     let data = res?.data?.data
@@ -223,12 +224,21 @@ const Checkout = () =>{
             }
             if(paymentMethod === 'visa') data['paymentType'] = paymentType
             orderService.create(data).then(res=>{
-                if(res?.status){
-                    window.location.href = res.data?.data
+                if(res?.status === 201){
+                   navigate('/order-successful')
+                } else {
+                    navigate('/order-failed')
                 }
-            })
+            }).catch(()=> navigate('/order-failed'))
         } else {
-            if(!formData?.area_id?.id || !formData?.governorate_id?.id || !formData?.type?.value){
+            if(
+                !formData?.area_id?.id || 
+                !formData?.governorate_id?.id || !formData?.type?.value ||
+                !formData?.guest_name || !formData?.guest_email ||
+                !formData?.guest_phone || !formData?.addressName ||
+                !formData?.block || !formData?.street
+            ){
+                toast.error('Add Address.')
                 return
             }
             let data = {
@@ -267,10 +277,13 @@ const Checkout = () =>{
             if(!!formData?.otherInstructions) data['otherInstructions'] = formData?.otherInstructions
 
             orderGuestService.create(data).then(res=>{
-                if(res?.status){
-                    window.location.href = res.data?.data
+                if(res?.status === 201){
+                    console.log(res.data?.data)
+                    navigate('/order-successful')
+                } else {
+                    navigate('/order-failed')
                 }
-            })
+            }).catch(()=> navigate('/order-failed'))
         }
     }
 
@@ -574,7 +587,9 @@ const Checkout = () =>{
                                 options={areaOptions}
                                 name='area_id'
                                 value={formData?.area_id}
-                                onChange={e=> setFormData({...formData, area_id: e})}
+                                onChange={e=> {
+                                    setFormData({...formData, area_id: e})
+                                }}
                             />
                         </div>
                         <div className="col-6 mb-3">
@@ -614,12 +629,6 @@ const Checkout = () =>{
                                 type='text'
                                 placeholder={t("Floor Number")}
                                 bsSize="lg"
-                                validate={{
-                                    required: {
-                                        value: true,
-                                        errorMessage: t("This Field is required")
-                                    }
-                                }}
                                 name='floorNumber'
                                 value={formData.floorNumber}
                                 onChange={(e) => setFormData({...formData, floorNumber: e.target.value})}
@@ -631,12 +640,6 @@ const Checkout = () =>{
                                 type='text'
                                 placeholder={t("Office Number")}
                                 bsSize="lg"
-                                validate={{
-                                    required: {
-                                        value: true,
-                                        errorMessage: t("This Field is required")
-                                    }
-                                }}
                                 name='officeNumber'
                                 value={formData.officeNumber}
                                 onChange={(e) => setFormData({...formData, officeNumber: e.target.value})}
@@ -648,12 +651,6 @@ const Checkout = () =>{
                                 type='text'
                                 placeholder={t("House Number")}
                                 bsSize="lg"
-                                validate={{
-                                    required: {
-                                        value: true,
-                                        errorMessage: t("This Field is required")
-                                    }
-                                }}
                                 name='houseNumber'
                                 value={formData.houseNumber}
                                 onChange={(e) => setFormData({...formData, houseNumber: e.target.value})}
@@ -665,12 +662,6 @@ const Checkout = () =>{
                                 type='text'
                                 placeholder={t("Apartment Number")}
                                 bsSize="lg"
-                                validate={{
-                                    required: {
-                                        value: true,
-                                        errorMessage: t("This Field is required")
-                                    }
-                                }}
                                 name='aptNumber'
                                 value={formData.aptNumber}
                                 onChange={(e) => setFormData({...formData, aptNumber: e.target.value})}
@@ -886,22 +877,12 @@ const Checkout = () =>{
             <div className="col-lg-4">
                 <div className="coupon-code mb-4 wow fadeInUp">
                     <h5>{t("Coupon Code")}</h5>
-                    {/* <form className="form-coupon" id="checkoutForm" method="POST">
-                        <div className="form-group">
-                            <input type="text" className="form-control" name="code_name" id="code_name"
-                                placeholder={t("Please Enter")} />
-                            <button className="btn-site" id="check_code"><span>{t("Apply")}</span></button>
-                        </div>
-                        <span className="success-promo validCode" style={{display: "none"}}>تم التطبيق بنجاح!</span>
-                        <span className="wrong-promo invalidCode" style={{display: "none"}}>رمز الخصم غير صالح!</span>
-                    </form> */}
                     <div className="form-coupon">
                         <div className="form-group">
                             <input type="text" 
                                 required
                                 value={coupon}
                                 onChange={e=> setCoupon(e.target.value)}
-                                // disabled={!!couponDetails?.coupon}
                                 className="form-control" 
                                 name="code_name" id="code_name"
                                 placeholder={t("Please Enter")} />
@@ -982,7 +963,7 @@ const Checkout = () =>{
                     </div>}
                     {paymentMethod === 'cash' && <div className='mb-2'>
                         <p className='m-0'>{t("Cash in Delivery")}</p>
-                        <span className="discount_amount">{cashInDelivery.toFixed(3)} {t("KWD")}</span>
+                        <span className="discount_amount">{cashInDelivery > 0 ? cashInDelivery?.toFixed(3) : 0} {t("KWD")}</span>
                     </div>}
                     {paymentMethod === 'visa' && <div className='mb-2'>
                         <p className='m-0'>{t("Delivery Charges")}</p>
