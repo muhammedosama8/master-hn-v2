@@ -105,6 +105,7 @@ export const en = {
     "ordered failed description": "The payment not proceed",
     "Cancel": "Cancel",
     "try again": "Try Again",
+    "out of stock": "Out of Stock",
     "canceled": "Canceled",
     "ordered": "Ordered",
     "process": "Process",

@@ -34,11 +34,11 @@ const Navbar = () =>{
           if(res?.status === 200){
             setCartLength(res.data?.data?.sub_carts?.length)
           }
-      }).catch(() => {})
+      }).catch(() => setCartLength(0))
     } else {
-      setCartLength(user?.cart?.length)
+      setCartLength(user?.cart?.length || 0)
     }
-  },[shouldUpdate, user])
+  },[shouldUpdate, user, user.cart])
 
   useEffect(()=>{
     setTimeout(()=> setShouldUpdate(prev=> !prev),200)

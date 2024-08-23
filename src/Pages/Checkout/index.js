@@ -225,12 +225,16 @@ const Checkout = () =>{
             if(paymentMethod === 'visa') data['paymentType'] = paymentType
             orderService.create(data).then(res=>{
                 if(res?.status === 201){
-                    dispatch(setCart([]))
-                   navigate('/order-successful')
-                } else {
-                    navigate('/order-failed')
+                    if(paymentMethod === 'visa'){
+                        window.location.href = res.data?.data
+                        return
+                    }
+                    navigate('/order-successful')
                 }
-            }).catch(()=> navigate('/order-failed'))
+            }).catch((e)=> {
+                toast.error(e?.response?.data?.message.replaceAll('_', ' '))
+                navigate('/order-failed')
+            })
         } else {
             if(
                 !formData?.area_id?.id || 
@@ -279,12 +283,16 @@ const Checkout = () =>{
 
             orderGuestService.create(data).then(res=>{
                 if(res?.status === 201){
-                    dispatch(setCart([]))
+                    if(paymentMethod === 'visa'){
+                        window.location.href = res.data?.data
+                        return
+                    }
                     navigate('/order-successful')
-                } else {
-                    navigate('/order-failed')
                 }
-            }).catch(()=> navigate('/order-failed'))
+            }).catch((e)=> {
+                toast.error(e?.response?.data?.message.replaceAll('_', ' '))
+                navigate('/order-failed')
+            })
         }
     }
 

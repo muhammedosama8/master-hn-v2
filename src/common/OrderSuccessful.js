@@ -1,11 +1,19 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, CardBody } from "reactstrap";
+import { setCart } from "../store/actions/AuthActions";
 
 const OrderSuccessful = () =>{
   const user = useSelector(state=> state?.user?.user)
   const {t} = useTranslation()
+  const dispatch = useDispatch()
+
+  useEffect(()=> {
+    dispatch(setCart([]))
+  }, [])
+
   return<Card style={{marginTop: '150px', border: 'none'}}>
     <CardBody>
       <div className=''>

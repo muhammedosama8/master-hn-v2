@@ -299,7 +299,7 @@ const Product = () => {
                         </div>
                     })}
                     <p className="description mt-4">{lang==='en' ? product?.description_en : product?.description_ar}</p>
-                    <div className="d-flex" style={{gap: '22px'}}>
+                    {product?.amount > 0 ? <div className="d-flex" style={{gap: '22px'}}>
                         {loader ? 
                         <div className='d-flex justify-content-center' style={{width: '167px'}}><Loader /></div> : 
                         <button onClick={()=> addCart()} className="buy">{t("Add To Cart") }</button>}
@@ -307,7 +307,7 @@ const Product = () => {
                         <div className="amounts d-flex" style={{alignItems: 'center'}}>
                             <button 
                                 disabled={product?.amount === amount}
-                                style={{cursor: product?.amount === amount ? 'not-allowed' : 'pointer'}}
+                                style={{cursor: (product?.amount === amount) ? 'not-allowed' : 'pointer'}}
                                 onClick={()=> setAmount(prev => ++prev)}
                                 className="btn btn-outline-secondary" 
                             >+</button>
@@ -323,7 +323,7 @@ const Product = () => {
                                 disabled={amount === 1}
                             >-</button>
                         </div>
-                    </div>
+                    </div> : <h5 className="text-danger">{t("out of stock")}</h5>}
                 </div>
             </div>
         </div>
