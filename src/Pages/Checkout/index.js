@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import CartService from '../../services/CartService';
 import './style.css'
 import OrderService from '../../services/OrderService';
-import { setPromoCode } from '../../store/actions/AuthActions';
+import { setCart, setPromoCode } from '../../store/actions/AuthActions';
 import { AvField, AvForm } from 'availity-reactstrap-validation';
 import CountryService from '../../services/CountryService';
 import OrderGuestService from '../../services/OrderGuestService';
@@ -225,6 +225,7 @@ const Checkout = () =>{
             if(paymentMethod === 'visa') data['paymentType'] = paymentType
             orderService.create(data).then(res=>{
                 if(res?.status === 201){
+                    dispatch(setCart([]))
                    navigate('/order-successful')
                 } else {
                     navigate('/order-failed')
@@ -278,7 +279,7 @@ const Checkout = () =>{
 
             orderGuestService.create(data).then(res=>{
                 if(res?.status === 201){
-                    console.log(res.data?.data)
+                    dispatch(setCart([]))
                     navigate('/order-successful')
                 } else {
                     navigate('/order-failed')

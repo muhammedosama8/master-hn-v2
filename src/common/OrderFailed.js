@@ -23,8 +23,8 @@ const OrderFailed = () =>{
               {t("ordered failed description")}
               </p>
               <div className="mt-4">
-                <Link className='btn btn-primary' to='/'>
-                {t("home")}
+                <Link className='btn btn-primary' to='/cart'>
+                {t("try again")}
                 </Link>
               </div>
             </div>

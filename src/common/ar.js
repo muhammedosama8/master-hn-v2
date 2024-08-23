@@ -110,6 +110,7 @@ export const ar = {
     "Cancel": "إلغاء",
     "Cash in Delivery": "نقدا عند التسليم",
     "canceled": "تم الإلغاء",
+    "try again": "حاول مرة أخرى",
     "ordered": "تم الطلب",
     "process": "قيد التنفيذ",
     "shipped": "تم الشحن",

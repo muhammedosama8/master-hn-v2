@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, CardBody } from "reactstrap";
 
 const OrderSuccessful = () =>{
+  const user = useSelector(state=> state?.user?.user)
   const {t} = useTranslation()
   return<Card style={{marginTop: '150px', border: 'none'}}>
     <CardBody>
@@ -24,9 +26,11 @@ const OrderSuccessful = () =>{
                 {t("ordered successfully description")}
               </p>
               <div className="mt-4">
-                <Link className='btn btn-primary' to='/profile'>
+                {!!user ? <Link className='btn btn-primary' to='/profile'>
                 {t("My Orders")}
-                </Link>
+                </Link> : <Link className='btn btn-primary' to='/'>
+                {t("home")}
+                </Link>}
               </div>
             </div>
           </div>
