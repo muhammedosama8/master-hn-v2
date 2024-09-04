@@ -35,6 +35,10 @@
 .nav-mobile-logo{
     display: none;
 }
+.navbar-toggler-icon{
+    background-image: url('../../assets/Hamburger.png')!important;
+    border-color: #fff;
+}
 @media only screen and (max-width: 500px) {
     .navbar {
         padding: .75rem;

@@ -47,12 +47,12 @@ const Navbar = () =>{
   return <div>
     <nav className="navbar navbar-expand-lg">
       <div className='row w-100 m-auto' style={{alignItems: 'center'}}>
-        <div className='col-12 nav-mobile-logo mb-3' style={{textAlign: 'center'}}>
+        {/* <div className='col-12 nav-mobile-logo mb-3' style={{textAlign: 'center'}}>
           <Link to='/' className="navbar-brand logo m-0 p-0" >
             <img src={logo} alt='logo' width={150} />
           </Link>
-        </div>
-        <div className='col-md-5 col-6'>
+        </div> */}
+        <div className='col-md-5 col-2'>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -65,6 +65,11 @@ const Navbar = () =>{
               <NavLink to='/contact' className={({ isActive }) => isActive ? "active nav-link py-0" : "nav-link py-0"} aria-current="page">{t('contact')}</NavLink>
             </div>
           </div>
+        </div>
+        <div className='col-4 nav-mobile-logo' style={{textAlign: 'center'}}>
+          <Link to='/' className="navbar-brand logo m-0 p-0" >
+            <img src={logo} alt='logo' width={100} />
+          </Link>
         </div>
         <div className='col-md-3 col-5 nav-logo' style={{textAlign: 'center'}}>
           <Link to='/' className="navbar-brand logo m-0 p-0" >

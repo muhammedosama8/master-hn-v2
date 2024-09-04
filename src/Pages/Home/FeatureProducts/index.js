@@ -31,7 +31,7 @@ const FeatureProducts = () => {
     {loader ? <div className='d-flex justify-content-center py-5'>
         <Loader />
       </div> : <div className='row mt-3'>
-      {products?.map((product) => {
+      {!!products?.length ? products?.map((product) => {
         return <div className='col-md-3 mb-4 col-6' key={product?.id}>
           <div className='scroll-animation cate h-100 position-relative' onClick={()=> navigate(`/products/product/${product.id}`, { state:{ product }})}>
             <img src={product?.product_images[0]?.url} alt={product?.name_en} className='img w-100 h-100' />
@@ -41,11 +41,11 @@ const FeatureProducts = () => {
             </div>
           </div>
         </div>
-      })}
+      }) : <h5 className='text-center'>{t("There are No Products")}</h5>}
     </div>}
-    <div className='text-center mt-5'>
+      {!!products?.length && <div className='text-center mt-5'>
         <Link to='/products' className='viewAll'>{t("View All")}</Link>
-      </div>
+      </div>}
     </div>
   );
 };

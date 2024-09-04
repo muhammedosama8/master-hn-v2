@@ -2,6 +2,9 @@
     height: calc(100vh - 101.5px);
 }
 @media only screen and (max-width: 500px) {
+    .header-home {
+        margin-top: 4rem;
+    }
     .header-home .carousel-item img{
         height: calc(50vh - 101.5px);
     }
