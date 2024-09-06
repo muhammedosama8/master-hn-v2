@@ -69,15 +69,15 @@
     .col-12{
         margin-bottom: 2rem;
     }
-    .col-12:last-of-type{
+    .col-12:nth-child(2){
         margin-bottom: 0;
     }
     .ar .footer .qr,
     .en .footer .qr {
         text-align: center;
     }
-    .qr .qr-img{
-        width: 100px;
+    .qr{
+        display: none;
     }
     .footer .qr div {
         justify-content: center;

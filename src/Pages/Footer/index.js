@@ -81,6 +81,19 @@ const Footer = () => {
                                 </div>
                             </div>
                             <div>
+                                <a 
+                                    href="https://www.hasanalnaser.com" 
+                                    style={{
+                                        color: '#fff',
+                                        textDecoration: 'none',
+                                        margin: '5px 2px 0'
+                                    }}
+                                    target="_blank"
+                                    className="text-center mb-4 nav-mobile-logo" 
+                                    rel="noreferrer"
+                                >
+                                    Hasan Al Naser
+                                </a>
                                 <p className="text-center mb-4 power">{t("All Rights")} &copy; {t("Hasan Al Naser")}
                                 <span className="mx-1">{new Date().getFullYear()}</span></p>
                                 <p className="text-center mb-2 power mt-1">{t("Powered By")}
