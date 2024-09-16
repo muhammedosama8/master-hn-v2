@@ -13,6 +13,7 @@ import phone from '../../assets/phone.svg'
 import knet from '../../assets/knet.svg'
 import mastercard from '../../assets/mastercard.svg'
 import visa from '../../assets/visa.svg'
+import linkIcon from '../../assets/link-icon.png'
 import './style.css'
 
 const Footer = () => {
@@ -92,6 +93,7 @@ const Footer = () => {
                                     className="text-center mb-4 nav-mobile-logo" 
                                     rel="noreferrer"
                                 >
+                                    <img src={linkIcon} alt='linkIcon' width={20} className="mx-2" />
                                     Hasan Al Naser
                                 </a>
                                 <p className="text-center mb-4 power">{t("All Rights")} &copy; {t("Hasan Al Naser")}
