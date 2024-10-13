@@ -105,7 +105,8 @@ const Product = () => {
                     dispatch(addToCart({
                         ...product,
                         dynamicVariants: dynamicVariants,
-                        amount: amount
+                        amount: amount,
+                        in_stock: product?.amount
                     }))
                 }
                 setLoader(false);
@@ -130,7 +131,8 @@ const Product = () => {
             dispatch(addToCart({
                 ...product,
                 dynamicVariants: dynamicVariants,
-                amount: amount
+                amount: amount,
+                in_stock: product?.amount
             }))
             setTimeout(()=> setLoader(false), [500])
         }
@@ -177,7 +179,8 @@ const Product = () => {
                 <div className="col-md-6">
                     <h4 className="category">{lang==='en' ? product?.category?.name_en : product?.category?.name_ar}</h4>
                     <h1>{lang==='en' ? product?.name_en : product?.name_ar}</h1>
-                    <p className="price">{product?.price} {t("KWD")}</p>
+                    <p className="old-price">{product?.offer ? product?.price : ''} {product?.offer && t("KWD")}</p>
+                    <p className="price">{product?.offer ? product?.offerPrice : product.price} {t("KWD")}</p>
                     {variants?.map((variant, index)=> {
                         return <div className="variant mb-3" key={index}>
                             <p className="mb-1">{lang==='en' ? variant?.name_en : variant?.name_ar}</p>

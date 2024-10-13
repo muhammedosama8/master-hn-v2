@@ -54,7 +54,7 @@ const Cart = () =>{
             })
             setLoading(false)
             let totalP = data?.map(res=> {
-                let tot = (res?.product?.amount*res?.product?.price) + res?.dynamicVariants?.map(dy=> dy?.amount*dy?.price).reduce((accumulator, currentValue) => {
+                let tot = (res?.product?.amount*(res?.product?.offer ? res?.product?.offerPrice : res?.product?.price)) + res?.dynamicVariants?.map(dy=> dy?.amount*dy?.price).reduce((accumulator, currentValue) => {
                     return accumulator + currentValue;
                 }, 0)
                 return tot
@@ -117,7 +117,7 @@ const Cart = () =>{
                                             <div>
                                                 <h4 className='m-0'>{lang === 'en' ? product?.product?.name_en : product?.product?.name_ar}</h4>
                                                 <Badge className='mb-2' variant="primary">{lang === 'en' ? product?.product?.category?.name_en : product?.product?.category?.name_ar}</Badge>
-                                                <h5 className='mb-2'>{product?.amount} * {product?.product?.price.toFixed(3)}</h5>
+                                                <h5 className='mb-2'>{product?.amount} * {(product?.product?.offer ? product?.product?.offerPrice : product?.product?.price).toFixed(3)}</h5>
                                                 {product?.dynamicVariants?.map(dy => {
                                                     return <h6 key={dy.id}>
                                                         {lang === 'en' ? dy?.name_en : dy?.name_ar} ({dy?.amount} * {dy?.price?.toFixed(3)})
@@ -127,10 +127,10 @@ const Cart = () =>{
                                         </div>
                                         <div className='col-md-3 col-12 mob-view-actions'>
                                             <div className='one text-center'>
-                                               {product?.dynamicVariants?.length ? <h4 className='text-primary'>{((Number(product?.amount)*Number(product?.product?.price)) + product?.dynamicVariants?.map(res=> res?.amount*res?.price).reduce((accumulator, currentValue) => {
+                                               {product?.dynamicVariants?.length ? <h4 className='text-primary'>{((Number(product?.amount)*Number(product?.product?.offer ? product?.product?.offerPrice : product?.product?.price)) + product?.dynamicVariants?.map(res=> res?.amount*res?.price).reduce((accumulator, currentValue) => {
                                                     return accumulator + currentValue;
                                                 }, 0)).toFixed(3)} {t("KWD")}</h4> :
-                                                <h4 className='text-primary mb-0'>{(Number(product?.amount)*Number(product?.product?.price)).toFixed(3)} {t("KWD")}</h4>}
+                                                <h4 className='text-primary mb-0'>{(Number(product?.amount)*Number(product?.product?.offer ? product?.product?.offerPrice : product?.product?.price)).toFixed(3)} {t("KWD")}</h4>}
                                             </div>
                                             <div className='two text-center'>
                                                 <button className='prod-btn' onClick={()=> {

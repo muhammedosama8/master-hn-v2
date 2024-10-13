@@ -63,7 +63,8 @@ const Products = () => {
             <div className='desc'>
               <h4>{lang === 'en' ? product.name_en : product?.name_ar}</h4>
               <p>{lang === 'en' ? product.category?.name_en : product.category?.name_ar}</p>
-              <p>{product.price} {t("KWD")}</p>
+              <p className='old-price'>{product?.offer ? product.price : ''} {product?.offer && t("KWD")}</p>
+              <p>{product?.offer ? product?.offerPrice : product.price} {t("KWD")}</p>
             </div>
           </div>
         </div>

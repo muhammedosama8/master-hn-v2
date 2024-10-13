@@ -17,7 +17,10 @@
   top: -5px;
   rotate: 20deg;
 } */
-
+.old-price{
+  font-size: 16px;
+  text-decoration: line-through;
+}
 .products .cate{
   cursor: pointer;
   overflow: hidden;
