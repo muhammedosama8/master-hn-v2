@@ -320,7 +320,9 @@ const Checkout = () =>{
         }).catch((e)=> {
             if(e?.response.data?.message === "promo_code_not_Exist"){
                 toast.error(t("promo code is invalid!"))
+                return
             }
+            toast.error(e?.response.data?.message?.replaceAll('_', ' '))
         })
     }
 
