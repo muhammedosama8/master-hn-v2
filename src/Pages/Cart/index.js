@@ -54,7 +54,9 @@ const Cart = () =>{
             })
             setLoading(false)
             let totalP = data?.map(res=> {
-                let tot = (res?.product?.amount*(res?.product?.offer ? res?.product?.offerPrice : res?.product?.price)) + res?.dynamicVariants?.map(dy=> dy?.amount*dy?.price).reduce((accumulator, currentValue) => {
+                let tot = res?.product.offer ? (res?.product?.amount*res?.product?.offerPrice) + res?.dynamicVariants?.map(dy=> dy?.amount*dy?.price).reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue;
+                }, 0) : (res?.product?.amount*res?.product?.price) + res?.dynamicVariants?.map(dy=> dy?.amount*dy?.price).reduce((accumulator, currentValue) => {
                     return accumulator + currentValue;
                 }, 0)
                 return tot
@@ -64,7 +66,7 @@ const Cart = () =>{
             setTotalPrice(totalP.toFixed(3))
             setCartProducts(data)
         }
-    },[shouldUpdate, userData])
+    },[shouldUpdate, user, cart])
 
     useEffect(()=>{
         setTimeout(()=> setShouldUpdate(prev=> !prev),200)

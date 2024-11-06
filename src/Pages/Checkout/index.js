@@ -7,12 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { Accordion, Badge, Button, Card, CardBody, Col, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import CartService from '../../services/CartService';
-import './style.css'
 import OrderService from '../../services/OrderService';
 import { setPromoCode } from '../../store/actions/AuthActions';
 import { AvField, AvForm } from 'availity-reactstrap-validation';
 import CountryService from '../../services/CountryService';
 import OrderGuestService from '../../services/OrderGuestService';
+import ServiceFeeService from '../../services/ServiceFeeService';
+import './style.css'
 
 const Checkout = () =>{
     const [formData, setFormData] = useState({
@@ -43,6 +44,7 @@ const Checkout = () =>{
         {label: t("Building Number"), value: "building"},
         {label: t("Office"), value: "office"}
     ]
+    const [deliveryPossibility, setDeliveryPossibility] = useState({})
     const [isLogin, setIsLogin] = useState(null)
     const [address, setAddress] = useState([])
     const [paymentMethod, setPaymentMethod] = useState('cash')
@@ -51,7 +53,7 @@ const Checkout = () =>{
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const lang = useSelector(state => state?.lang?.lang)
-    const [cashInDelivery, setCashInDelivery] = useState(0)
+    // const [cashInDelivery, setCashInDelivery] = useState(0)
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalPriceAfterDis, setTotalPriceAfterDis] = useState(0)
     const [deliveryChargess, setDeliveryChargess] = useState(0)
@@ -71,6 +73,7 @@ const Checkout = () =>{
     const orderGuestService = new OrderGuestService()
     const cart = useSelector(state => state?.user?.cart)
 
+    // Address
     useEffect(()=> {
         if(!!user){
             setIsLogin(1)
@@ -85,6 +88,56 @@ const Checkout = () =>{
         }
     }, [user, shouldUpdateAddress])
 
+    // Country
+    useEffect(()=>{
+        new CountryService()?.getList().then(res=>{
+            if(res?.status === 200){
+                let data = res?.data?.data?.map(country => {
+                    return {
+                        ...country,
+                        label: lang === 'en' ? country?.name_en : country?.name_ar,
+                        value: country?.id
+                    }
+                })
+                setGovernorateOptions(data)
+            }
+        })
+    },[lang])
+
+    useEffect(()=>{
+        if(!user && !!formData?.governorate_id?.id){
+            new ServiceFeeService().getList().then(res=>{
+                if(res?.status){
+                    if(res?.data?.data?.delivery_possibility){
+                        setDeliveryPossibility(res?.data?.data)
+                        if(res?.data?.data?.delivery_all_area){
+                            setDeliveryChargess(res?.data?.data?.delivery_fee)
+                        }
+                    }
+                }
+            })
+        }
+    },[formData?.governorate_id])
+
+    // Areas
+    useEffect(()=>{
+        if(!!formData?.governorate_id?.id){
+            new CountryService()?.getArea(formData?.governorate_id?.id).then(res=>{
+                if(res?.status === 200){
+                    let data = res?.data?.data?.map(area => {
+                        return {
+                            ...area,
+                            label: lang === 'en' ? area?.name_en : area?.name_ar,
+                            value: area?.id
+                        }
+                    })
+                    setAreaOptions(data)
+                }
+            })
+        }
+    },[lang, formData?.governorate_id])
+
+    // Cart
     useEffect(()=> {
         if(!!user){
             cartService.getList().then(res=>{
@@ -146,8 +199,9 @@ const Checkout = () =>{
             }
             setTotalPriceAfterDis(dis)
         }
-    },[user, shouldUpdate,cart, couponDetails])
+    },[user, shouldUpdate, cart])
 
+    // Summary
     useEffect(()=>{
         if(!!address?.length && !!cartId){
             let data ={
@@ -163,43 +217,26 @@ const Checkout = () =>{
                     setTotalPrice(data?.sub_total)
                     setTotalPriceAfterDis(data?.total)
                     setDiscountAmount(data?.discount_amount)
-                    setCashInDelivery(data?.cash_in_delivery)
+                    // setCashInDelivery(data?.cash_in_delivery)
                 }
             })
         }
     },[cartId, address, paymentMethod, shouldUpdate])
 
-    useEffect(()=>{
-        new CountryService()?.getList().then(res=>{
-            if(res?.status === 200){
-                let data = res?.data?.data?.map(country => {
-                    return {
-                        ...country,
-                        label: lang === 'en' ? country?.name_en : country?.name_ar,
-                        value: country?.id
-                    }
-                })
-                setGovernorateOptions(data)
-            }
-        })
-    },[lang])
 
-    useEffect(()=>{
-        if(!!formData?.governorate_id?.id){
-            new CountryService()?.getArea(formData?.governorate_id?.id).then(res=>{
-                if(res?.status === 200){
-                    let data = res?.data?.data?.map(area => {
-                        return {
-                            ...area,
-                            label: lang === 'en' ? area?.name_en : area?.name_ar,
-                            value: area?.id
-                        }
-                    })
-                    setAreaOptions(data)
+    useEffect(()=> {
+        if(!user){
+            if(deliveryPossibility?.delivery_possibility){
+                if(deliveryPossibility?.delivery_all_area){
+                    setDeliveryChargess(deliveryPossibility?.delivery_fee)
+                } else {
+                    setDeliveryChargess(formData?.area_id?.delivery_fee)
                 }
-            })
+            } else {
+                setDeliveryChargess(0)
+            }
         }
-    },[lang, formData?.governorate_id])
+    }, [formData?.area_id])
 
     const setDefault = (id)=> {
         userAddressService.updateDefaultAddress(id).then(res=>{
@@ -221,10 +258,10 @@ const Checkout = () =>{
                 user_address_id: address.find(res=> res.is_default)?.id,
                 cart_id: cartId,
             }
-            if(paymentMethod === 'visa') data['paymentType'] = paymentType
+            if(paymentMethod !== 'cash') data['paymentType'] = paymentType
             orderService.create(data).then(res=>{
                 if(res?.status === 201){
-                    if(paymentMethod === 'visa'){
+                    if(paymentMethod !== 'cash'){
                         window.location.href = res.data?.data
                         return
                     }
@@ -232,7 +269,6 @@ const Checkout = () =>{
                 }
             }).catch((e)=> {
                 toast.error(e?.response?.data?.message.replaceAll('_', ' '))
-                navigate('/order-failed')
             })
         } else {
             if(
@@ -262,7 +298,7 @@ const Checkout = () =>{
                 guest_name: formData?.guest_name,
                 guest_email: formData?.guest_email,
                 guest_phone: formData?.guest_phone,
-                total: totalPriceAfterDis,
+                // total: totalPriceAfterDis,
                 payment_method: paymentMethod,
                 addressName: formData?.addressName,
                 block: formData?.block,
@@ -271,7 +307,7 @@ const Checkout = () =>{
                 governorate_id: formData?.governorate_id?.id,
                 type: formData?.type?.value
             }
-            if(paymentMethod === 'visa') data['paymentType'] = paymentType
+            if(paymentMethod !== 'cash') data['paymentType'] = paymentType
             if(!!formData?.avenue) data['avenue'] = formData?.avenue
             if(!!formData?.buildingNumber) data['buildingNumber'] = formData?.buildingNumber
             if(!!formData?.floorNumber) data['floorNumber'] = formData?.floorNumber
@@ -282,7 +318,7 @@ const Checkout = () =>{
 
             orderGuestService.create(data).then(res=>{
                 if(res?.status === 201){
-                    if(paymentMethod === 'visa'){
+                    if(paymentMethod !== 'cash'){
                         window.location.href = res.data?.data
                         return
                     }
@@ -290,7 +326,6 @@ const Checkout = () =>{
                 }
             }).catch((e)=> {
                 toast.error(e?.response?.data?.message.replaceAll('_', ' '))
-                navigate('/order-failed')
             })
         }
     }
@@ -347,6 +382,9 @@ const Checkout = () =>{
             type: formData?.type?.value,
         }
         if(!formData?.otherInstructions) delete data['otherInstructions']
+        delete data?.guest_email
+        delete data?.guest_name
+        delete data?.guest_phone
         setLoadingAddress(true)
         
         userAddressService.create(data).then(res=> {
@@ -694,7 +732,7 @@ const Checkout = () =>{
 
                 {(addNewAddress && isLogin === 1) && <AvForm
                     className="form-checkout mt-4 mb-4 form-st guestForm form-horizontal"
-                    onValidSubmit={submit}> 
+                    onValidSubmit={()=>submit()}> 
                     <Row>
                         <div className="col-6">
                             <AvField
@@ -882,10 +920,9 @@ const Checkout = () =>{
                     </div>
                 </AvForm>}
             </div>
-            
 
             <div className="col-lg-4">
-                <div className="coupon-code mb-4 wow fadeInUp">
+                {isLogin === 1 && <div className="coupon-code mb-4 wow fadeInUp">
                     <h5>{t("Coupon Code")}</h5>
                     <div className="form-coupon">
                         <div className="form-group">
@@ -900,7 +937,7 @@ const Checkout = () =>{
                             {!!couponDetails?.coupon && <button className="btn-danger" onClick={removePromoCode}><span>{t("Remove")}</span></button>}
                         </div>
                     </div>
-                </div>
+                </div>}
                 <div className="payment-method wow fadeInUp">
                     <h5>{t("Payment Method")}</h5>
                     <div className="list-pay">
@@ -958,7 +995,7 @@ const Checkout = () =>{
                     <h5>{t("Payment Detail")}</h5>
                     <div className='mb-2'>
                         <p className='m-0'>{t("Sub Total")}</p>
-                        <span className="sub_total">{totalPrice.toFixed(3)} {t("KWD")}</span>
+                        <span className="sub_total">{isLogin === 1 ? (totalPrice-deliveryChargess)?.toFixed(3) : totalPrice.toFixed(3)} {t("KWD")}</span>
                     </div>
                     {!!discountAmount && <div className='mb-2'>
                         <p className='m-0'>{t("Discount")}</p>
@@ -971,18 +1008,27 @@ const Checkout = () =>{
                             {couponDetails?.coupon_type === "percentage" ? couponDetails?.coupon_value : couponDetails?.coupon_value.toFixed(3)} {couponDetails?.coupon_type === "percentage" ? '%' : t("KWD")}
                         </span>
                     </div>}
-                    {paymentMethod === 'cash' && <div className='mb-2'>
+                    {/* {paymentMethod === 'cash' && <div className='mb-2'>
                         <p className='m-0'>{t("Cash in Delivery")}</p>
                         <span className="discount_amount">{cashInDelivery > 0 ? cashInDelivery?.toFixed(3) : 0} {t("KWD")}</span>
-                    </div>}
-                    {paymentMethod === 'visa' && <div className='mb-2'>
+                    </div>} */}
+                    {!!deliveryChargess&& <div className='mb-2'>
                         <p className='m-0'>{t("Delivery Charges")}</p>
-                        <span className="delivery_charges">{deliveryChargess ? deliveryChargess.toFixed(3) : 0} {t("KWD")}</span>
+                        <span className="delivery_charges">{deliveryChargess.toFixed(3)} {t("KWD")}</span>
                     </div>}
-                    <div className='mb-2'>
+                    {/* <div className='mb-2'>
+                        <p className='m-0'>{t("Total")}</p>
+                        <span className="total_price">{(totalPriceAfterDis+deliveryChargess).toFixed(3)} {t("KWD")}</span>
+                    </div> */}
+                    {/* Total */}
+                    {isLogin === 1 && <div className='mb-2'>
                         <p className='m-0'>{t("Total")}</p>
                         <span className="total_price">{totalPriceAfterDis.toFixed(3)} {t("KWD")}</span>
-                    </div>
+                    </div>}
+                    {isLogin === 0 && <div className='mb-2'>
+                        <p className='m-0'>{t("Total")}</p>
+                        <span className="total_price">{(totalPriceAfterDis+deliveryChargess).toFixed(3)} {t("KWD")}</span>
+                    </div>}
                     <Button className='submit-order' variant='primary' onClick={()=> submitOrder()}>
                         <span>{t("Submit Order")}</span>
                     </Button>
