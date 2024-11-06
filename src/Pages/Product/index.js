@@ -34,34 +34,34 @@ const Product = () => {
     const cartService = new CartService()
 
     useEffect(()=>{
-        if(!!location?.state){
-            let id = location?.state?.product?.id
-            productsService.getDynamicVariants(id).then(res => {
-                if(res?.status === 200){
-                    let data = res?.data?.data?.map(item=>{
-                        return{
-                            ...item,
-                            amount: 0
-                        }
-                    })
-                    setDynamicVariants(data)
-                }
-            }).catch((e)=> console.error(e))
-            productsService.getProdust(id)?.then(res=>{
-                if(res?.status === 200){
-                    setProduct(res?.data?.data?.product)
-                    setSelectedImage(res?.data?.data?.product.product_images[0]?.url)
-                    if(res?.data?.data?.variant?.length > 0) {
-                        setVariants(res?.data?.data?.variant)
-                        let ids = res?.data?.data?.variant?.map( variant => variant?.variant_values?.find(val => val?.isSelected).id )
-                        setVariantsIds(ids)
-                        setFixedIds(ids)
+        let id = location?.pathname?.split("/products/product/")[1]
+        productsService.getDynamicVariants(id).then(res => {
+            if(res?.status === 200){
+                let data = res?.data?.data?.map(item=>{
+                    return{
+                        ...item,
+                        amount: 0
                     }
+                })
+                setDynamicVariants(data)
+            } else {
+                navigate('/')
+            }
+        }).catch((e)=> navigate('/'))
+        productsService.getProdust(id)?.then(res=>{
+            if(res?.status === 200){
+                setProduct(res?.data?.data?.product)
+                setSelectedImage(res?.data?.data?.product?.product_images[0]?.url)
+                if(res?.data?.data?.variant?.length > 0) {
+                    setVariants(res?.data?.data?.variant)
+                    let ids = res?.data?.data?.variant?.map( variant => variant?.variant_values?.find(val => val?.isSelected).id )
+                    setVariantsIds(ids)
+                    setFixedIds(ids)
                 }
-            }).catch((e)=> console.error(e))
-        } else {
-            navigate('/')
-        }
+            } else {
+                navigate('/')
+            }
+        }).catch((e)=> navigate('/'))
     },[location])
 
     useEffect(()=>{
@@ -163,7 +163,7 @@ const Product = () => {
                         style={{direction: 'ltr'}}
                         modules={[Pagination]}
                     >
-                        {product?.product_images?.map((img,index)=>{
+                        {product?.product_images?.filter(res=> res?.url !== selectedImage)?.map((img,index)=>{
                             return <SwiperSlide style={{height: 'auto'}} key={index}>
                                 <img
                                     className="w-75 h-100"  
