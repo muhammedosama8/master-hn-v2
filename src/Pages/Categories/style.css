@@ -83,6 +83,10 @@
       font-size: 18px;
       line-height: 1.2;
     }
+    .categories .cate img{
+      min-height: 200px !important;
+      height: 200px !important;
+    }
     .categories .cate{
       min-height: 200px !important;
       height: 200px !important;

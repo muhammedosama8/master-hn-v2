@@ -3,7 +3,7 @@
 }
 @media only screen and (max-width: 500px) {
     .header-home {
-        margin-top: 4rem;
+        margin-top: 3.9rem!important;
     }
     .header-home .carousel-item img{
         height: calc(50vh - 101.5px);

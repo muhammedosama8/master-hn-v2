@@ -41,8 +41,11 @@
 }
 @media only screen and (max-width: 500px) {
     .navbar {
-        padding: .75rem;
+        padding: .75rem 0;
         top: -2px;
+    }
+    .navbar .col-md-5{
+        padding: 0;
     }
     .navbar-collapse{
         position: absolute;
