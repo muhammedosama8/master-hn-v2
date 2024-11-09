@@ -38,7 +38,7 @@ const Categories = () => {
       setSearch={setSearch}
     />
 
-    <div className='row'>
+    <div className='row mt-4'>
       {loader ? <div className='d-flex justify-content-center py-5'>
         <Loader />
       </div> : data?.map((category) => {

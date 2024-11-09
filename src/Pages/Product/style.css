@@ -65,7 +65,10 @@
     .product {
         margin-top: 8rem;
         margin-bottom: 4rem;
-    }    
+    }   
+    .paths{
+        display: none;
+    } 
     .product .main-img{
         width: 200px!important;
         height: 200px!important;
@@ -73,5 +76,9 @@
     .product .swiper-slide img{
         width: 60px!important;
         height: 60px!important;
+    }
+    .products .cate{
+        min-height: 200px !important;
+        height: 200px !important;
     }
 }
