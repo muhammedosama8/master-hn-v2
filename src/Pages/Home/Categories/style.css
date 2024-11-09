@@ -20,6 +20,9 @@
     text-wrap: nowrap;
 }
 @media only screen and (max-width: 500px) {
+  .categories-home{
+    padding: 20px 0;
+  }
   .categories-home .mySwiper .swiper-slide a{
       font-size: 14px;
       padding: 12px;
