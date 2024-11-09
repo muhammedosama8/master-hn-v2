@@ -26,7 +26,7 @@ const FeatureProducts = () => {
     }).catch(()=> setLoader(false))
   },[])
 
-  return (<div className='feature-products' data-aos="fade-down-left">
+  return (<div className='feature-products' data-aos="fade-down">
     <h1>{t("Feature Products")}</h1>
     {loader ? <div className='d-flex justify-content-center py-5'>
         <Loader />

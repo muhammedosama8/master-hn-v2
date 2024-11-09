@@ -30,7 +30,7 @@ const ShopByCategory = () => {
       <h4>{t("Shop By Category")}</h4>
     </div>
     <div className='row' 
-          data-aos="fade-right"
+          data-aos="fade-down"
           data-aos-offset="300"
           data-aos-easing="ease-in-sine"
     >
