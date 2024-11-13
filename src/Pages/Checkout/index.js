@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from "react-select"
 import { useDispatch, useSelector } from 'react-redux';
+import knet from '../../assets/knet.svg';
 import UserAddressService from '../../services/UserAddressService';
 import { useNavigate } from 'react-router-dom';
 import { Accordion, Badge, Button, Card, CardBody, Col, Row } from 'react-bootstrap';
@@ -207,7 +208,7 @@ const Checkout = () =>{
             let data ={
                 cart_id: cartId,
                 user_address_id: address.find(res=> res.is_default)?.id,
-                payment_method: paymentMethod,
+                payment_method: paymentMethod === 'cash' ? 'cash' : 'visa',
             }
             
             cartService.summary(data).then(res=> {
@@ -254,7 +255,7 @@ const Checkout = () =>{
                 return
             }
             let data = {
-                payment_method: paymentMethod,
+                payment_method: paymentMethod === 'cash' ? 'cash' : 'visa',
                 user_address_id: address.find(res=> res.is_default)?.id,
                 cart_id: cartId,
             }
@@ -299,7 +300,7 @@ const Checkout = () =>{
                 guest_email: formData?.guest_email,
                 guest_phone: formData?.guest_phone,
                 // total: totalPriceAfterDis,
-                payment_method: paymentMethod,
+                payment_method: paymentMethod === 'cash' ? 'cash' : 'visa',
                 addressName: formData?.addressName,
                 block: formData?.block,
                 street: formData?.street,
@@ -974,7 +975,22 @@ const Checkout = () =>{
                                 {t("Visa/MasterCard")}                                
                             </label>
                         </div>
-                        {paymentMethod === 'visa' && <Row>
+                        <div>
+                            <input 
+                                className="form-check-input" 
+                                onClick={()=> setPaymentMethod("knet")} 
+                                type="radio" 
+                                name="payment_type" 
+                                id="knet"
+                                value="knet" 
+                                checked={paymentMethod === 'knet'} 
+                            />
+                            <label className="form-check-label" for="knet">
+                                <img src={knet} alt="knet" width={48} height={24} />
+                                {t("Knet")}                                
+                            </label>
+                        </div>
+                        {/*paymentMethod === 'visa' && <Row>
                             <div className='col-12 d-block mt-3'>
                                 <label>{t("Payment")}</label>
                                 <select 
@@ -988,7 +1004,7 @@ const Checkout = () =>{
                                     <option value='google-pay'>Google Pay</option>
                                 </select>
                             </div>
-                        </Row>}
+                            </Row>*/}
                     </div>
                 </div>
                 <div className="cont-pay-dts wow fadeInUp">
