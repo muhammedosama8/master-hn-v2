@@ -21,6 +21,7 @@ const Product = () => {
     const [variants, setVariants] = useState([])
     const [variantsIds, setVariantsIds] = useState([])
     const [fixedIds, setFixedIds] = useState([])
+    const [found, setFound] = useState(true)
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -58,6 +59,7 @@ const Product = () => {
                     setVariantsIds(ids)
                     setFixedIds(ids)
                 }
+                setFound(true)
             } else {
                 navigate('/')
             }
@@ -76,9 +78,14 @@ const Product = () => {
                             setVariantsIds(ids)
                             setFixedIds(ids)
                         }
+                        setFound(true)
                     }
                 }).catch(e=> {
-                    setVariantsIds(fixedIds)
+                    // setVariantsIds(fixedIds)
+                    if(e.response?.data?.message === 'product_not_Exist'){
+                        setFound(false)
+                        return
+                    }
                     toast.error(e.response?.data?.message?.replaceAll('_', ' '))
                 })
         }
@@ -179,8 +186,8 @@ const Product = () => {
                 <div className="col-md-6">
                     <h4 className="category">{lang==='en' ? product?.category?.name_en : product?.category?.name_ar}</h4>
                     <h1>{lang==='en' ? product?.name_en : product?.name_ar}</h1>
-                    <p className="old-price">{product?.offer ? product?.price : ''} {product?.offer && t("KWD")}</p>
-                    <p className="price">{product?.offer ? product?.offerPrice : product.price} {t("KWD")}</p>
+                    <p className="old-price">{product?.offer ? product?.price?.toFixed(3) : ''} {product?.offer && t("KWD")}</p>
+                    <p className="price">{product?.offer ? product?.offerPrice?.toFixed(3) : product.price?.toFixed(3)} {t("KWD")}</p>
                     {variants?.map((variant, index)=> {
                         return <div className="variant mb-3" key={index}>
                             <p className="mb-1">{lang==='en' ? variant?.name_en : variant?.name_ar}</p>
@@ -198,6 +205,15 @@ const Product = () => {
                                                 } else {
                                                     return id
                                                 }
+                                            })
+                                            variants?.map((res, ind)=>{
+                                                if(ind === index){
+                                                    const objOlde = res?.variant_values.find((item) => item.isSelected);
+                                                    const objToUpdate = res?.variant_values.find((item) => item.id === val.id);
+                                                    objOlde.isSelected = false;
+                                                    objToUpdate.isSelected = true;
+                                                } 
+                                                return res
                                             })
                                             setVariantsIds(update)
                                         }}
@@ -240,7 +256,18 @@ const Product = () => {
                                                 } else {
                                                     return id
                                                 }
-                                            })
+                                        })
+                                        // let updateVariants = 
+                                        variants?.map((res, ind)=>{
+                                            if(ind === index){
+                                                const objOlde = res?.variant_values.find((item) => item.isSelected);
+                                                const objToUpdate = res?.variant_values.find((item) => item.id === e.id);
+                                                objOlde.isSelected = false;
+                                                objToUpdate.isSelected = true;
+                                            } 
+                                            return res
+                                        })
+                                        // setVariants(updateVariants)
                                         setCustom(true)
                                         setVariantsIds(update)
                                         setShouldUpdate(prev => !prev)
@@ -250,7 +277,7 @@ const Product = () => {
                             </div>
                         </div>
                     })}
-                    {dynamicVariants?.length > 0 && dynamicVariants?.map((dyVar, index)=>{
+                    {(dynamicVariants?.length > 0 && found) && dynamicVariants?.map((dyVar, index)=>{
                         return <div key={index} className="d-flex justify-content-between align-items-center mb-3">
                             <p className="m-0">{lang === 'en' ? dyVar?.name_en : dyVar?.name_ar} 
                                 <span className="mx-2" style={{color: 'var(--primary-color)'}}>({dyVar?.price} {t('KWD')})</span>
@@ -302,7 +329,7 @@ const Product = () => {
                         </div>
                     })}
                     <p className="description mt-4">{lang==='en' ? product?.description_en : product?.description_ar}</p>
-                    {product?.amount > 0 ? <div className="d-flex" style={{gap: '22px'}}>
+                    {(product?.amount > 0 && found) ? <div className="d-flex" style={{gap: '22px'}}>
                         {loader ? 
                         <div className='d-flex justify-content-center' style={{width: '167px'}}><Loader /></div> : 
                         <button onClick={()=> addCart()} className="buy">{t("Add To Cart") }</button>}
