@@ -42,6 +42,15 @@ function App() {
 
   return (
     <div className={`App ${lang}`}>
+      <noscript>
+        <iframe 
+          src="https://www.googletagmanager.com/ns.html?id=GTM-TN45J3FJ"
+          height="0" 
+          width="0" 
+          style={{ display:"none", visibility: "hidden" }}
+        ></iframe>
+      </noscript>
+
         <ToastContainer />
         <ScrollToTop />
         <Navbar />
