@@ -113,13 +113,12 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="col-md-3 col-12 qr">
-                    {!!data?.qr_code && <>
-                        <img src={data?.qr_code} alt='Qr' className="qr-img" width={150}/>
-                        <div className="mt-3 d-flex">
+                    <div className="mt-3 d-flex">
+                        <a href="https://www.hasanalnaser.com" target="_blank" className="d-flex text-white text-decoration-none" rel="noreferrer">
                             <img src={phone} alt='phone' />
                             <span className="mx-2">{t("Hasan Al Naser")}</span>
-                        </div>
-                    </>}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
