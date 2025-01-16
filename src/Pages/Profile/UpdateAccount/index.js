@@ -81,11 +81,11 @@ const UpdateAccount = () => {
         }).catch(()=> setSubmitLoading(false))
     }
 
-    if(pageLoading){
-        return <div style={{width: 'max-content', margin: 'auto', marginTop: '7rem'}}>
-            <Loader />
-        </div>
-    }
+    // if(pageLoading){
+    //     return <div style={{width: 'max-content', margin: 'auto', marginTop: '7rem'}}>
+    //         <Loader />
+    //     </div>
+    // }
     return <>
         <div className="profile-pic mb-5">
             <div className="image-placeholder">	
@@ -97,7 +97,7 @@ const UpdateAccount = () => {
                         <img src={formData?.avatar} alt='icon' style={{ width: '110px', height: '110px' }} />
                     </div> : <>
                         {loading && <div className="w-50 m-auto h-50">
-                            <Loader />
+                            {/* <Loader /> */}
                         </div>}
                         {!loading && <img src={userImg} alt='icon'
                             style={{ width: '110px', height: '110px' }} />}

@@ -331,7 +331,7 @@ const Product = () => {
                     <p className="description mt-4">{lang==='en' ? product?.description_en : product?.description_ar}</p>
                     {(product?.amount > 0 && found) ? <div className="d-flex" style={{gap: '22px'}}>
                         {loader ? 
-                        <div className='d-flex justify-content-center' style={{width: '167px'}}><Loader /></div> : 
+                        <></> : 
                         <button onClick={()=> addCart()} className="buy">{t("Add To Cart") }</button>}
 
                         <div className="amounts d-flex" style={{alignItems: 'center'}}>

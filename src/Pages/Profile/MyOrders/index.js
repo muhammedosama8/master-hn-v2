@@ -28,11 +28,11 @@ const MyOrders = () => {
         }).catch(()=> setLoading(false))
     }, [shouldUpdate])
 
-    if(loading){
-        return <div className="d-flex justify-content-center mt-5">
-            <Loader />
-        </div>
-    }
+    // if(loading){
+    //     return <div className="d-flex justify-content-center mt-5">
+    //         <Loader />
+    //     </div>
+    // }
     return <div className="orders">
         {!!orders?.length ? orders?.map((order, index) => {
             return <div className="mb-3 order" 

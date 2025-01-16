@@ -52,11 +52,11 @@ const Address = () => {
         }).catch(()=> setdeleteLoading(false))
     }
 
-    if(loading){
-        return <div className="d-flex justify-content-center mt-5">
-            <Loader />
-        </div>
-    }
+    // if(loading){
+    //     return <div className="d-flex justify-content-center mt-5">
+    //         <Loader />
+    //     </div>
+    // }
 
     if(addAddress){
         return <AddAddress 

@@ -31,9 +31,8 @@ const  BestSellingProducts = () => {
   return (<div className='feature-products'>
     <h1> {t("Best Selling Products")}</h1>
     <div className='row mt-3'>
-      {loader ? <div className='d-flex justify-content-center py-5'>
-        <Loader />
-      </div> : products?.map((product) => {
+      {loader ? <>
+      </> : products?.map((product) => {
         return <div className='col-md-3 mb-4 col-4' key={product.id}>
           <div className='cate h-100 position-relative' onClick={()=> navigate(`/products/product/${product?.id}`, { state:{ product }})}>
             <img src={product?.product_images[0]?.url} alt={product?.name_en} className='img w-100 h-100' />

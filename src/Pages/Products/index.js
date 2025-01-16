@@ -55,7 +55,7 @@ const Products = () => {
 
     <div className='row mt-4'>
       {loader ? <div className='d-flex justify-content-center py-5'>
-        <Loader />
+        {/* <Loader /> */}
       </div> : data?.length > 0 ? data?.map((product, index) => {
         return <div className='col-md-3 mb-4 col-6' key={index}>
           <div className='cate h-100 position-relative pro-details' onClick={()=> navigate(`/products/product/${product?.id}`, { state:{ product }})}>

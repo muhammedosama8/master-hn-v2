@@ -26,9 +26,7 @@ function Header() {
 
   return (
     <div className='header-home' style={{marginTop: '6.3rem'}}>
-      {loader ? <div className='d-flex justify-content-center py-5'>
-        <Loader />
-      </div> : <Carousel data-bs-theme="dark" controls='false' touch={'true'}>
+      {loader ? <></>: <Carousel data-bs-theme="dark" controls='false' touch={'true'}>
           {data?.map((item, index)=>{
               return <Carousel.Item key={index}>
               <img

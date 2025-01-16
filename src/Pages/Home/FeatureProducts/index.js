@@ -28,9 +28,7 @@ const FeatureProducts = () => {
 
   return (<div className='feature-products' data-aos="fade-down">
     <h1>{t("Feature Products")}</h1>
-    {loader ? <div className='d-flex justify-content-center py-5'>
-        <Loader />
-      </div> : <div className='row mt-3'>
+    {loader ? <></> : <div className='row mt-3'>
       {!!products?.length ? products?.map((product) => {
         return <div className='col-md-3 mb-4 col-6' key={product?.id}>
           <div className='scroll-animation cate h-100 position-relative' onClick={()=> navigate(`/products/product/${product.id}`, { state:{ product }})}>

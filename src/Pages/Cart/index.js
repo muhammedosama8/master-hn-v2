@@ -99,11 +99,11 @@ const Cart = () =>{
         })
     }
 
-    if(loading){
-        return <div className='d-flex align-items-center justify-content-around' style={{minHeight: '80vh'}}>
-            <Loader />
-            </div>
-    }
+    // if(loading){
+    //     return <div className='d-flex align-items-center justify-content-around' style={{minHeight: '80vh'}}>
+    //         <Loader />
+    //         </div>
+    // }
 
     return <div className="cart">
         <div className='container'>

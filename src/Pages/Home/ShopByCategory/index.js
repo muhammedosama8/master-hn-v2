@@ -34,9 +34,7 @@ const ShopByCategory = () => {
           data-aos-offset="300"
           data-aos-easing="ease-in-sine"
     >
-      {loader ? <div className='d-flex justify-content-center py-5'>
-        <Loader />
-      </div> : data?.map((category) => {
+      {loader ? <></> : data?.map((category) => {
         return <div className='col-md-3 mb-4 col-6' key={category?.id}>
           <div className='scroll-animation cate h-100 position-relative' onClick={()=> navigate('/products', { state:{ category }})}>
             <img src={category?.image} alt={category?.name} className='img w-100 h-100' />

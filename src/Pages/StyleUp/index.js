@@ -81,7 +81,6 @@ const StyleUp = () => {
             })}
     </div>
     {loading ? <div className="d-flex justify-content-center" style={{marginTop: '8rem'}}>
-        <Loader />
     </div> : <>
     <div className="text-center mt-5">
         <img src={selected?.img} alt='main' height={400} className="m-auto main-image" style={{width: '85%'}} />
