@@ -23,6 +23,7 @@ const Footer = () => {
 		twitter: "",
 		youtube: "",
 		snapchat: "",
+		you_tube: "",
 		qr_code: "",
 	});
 	const { t } = useTranslation();
@@ -94,7 +95,7 @@ const Footer = () => {
 											<img src={instagram} alt="instagram" />
 										</a>
 									)}
-									{!!data.twitter && (
+									{!!data?.twitter && (
 										<a rel="noreferrer" href={data.twitter} target="_blank">
 											<img src={twitter} alt="x" />
 										</a>
